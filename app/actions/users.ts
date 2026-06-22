@@ -172,3 +172,37 @@ export async function deleteUserAction(id: string): Promise<ActionResponse> {
     return { error: 'Đã có lỗi hệ thống xảy ra khi xóa người dùng!' }
   }
 }
+
+/**
+ * Server Action: Đặt lại mật khẩu người dùng
+ */
+export async function resetPasswordAction(id: string, password: string): Promise<ActionResponse> {
+  try {
+    const authError = await checkAdminAuth()
+    if (authError) return authError
+
+    if (!password || password.trim() === '') {
+      return { error: 'Mật khẩu mới không được để trống!' }
+    }
+
+    if (password.length < 6) {
+      return { error: 'Mật khẩu mới phải từ 6 ký tự trở lên!' }
+    }
+
+    const hashedPassword = await hashPassword(password)
+
+    await prisma.user.update({
+      where: { id },
+      data: {
+        password: hashedPassword,
+      },
+    })
+
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error) {
+    console.error('Lỗi khi đặt lại mật khẩu:', error)
+    return { error: 'Đã có lỗi hệ thống xảy ra khi đặt lại mật khẩu!' }
+  }
+}
+

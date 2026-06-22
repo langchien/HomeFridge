@@ -40,11 +40,10 @@ function ThemeHotkey() {
         return
       }
 
-      if (event.metaKey || event.ctrlKey || event.altKey) {
-        return
-      }
+      const isToggleShortcut =
+        (event.ctrlKey || event.metaKey) && event.shiftKey && event.key?.toLowerCase() === 'd'
 
-      if (event.key.toLowerCase() !== 'd') {
+      if (!isToggleShortcut) {
         return
       }
 
@@ -52,6 +51,7 @@ function ThemeHotkey() {
         return
       }
 
+      event.preventDefault()
       setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
     }
 

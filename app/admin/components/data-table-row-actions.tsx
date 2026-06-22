@@ -25,11 +25,14 @@ import {
 import { userSchema } from '../data/schema'
 import { deleteUserAction } from '@/app/actions/users'
 
+import { type Table } from '@tanstack/react-table'
+
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
+  table?: Table<TData>
 }
 
-export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
+export function DataTableRowActions<TData>({ row, table }: DataTableRowActionsProps<TData>) {
   const user = userSchema.parse(row.original)
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)
@@ -63,13 +66,19 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-[180px]'>
           <DropdownMenuItem
-            onClick={() => toast.info('Chức năng chỉnh sửa thông tin sẽ được tích hợp sau!')}
+            onClick={() => {
+              const tableMeta = table?.options.meta
+              tableMeta?.onEditRow?.(user as any)
+            }}
           >
             <Edit className='size-4 text-muted-foreground' />
             <span>Chỉnh sửa</span>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => toast.info('Chức năng đặt lại mật khẩu sẽ được tích hợp sau!')}
+            onClick={() => {
+              const tableMeta = table?.options.meta
+              tableMeta?.onResetPassword?.(user as any)
+            }}
           >
             <ShieldAlert className='size-4 text-muted-foreground' />
             <span>Đặt lại mật khẩu</span>

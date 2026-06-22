@@ -29,12 +29,32 @@ import {
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
+import { type User } from '../data/schema'
+import { type RowData } from '@tanstack/react-table'
+
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    onAddRow?: () => void
+    onEditRow?: (user: TData) => void
+    onResetPassword?: (user: TData) => void
+  }
+}
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  onAdd?: () => void
+  onEdit?: (user: TData) => void
+  onResetPassword?: (user: TData) => void
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  onAdd,
+  onEdit,
+  onResetPassword,
+}: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -48,6 +68,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       columnVisibility,
       rowSelection,
       columnFilters,
+    },
+    meta: {
+      onAddRow: onAdd,
+      onEditRow: onEdit as any,
+      onResetPassword: onResetPassword as any,
     },
     initialState: {
       pagination: {
@@ -66,6 +91,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
+
 
   return (
     <div className='flex flex-col gap-4'>

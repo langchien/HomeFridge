@@ -109,7 +109,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         <DataTableViewOptions table={table} />
         <Button
           size='sm'
-          onClick={() => toast.info('Chức năng thêm người dùng mới sẽ được tích hợp sau!')}
+          onClick={() => table.options.meta?.onAddRow?.()}
           className='flex h-8 items-center gap-1.5 bg-primary text-xs font-medium text-primary-foreground hover:bg-primary/95'
         >
           <UserPlus className='size-4' />

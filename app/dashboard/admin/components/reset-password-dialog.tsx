@@ -1,12 +1,13 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { KeyRound, Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { toast } from 'sonner'
-import { Loader2, KeyRound } from 'lucide-react'
+import * as z from 'zod'
 
+import { resetPasswordAction } from '@/app/actions/users'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -26,7 +27,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { type User } from '../data/schema'
-import { resetPasswordAction } from '@/app/actions/users'
 
 const resetPasswordSchema = z
   .object({
@@ -123,7 +123,7 @@ export function ResetPasswordDialog({
                       placeholder='Nhập tối thiểu 6 ký tự'
                       {...field}
                       disabled={loading}
-                      className='h-9 text-sm'
+                      className='h-9'
                     />
                   </FormControl>
                   <FormMessage className='text-xs' />
@@ -144,7 +144,7 @@ export function ResetPasswordDialog({
                       placeholder='Nhập lại mật khẩu mới'
                       {...field}
                       disabled={loading}
-                      className='h-9 text-sm'
+                      className='h-9'
                     />
                   </FormControl>
                   <FormMessage className='text-xs' />
@@ -158,14 +158,14 @@ export function ResetPasswordDialog({
                 variant='outline'
                 disabled={loading}
                 onClick={() => onOpenChange(false)}
-                className='h-9 text-xs font-medium'
+                className='h-9 font-medium'
               >
                 Hủy bỏ
               </Button>
               <Button
                 type='submit'
                 disabled={loading}
-                className='h-9 bg-amber-500 text-xs font-medium text-white hover:bg-amber-600'
+                className='h-9 bg-amber-500 font-medium text-white hover:bg-amber-600'
               >
                 {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
                 Xác nhận

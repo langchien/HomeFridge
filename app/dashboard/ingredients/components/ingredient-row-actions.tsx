@@ -1,18 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import { type Row, type Table } from '@tanstack/react-table'
-import { MoreHorizontal, Edit, Trash2 } from 'lucide-react'
+import { Edit, MoreHorizontal, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   Dialog,
   DialogContent,
@@ -21,32 +14,39 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
-import { FridgeItemWithRelations } from './columns'
-import { deleteFridgeItemAction } from '@/app/actions/fridge'
+import { deleteIngredientAction } from '@/app/actions/ingredient'
+import { IngredientWithRelations } from './columns'
 
-interface FridgeRowActionsProps<TData> {
+interface IngredientRowActionsProps<TData> {
   row: Row<TData>
   table?: Table<TData>
 }
 
-export function FridgeRowActions<TData>({ row, table }: FridgeRowActionsProps<TData>) {
-  const item = row.original as FridgeItemWithRelations
+export function IngredientRowActions<TData>({ row, table }: IngredientRowActionsProps<TData>) {
+  const item = row.original as IngredientWithRelations
   const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [isPending, setIsPending] = useState(false)
 
   const handleDelete = async () => {
     setIsPending(true)
     try {
-      const result = await deleteFridgeItemAction(item.id)
+      const result = await deleteIngredientAction(item.id)
       if (result.error) {
         toast.error(result.error)
       } else {
-        toast.success(`Đã xóa thực phẩm "${item.name}" khỏi tủ lạnh thành công!`)
+        toast.success(`Đã xóa nguyên liệu "${item.name}" thành công!`)
         setIsDeleteOpen(false)
       }
     } catch (error) {
-      toast.error('Đã xảy ra lỗi hệ thống khi xóa thực phẩm!')
+      toast.error('Đã xảy ra lỗi hệ thống khi xóa nguyên liệu!')
       console.error(error)
     } finally {
       setIsPending(false)
@@ -79,22 +79,22 @@ export function FridgeRowActions<TData>({ row, table }: FridgeRowActionsProps<TD
             className='text-destructive focus:bg-destructive/10'
           >
             <Trash2 className='mr-2 size-4' />
-            <span>Xóa thực phẩm</span>
+            <span>Xóa nguyên liệu</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Dialog xác nhận xóa thực phẩm */}
+      {/* Dialog xác nhận xóa nguyên liệu */}
       <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
         <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
             <DialogTitle className='flex items-center gap-2 text-lg font-bold text-destructive'>
               <Trash2 className='size-5' />
-              <span>Xác nhận xóa thực phẩm?</span>
+              <span>Xác nhận xóa nguyên liệu?</span>
             </DialogTitle>
-            <DialogDescription className='pt-2 text-sm text-muted-foreground'>
-              Hành động này không thể hoàn tác. Thực phẩm <strong>{item.name}</strong> sẽ bị xóa
-              vĩnh viễn khỏi tủ lạnh của bạn.
+            <DialogDescription className='pt-2 text-muted-foreground'>
+              Hành động này không thể hoàn tác. Nguyên liệu <strong>{item.name}</strong> sẽ bị xóa
+              vĩnh viễn khỏi hệ thống.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className='mt-4 gap-2 sm:gap-0'>
@@ -102,7 +102,7 @@ export function FridgeRowActions<TData>({ row, table }: FridgeRowActionsProps<TD
               variant='outline'
               disabled={isPending}
               onClick={() => setIsDeleteOpen(false)}
-              className='h-9 text-xs'
+              className='h-9'
             >
               Hủy bỏ
             </Button>
@@ -110,7 +110,7 @@ export function FridgeRowActions<TData>({ row, table }: FridgeRowActionsProps<TD
               variant='destructive'
               disabled={isPending}
               onClick={handleDelete}
-              className='h-9 text-xs'
+              className='h-9'
             >
               {isPending ? 'Đang xóa...' : 'Đồng ý xóa'}
             </Button>

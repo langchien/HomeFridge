@@ -1,14 +1,14 @@
 'use client'
 
-import React, { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { IconFridge } from '@tabler/icons-react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
+import { loginAction } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import {
   Card,
   CardContent,
@@ -25,7 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { loginAction } from '@/app/actions/auth'
+import { Input } from '@/components/ui/input'
 
 // 1. Định nghĩa Schema xác thực với Zod
 const loginSchema = z.object({
@@ -92,7 +92,7 @@ export function LoginForm() {
 
       <CardContent className='grid gap-4'>
         {error && (
-          <div className='rounded-md bg-destructive/15 p-3 text-sm font-medium text-destructive'>
+          <div className='rounded-md bg-destructive/15 p-3 font-medium text-destructive'>
             {error}
           </div>
         )}
@@ -138,7 +138,7 @@ export function LoginForm() {
         </Form>
       </CardContent>
 
-      <CardFooter className='flex justify-center border-t pt-4 text-xs text-muted-foreground'>
+      <CardFooter className='flex justify-center border-t pt-4 text-muted-foreground'>
         <p className='text-center text-[10px]'>
           HomieFridge v0.0.1 • Chỉ lưu hành nội bộ trong phòng
         </p>

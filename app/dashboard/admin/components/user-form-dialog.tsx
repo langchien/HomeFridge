@@ -1,12 +1,13 @@
 'use client'
 
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Edit3, Loader2, UserPlus } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
 import { toast } from 'sonner'
-import { Loader2, UserPlus, Edit3 } from 'lucide-react'
+import * as z from 'zod'
 
+import { createUserAction, updateUserAction } from '@/app/actions/users'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -24,6 +25,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
+import { ImageUpload } from '@/components/ui/image-upload'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -33,8 +35,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { type User } from '../data/schema'
-import { createUserAction, updateUserAction } from '@/app/actions/users'
-import { ImageUpload } from '@/components/ui/image-upload'
 
 // Định nghĩa schemas cho 2 trường hợp Add và Edit
 const baseSchema = {
@@ -204,7 +204,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         placeholder='ví dụ: nguyenvanadmin'
                         {...field}
                         disabled={loading || isEdit} // Khóa khi edit
-                        className='h-9 text-sm'
+                        className='h-9'
                       />
                     </FormControl>
                     <FormMessage className='text-xs' />
@@ -226,7 +226,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                       disabled={loading}
                     >
                       <FormControl>
-                        <SelectTrigger className='h-9 text-sm'>
+                        <SelectTrigger className='h-9'>
                           <SelectValue placeholder='Chọn vai trò' />
                         </SelectTrigger>
                       </FormControl>
@@ -255,7 +255,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                       placeholder='ví dụ: Nguyễn Văn A'
                       {...field}
                       disabled={loading}
-                      className='h-9 text-sm'
+                      className='h-9'
                     />
                   </FormControl>
                   <FormMessage className='text-xs' />
@@ -278,7 +278,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                       placeholder={isEdit ? '••••••••' : 'Nhập tối thiểu 6 ký tự'}
                       {...field}
                       disabled={loading}
-                      className='h-9 text-sm'
+                      className='h-9'
                     />
                   </FormControl>
                   <FormMessage className='text-xs' />
@@ -300,7 +300,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         placeholder='ví dụ: user@gmail.com'
                         {...field}
                         disabled={loading}
-                        className='h-9 text-sm'
+                        className='h-9'
                       />
                     </FormControl>
                     <FormMessage className='text-xs' />
@@ -320,7 +320,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         placeholder='ví dụ: 0987654321'
                         {...field}
                         disabled={loading}
-                        className='h-9 text-sm'
+                        className='h-9'
                       />
                     </FormControl>
                     <FormMessage className='text-xs' />
@@ -355,15 +355,11 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                 variant='outline'
                 disabled={loading}
                 onClick={() => onOpenChange(false)}
-                className='h-9 text-xs font-medium'
+                className='h-9 font-medium'
               >
                 Hủy bỏ
               </Button>
-              <Button
-                type='submit'
-                disabled={loading}
-                className='h-9 bg-primary text-xs font-medium'
-              >
+              <Button type='submit' disabled={loading} className='h-9 bg-primary font-medium'>
                 {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
                 {isEdit ? 'Lưu thay đổi' : 'Thêm người dùng'}
               </Button>

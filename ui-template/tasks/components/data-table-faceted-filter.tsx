@@ -1,8 +1,7 @@
-import * as React from 'react'
 import { type Column } from '@tanstack/react-table'
 import { Check, PlusCircle } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +15,7 @@ import {
 } from '@/components/ui/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
+import { cn } from '@/lib/utils'
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
@@ -104,7 +104,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     {option.icon && <option.icon className='size-4 text-muted-foreground' />}
                     <span>{option.label}</span>
                     {facets?.get(option.value) && (
-                      <span className='ml-auto flex size-4 items-center justify-center font-mono text-xs text-muted-foreground'>
+                      <span className='ml-auto flex size-4 items-center justify-center font-mono text-muted-foreground'>
                         {facets.get(option.value)}
                       </span>
                     )}

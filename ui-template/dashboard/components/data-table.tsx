@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import {
   closestCenter,
   DndContext,
@@ -49,11 +48,11 @@ import {
   type SortingState,
   type VisibilityState,
 } from '@tanstack/react-table'
+import * as React from 'react'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { useIsMobile } from '@/hooks/use-mobile'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -100,6 +99,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export const schema = z.object({
   id: z.number(),
@@ -492,7 +492,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
           </DndContext>
         </div>
         <div className='flex items-center justify-between px-4'>
-          <div className='hidden flex-1 text-sm text-muted-foreground lg:flex'>
+          <div className='hidden flex-1 text-muted-foreground lg:flex'>
             {table.getFilteredSelectedRowModel().rows.length} of{' '}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
@@ -519,7 +519,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 </SelectContent>
               </Select>
             </div>
-            <div className='flex w-fit items-center justify-center text-sm font-medium'>
+            <div className='flex w-fit items-center justify-center font-medium'>
               Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
             </div>
             <div className='ml-auto flex items-center gap-2 lg:ml-0'>
@@ -614,7 +614,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
           <DrawerTitle>{item.header}</DrawerTitle>
           <DrawerDescription>Showing total visitors for the last 6 months</DrawerDescription>
         </DrawerHeader>
-        <div className='flex flex-col gap-4 overflow-y-auto px-4 text-sm'>
+        <div className='flex flex-col gap-4 overflow-y-auto px-4'>
           {!isMobile && (
             <>
               <ChartContainer config={chartConfig}>

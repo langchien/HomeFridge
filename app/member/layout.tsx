@@ -1,7 +1,8 @@
 import { getCurrentUser } from '@/lib/auth'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { Home, UtensilsCrossed, User } from 'lucide-react'
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar'
+import { DashboardSidebar } from '@/components/dashboard-sidebar'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { ModeToggle } from '@/components/mode-toggle'
 
 export default async function MemberLayout({ children }: { children: React.ReactNode }) {
@@ -12,40 +13,30 @@ export default async function MemberLayout({ children }: { children: React.React
   }
 
   return (
-    <div className='flex min-h-screen flex-col bg-background'>
-      {/* Simple top nav for members */}
-      <header className='sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-        <div className='mx-auto flex h-14 max-w-5xl items-center justify-between px-4'>
-          <div className='flex items-center gap-2'>
-            <span className='text-xl font-bold text-primary'>🏠 HomieFridge</span>
-          </div>
-          <nav className='flex items-center gap-1'>
-            <Link
-              href='/'
-              className='flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground'
-            >
-              <Home className='h-4 w-4' />
-              Trang chủ
-            </Link>
-            <Link
-              href='/member/menu'
-              className='flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground'
-            >
-              <UtensilsCrossed className='h-4 w-4' />
-              Thực đơn
-            </Link>
-          </nav>
-          <div className='flex items-center gap-4 text-sm text-muted-foreground'>
+    <SidebarProvider>
+      <TooltipProvider>
+        <DashboardSidebar userRole={currentUser.role} userName={currentUser.name} />
+        <SidebarInset className='relative flex h-screen flex-col overflow-hidden'>
+          {/* Top Bar */}
+          <header className='flex h-16 shrink-0 items-center justify-between border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
             <div className='flex items-center gap-2'>
-              <User className='h-4 w-4' />
-              <span>{currentUser.name}</span>
+              <SidebarTrigger className='h-9 w-9 border bg-background shadow-sm' />
+              <div className='mx-2 h-4 w-[1px] bg-muted' />
+              <span className='text-sm font-semibold tracking-tight text-teal-600 uppercase'>
+                Khu vực Thành viên
+              </span>
             </div>
-            <ModeToggle />
-          </div>
-        </div>
-      </header>
+            <div className='flex items-center gap-3'>
+              <ModeToggle />
+            </div>
+          </header>
 
-      <main className='mx-auto w-full max-w-5xl flex-1 px-4 py-6'>{children}</main>
-    </div>
+          {/* Main Member Content */}
+          <main className='flex-1 overflow-auto bg-muted/10 p-6'>
+            <div className='mx-auto w-full max-w-5xl'>{children}</div>
+          </main>
+        </SidebarInset>
+      </TooltipProvider>
+    </SidebarProvider>
   )
 }

@@ -3,13 +3,13 @@
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
-import type { ActionResponse } from './fridge'
+import type { ActionResponse } from './ingredient'
 
 // ─── CRUD Công thức nấu ăn ────────────────────────────────
 
 export interface RecipeIngredientInput {
   id?: string
-  name: string
+  ingredientId: string
   quantity: number
   unit: string
 }
@@ -44,7 +44,7 @@ export async function createRecipeAction(values: {
         cookTime: cookTime ? Number(cookTime) : null,
         ingredients: {
           create: ingredients.map((ing) => ({
-            name: ing.name,
+            ingredientId: ing.ingredientId,
             quantity: Number(ing.quantity),
             unit: ing.unit,
           })),
@@ -97,7 +97,7 @@ export async function updateRecipeAction(
         ingredients: {
           deleteMany: {},
           create: ingredients.map((ing) => ({
-            name: ing.name,
+            ingredientId: ing.ingredientId,
             quantity: Number(ing.quantity),
             unit: ing.unit,
           })),

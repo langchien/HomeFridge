@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { prisma } from '@/lib/prisma'
 import { getCurrentUser } from '@/lib/auth'
-import type { ActionResponse } from './fridge'
+import type { ActionResponse } from './ingredient'
 import type { MealTime, MenuRequestStatus } from '@/generated/prisma/client'
 
 // ─── Thành viên gửi yêu cầu món ăn ──────────────────────

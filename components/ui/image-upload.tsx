@@ -1,10 +1,10 @@
 'use client'
 
-import { useCallback, useState, useEffect } from 'react'
-import { Upload, X, Loader2 } from 'lucide-react'
-import Image from 'next/image'
-import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { Loader2, Upload, X } from 'lucide-react'
+import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 interface ImageUploadProps {
   value?: string
@@ -177,7 +177,7 @@ export function ImageUpload({
           {isUploading && (
             <div className='absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/85 backdrop-blur-xs'>
               <Loader2 className='size-6 animate-spin text-primary' />
-              <span className='mt-2 text-xs font-medium text-muted-foreground'>
+              <span className='mt-2 font-medium text-muted-foreground'>
                 Đang tải lên Cloudinary...
               </span>
             </div>

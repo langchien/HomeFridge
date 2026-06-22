@@ -17,7 +17,7 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
   return (
     <div className='flex flex-col gap-4 px-2 py-4 sm:flex-row sm:items-center sm:justify-between'>
-      <div className='order-2 text-sm text-muted-foreground sm:order-1'>
+      <div className='order-2 text-muted-foreground sm:order-1'>
         Đã chọn {table.getFilteredSelectedRowModel().rows.length} trong tổng số{' '}
         {table.getFilteredRowModel().rows.length} dòng.
       </div>
@@ -42,7 +42,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
             </SelectContent>
           </Select>
         </div>
-        <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
+        <div className='flex w-[100px] items-center justify-center font-medium'>
           Trang {table.getState().pagination.pageIndex + 1} / {table.getPageCount() || 1}
         </div>
         <div className='flex items-center space-x-2'>

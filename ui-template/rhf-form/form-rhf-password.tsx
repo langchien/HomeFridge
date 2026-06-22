@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CheckIcon } from 'lucide-react'
+import * as React from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
@@ -141,7 +141,7 @@ export default function FormRhfPassword() {
                       {passwordRequirements.map((requirement) => {
                         const isMet = requirement.test(password || '')
                         return (
-                          <div key={requirement.id} className='flex items-center gap-2 text-sm'>
+                          <div key={requirement.id} className='flex items-center gap-2'>
                             <CheckIcon
                               className={
                                 isMet ? 'size-4 text-green-500' : 'size-4 text-muted-foreground'

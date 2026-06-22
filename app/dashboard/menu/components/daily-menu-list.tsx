@@ -6,28 +6,20 @@ import { Input } from '@/components/ui/input'
 import { DailyMenuCard } from './daily-menu-card'
 import { AddMenuItemDialog } from './add-menu-item-dialog'
 import { CalendarDays, Plus, Search, SlidersHorizontal } from 'lucide-react'
-import type {
-  DailyMenu,
-  DailyMenuItem,
-  Recipe,
-  RecipeIngredient,
-  FridgeItem,
-} from '@/generated/prisma/client'
+import type { DailyMenu, DailyMenuItem, Recipe, RecipeIngredient } from '@/generated/prisma/client'
 import type { RecipeWithIngredients } from './recipe-form-dialog'
 
 type MenuItemWithRecipe = DailyMenuItem & {
   recipe: Recipe & { ingredients: RecipeIngredient[] }
 }
 type DailyMenuWithItems = DailyMenu & { items: MenuItemWithRecipe[] }
-type FridgeItemBasic = Pick<FridgeItem, 'id' | 'name' | 'quantity' | 'unit'>
 
 interface DailyMenuListProps {
   menus: DailyMenuWithItems[]
   recipes: RecipeWithIngredients[]
-  fridgeItems: FridgeItemBasic[]
 }
 
-export function DailyMenuList({ menus, recipes, fridgeItems }: DailyMenuListProps) {
+export function DailyMenuList({ menus, recipes }: DailyMenuListProps) {
   const [search, setSearch] = useState('')
   const [addDialogOpen, setAddDialogOpen] = useState(false)
 
@@ -78,7 +70,7 @@ export function DailyMenuList({ menus, recipes, fridgeItems }: DailyMenuListProp
       ) : (
         <div className='grid gap-4 md:grid-cols-2 xl:grid-cols-3'>
           {sorted.map((menu) => (
-            <DailyMenuCard key={menu.id} menu={menu} recipes={recipes} fridgeItems={fridgeItems} />
+            <DailyMenuCard key={menu.id} menu={menu} recipes={recipes} />
           ))}
         </div>
       )}

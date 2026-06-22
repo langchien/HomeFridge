@@ -1,15 +1,19 @@
 'use client'
 
-import * as React from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import {
+  IconChefHat,
   IconDashboard,
   IconFridge,
-  IconChefHat,
   IconLogout,
+  IconMessage2,
+  IconUsers,
 } from '@tabler/icons-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import * as React from 'react'
 
+import { logoutAction } from '@/app/actions/auth'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   Sidebar,
   SidebarContent,
@@ -20,56 +24,83 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { logoutAction } from '@/app/actions/auth'
 
 interface DashboardSidebarProps extends React.ComponentProps<typeof Sidebar> {
   userRole?: string
   userName?: string
+  userAvatar?: string | null
+  userUsername?: string
 }
 
-export function DashboardSidebar({ userRole, userName, ...props }: DashboardSidebarProps) {
+export function DashboardSidebar({
+  userRole,
+  userName,
+  userAvatar,
+  userUsername,
+  ...props
+}: DashboardSidebarProps) {
   const pathname = usePathname()
   const { state, isMobile } = useSidebar()
 
   const navItems = [
     {
+      title: 'Quản trị hệ thống',
+      url: '/dashboard/admin',
+      icon: IconUsers,
+      roles: ['ADMIN'],
+    },
+    {
       title: 'Tổng quan',
       url: '/dashboard',
       icon: IconDashboard,
-      roles: ['ADMIN', 'HOMEMAKER'],
+      roles: ['HOMEMAKER'],
     },
     {
-      title: 'Tủ lạnh',
-      url: '/dashboard/fridge',
+      title: 'Quản lý nguyên liệu',
+      url: '/dashboard/ingredients',
       icon: IconFridge,
-      roles: ['ADMIN', 'HOMEMAKER', 'DEVICE'],
+      roles: ['ADMIN'],
     },
     {
-      title: 'Thực đơn',
+      title: 'Quản lý thực đơn',
       url: '/dashboard/menu',
       icon: IconChefHat,
       roles: ['ADMIN', 'HOMEMAKER'],
     },
+    {
+      title: 'Thực đơn & Đề xuất',
+      url: '/member/menu',
+      icon: IconMessage2,
+      roles: ['MEMBER'],
+    },
   ]
 
   // Filter items based on user role
-  const filteredNavItems = navItems.filter(
-    (item) => !userRole || item.roles.includes(userRole)
-  )
+  const filteredNavItems = navItems.filter((item) => !userRole || item.roles.includes(userRole))
 
   return (
     <Sidebar collapsible='icon' className='border-r' {...props}>
       <SidebarHeader className='border-b py-4'>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size='lg' asChild>
               <Link href='/dashboard'>
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <IconFridge className="size-5" />
+                <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground'>
+                  <IconFridge className='size-5' />
                 </div>
-                <div className="flex flex-col gap-0.5 leading-none">
+                <div className='flex flex-col gap-0.5 leading-none'>
                   <span className='text-lg font-bold'>HomieFridge</span>
-                  <span className="text-xs text-muted-foreground">{userName || 'Quản lý'}</span>
+                  <span className='text-xs text-muted-foreground'>
+                    {userName || 'Người dùng'} (
+                    {userRole === 'ADMIN'
+                      ? 'Quản trị'
+                      : userRole === 'HOMEMAKER'
+                        ? 'Nội trợ'
+                        : userRole === 'MEMBER'
+                          ? 'Thành viên'
+                          : 'Thiết bị'}
+                    )
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -77,7 +108,7 @@ export function DashboardSidebar({ userRole, userName, ...props }: DashboardSide
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent className="py-4">
+      <SidebarContent className='py-4'>
         <SidebarMenu>
           {filteredNavItems.map((item) => (
             <SidebarMenuItem key={item.title}>
@@ -85,11 +116,11 @@ export function DashboardSidebar({ userRole, userName, ...props }: DashboardSide
                 asChild
                 isActive={pathname === item.url}
                 tooltip={item.title}
-                className="text-base py-6"
+                className='py-6 text-base'
               >
                 <Link href={item.url}>
                   <item.icon className='size-6!' />
-                  <span className="text-base">{item.title}</span>
+                  <span className='text-base'>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -97,21 +128,38 @@ export function DashboardSidebar({ userRole, userName, ...props }: DashboardSide
         </SidebarMenu>
       </SidebarContent>
 
-      <SidebarFooter className="border-t py-4">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <form action={logoutAction}>
-              <SidebarMenuButton 
-                type="submit" 
-                tooltip="Đăng xuất"
-                className="text-base text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
-              >
-                <IconLogout className='size-6!' />
-                <span className="text-base">Đăng xuất</span>
-              </SidebarMenuButton>
-            </form>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarFooter className='flex flex-col gap-3 border-t p-4'>
+        {/* Khối Profile người dùng */}
+        <div className='flex items-center gap-3 rounded-lg px-2 py-1.5 transition-all'>
+          <Avatar className='size-9 shrink-0 border border-muted/80 shadow-sm'>
+            <AvatarImage src={userAvatar || ''} alt={userName} />
+            <AvatarFallback className='bg-primary/10 font-bold text-primary uppercase'>
+              {userName ? userName.substring(0, 2) : 'US'}
+            </AvatarFallback>
+          </Avatar>
+          {state !== 'collapsed' && (
+            <div className='flex min-w-0 flex-1 flex-col text-left leading-tight'>
+              <span className='truncate text-sm font-semibold text-foreground'>
+                {userName || 'Người dùng'}
+              </span>
+              <span className='truncate text-[11px] text-muted-foreground'>
+                @{userUsername || 'user'}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Nút Đăng xuất */}
+        <form action={logoutAction} className='w-full'>
+          <SidebarMenuButton
+            type='submit'
+            tooltip='Đăng xuất'
+            className='w-full gap-3 rounded-lg px-3 py-6 text-base text-red-500 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30'
+          >
+            <IconLogout className='size-6!' />
+            <span>Đăng xuất</span>
+          </SidebarMenuButton>
+        </form>
       </SidebarFooter>
     </Sidebar>
   )

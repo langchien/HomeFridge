@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import 'dotenv/config'
-import { Role, StorageLocation } from '../generated/prisma/client'
+import { Role } from '../generated/prisma/client'
 import { prisma } from '../lib/prisma'
 import { categories } from './data/categories'
 import { items } from './data/items'
@@ -8,7 +8,8 @@ import { users } from './data/users'
 
 async function main() {
   console.log('🔄 1. Bắt đầu dọn dẹp dữ liệu cũ trong Database...')
-  await prisma.fridgeItem.deleteMany()
+  await prisma.recipeIngredient.deleteMany() // Xóa liên kết trước để tránh lỗi FK
+  await prisma.ingredient.deleteMany()
   await prisma.category.deleteMany()
   await prisma.user.deleteMany()
   console.log('✅ Đã dọn dẹp xong dữ liệu cũ.')
@@ -50,38 +51,23 @@ async function main() {
   }
   console.log('✅ Đã khởi tạo tài khoản người dùng thành công.')
 
-  console.log('\n🔄 4. Đang nạp danh sách các thực phẩm mẫu vào tủ lạnh...')
-  // Tìm tài khoản có vai trò HOMEMAKER
-  const homemaker = await prisma.user.findFirst({
-    where: { role: 'HOMEMAKER' },
-  })
-
-  if (!homemaker) {
-    console.error('❌ Không tìm thấy tài khoản có vai trò HOMEMAKER! Không thể nạp thực phẩm mẫu.')
-  } else {
-    console.log(`🏠 Tài khoản HOMEMAKER đích: "${homemaker.name}" (UUID: ${homemaker.id})`)
-    let itemImportCount = 0
-    for (const item of items) {
-      await prisma.fridgeItem.create({
-        data: {
-          name: item.name,
-          image: item.image,
-          categoryId: item.categoryId,
-          location: item.location as StorageLocation,
-          quantity: item.quantity,
-          unit: item.unit,
-          addedDate: new Date(item.addedDate),
-          expiryDate: item.expiryDate ? new Date(item.expiryDate) : null,
-          storageInstructions: item.storageInstructions,
-          notes: item.notes,
-          userId: homemaker.id,
-        },
-      })
-      console.log(`🍎 Đã nạp thực phẩm: ${item.name} (${item.quantity} ${item.unit})`)
-      itemImportCount++
-    }
-    console.log(`🎉 Đã nạp thành công ${itemImportCount} thực phẩm mẫu vào tủ lạnh.`)
+  console.log('\n🔄 4. Đang nạp danh sách các nguyên liệu mẫu...')
+  let ingredientImportCount = 0
+  for (const item of items) {
+    await prisma.ingredient.create({
+      data: {
+        id: item.id,
+        name: item.name,
+        image: item.image,
+        categoryId: item.categoryId,
+        unit: item.unit,
+        storageInstructions: item.storageInstructions,
+      },
+    })
+    console.log(`🍎 Đã nạp nguyên liệu: ${item.name}`)
+    ingredientImportCount++
   }
+  console.log(`🎉 Đã nạp thành công ${ingredientImportCount} nguyên liệu mẫu.`)
 
   console.log('\n======================================================')
   console.log('🎉 QUÁ TRÌNH SEED VÀ IMPORT DỮ LIỆU HOÀN TẤT THÀNH CÔNG!')

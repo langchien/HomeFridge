@@ -8,17 +8,18 @@ export default async function Page() {
     redirect('/login')
   }
 
-  const isDevice = user.role === 'DEVICE'
-  const isAdmin = user.role === 'ADMIN'
-
-  if (isAdmin) {
-    redirect('/admin')
+  if (user.role === 'ADMIN') {
+    redirect('/dashboard/admin')
   }
 
-  if (isDevice) {
+  if (user.role === 'DEVICE') {
     redirect('/dashboard/fridge')
   }
 
-  // Default for Homemaker or other roles
+  if (user.role === 'MEMBER') {
+    redirect('/member/menu')
+  }
+
+  // Mặc định cho HOMEMAKER
   redirect('/dashboard')
 }

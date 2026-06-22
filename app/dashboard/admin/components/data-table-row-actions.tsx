@@ -1,18 +1,11 @@
 'use client'
 
-import { useState } from 'react'
 import { type Row } from '@tanstack/react-table'
-import { MoreHorizontal, Edit, Trash2, ShieldAlert } from 'lucide-react'
+import { Edit, MoreHorizontal, ShieldAlert, Trash2 } from 'lucide-react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   Dialog,
   DialogContent,
@@ -21,9 +14,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
-import { userSchema } from '../data/schema'
 import { deleteUserAction } from '@/app/actions/users'
+import { userSchema } from '../data/schema'
 
 import { type Table } from '@tanstack/react-table'
 
@@ -99,7 +99,7 @@ export function DataTableRowActions<TData>({ row, table }: DataTableRowActionsPr
               <Trash2 className='size-5' />
               <span>Xác nhận xóa tài khoản?</span>
             </DialogTitle>
-            <DialogDescription className='pt-2 text-sm text-muted-foreground'>
+            <DialogDescription className='pt-2 text-muted-foreground'>
               Hành động này không thể hoàn tác. Tài khoản của <strong>{user.name}</strong> (
               <strong>@{user.username}</strong>) sẽ bị xóa vĩnh viễn khỏi hệ thống.
             </DialogDescription>

@@ -1,31 +1,30 @@
 'use client'
 
-import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { RequestDishDialog } from './request-dish-dialog'
-import {
-  Sun,
-  Moon,
-  CalendarDays,
-  UtensilsCrossed,
-  Plus,
-  CheckCircle,
-  XCircle,
-  Clock,
-  Send,
-} from 'lucide-react'
 import type {
   DailyMenu,
   DailyMenuItem,
+  MenuRequest,
+  MenuStatus,
   Recipe,
   RecipeIngredient,
-  MenuRequest,
-  User,
-  MenuStatus,
 } from '@/generated/prisma/client'
+import {
+  CalendarDays,
+  CheckCircle,
+  Clock,
+  Moon,
+  Plus,
+  Send,
+  Sun,
+  UtensilsCrossed,
+  XCircle,
+} from 'lucide-react'
+import { useState } from 'react'
+import { RequestDishDialog } from './request-dish-dialog'
 
 type MenuItemWithRecipe = DailyMenuItem & {
   recipe: Recipe & { ingredients: RecipeIngredient[] }
@@ -76,9 +75,7 @@ export function MemberMenuView({ menus, myRequests, currentUserId }: MemberMenuV
       <div className='flex items-start justify-between gap-4'>
         <div>
           <h1 className='text-2xl font-bold tracking-tight'>Thực đơn gia đình</h1>
-          <p className='mt-1 text-sm text-muted-foreground'>
-            Xem lịch bữa ăn và đề xuất món bạn muốn
-          </p>
+          <p className='mt-1 text-muted-foreground'>Xem lịch bữa ăn và đề xuất món bạn muốn</p>
         </div>
         <Button onClick={() => setRequestDialogOpen(true)} className='shrink-0 gap-2'>
           <Send className='h-4 w-4' />
@@ -116,10 +113,7 @@ export function MemberMenuView({ menus, myRequests, currentUserId }: MemberMenuV
                           month: '2-digit',
                         })}
                       </CardTitle>
-                      <Badge
-                        variant='outline'
-                        className={`shrink-0 text-xs ${statusConfig.className}`}
-                      >
+                      <Badge variant='outline' className={`shrink-0 ${statusConfig.className}`}>
                         {statusConfig.label}
                       </Badge>
                     </div>
@@ -127,20 +121,18 @@ export function MemberMenuView({ menus, myRequests, currentUserId }: MemberMenuV
                   <CardContent className='flex flex-col gap-3 pt-0'>
                     {/* Bữa trưa */}
                     <div className='flex flex-col gap-1.5'>
-                      <span className='flex items-center gap-1 text-xs font-medium text-muted-foreground'>
+                      <span className='flex items-center gap-1 font-medium text-muted-foreground'>
                         <Sun className='h-3 w-3 text-amber-500' /> Bữa trưa
                       </span>
                       {lunchItems.length === 0 ? (
-                        <span className='pl-4 text-xs text-muted-foreground italic'>
-                          Chưa lên kế hoạch
-                        </span>
+                        <span className='pl-4 text-muted-foreground italic'>Chưa lên kế hoạch</span>
                       ) : (
                         <div className='flex flex-col gap-1 pl-4'>
                           {lunchItems.map((item) => (
                             <span key={item.id} className='text-sm'>
                               {item.recipe.name}
                               {item.servings > 1 && (
-                                <span className='ml-1 text-xs text-muted-foreground'>
+                                <span className='ml-1 text-muted-foreground'>
                                   (×{item.servings})
                                 </span>
                               )}
@@ -154,20 +146,18 @@ export function MemberMenuView({ menus, myRequests, currentUserId }: MemberMenuV
 
                     {/* Bữa tối */}
                     <div className='flex flex-col gap-1.5'>
-                      <span className='flex items-center gap-1 text-xs font-medium text-muted-foreground'>
+                      <span className='flex items-center gap-1 font-medium text-muted-foreground'>
                         <Moon className='h-3 w-3 text-indigo-500' /> Bữa tối
                       </span>
                       {dinnerItems.length === 0 ? (
-                        <span className='pl-4 text-xs text-muted-foreground italic'>
-                          Chưa lên kế hoạch
-                        </span>
+                        <span className='pl-4 text-muted-foreground italic'>Chưa lên kế hoạch</span>
                       ) : (
                         <div className='flex flex-col gap-1 pl-4'>
                           {dinnerItems.map((item) => (
                             <span key={item.id} className='text-sm'>
                               {item.recipe.name}
                               {item.servings > 1 && (
-                                <span className='ml-1 text-xs text-muted-foreground'>
+                                <span className='ml-1 text-muted-foreground'>
                                   (×{item.servings})
                                 </span>
                               )}
@@ -218,7 +208,7 @@ export function MemberMenuView({ menus, myRequests, currentUserId }: MemberMenuV
                 >
                   <div className='flex min-w-0 flex-1 flex-col gap-0.5'>
                     <span className='text-sm font-medium'>{req.dishName}</span>
-                    <div className='flex flex-wrap items-center gap-2 text-xs text-muted-foreground'>
+                    <div className='flex flex-wrap items-center gap-2 text-muted-foreground'>
                       {req.mealTime && (
                         <span>{MEAL_LABEL[req.mealTime as keyof typeof MEAL_LABEL]}</span>
                       )}
@@ -226,7 +216,7 @@ export function MemberMenuView({ menus, myRequests, currentUserId }: MemberMenuV
                       {req.note && <span className='truncate italic'>"{req.note}"</span>}
                     </div>
                   </div>
-                  <Badge variant='outline' className={`shrink-0 text-xs ${statusConfig.className}`}>
+                  <Badge variant='outline' className={`shrink-0 ${statusConfig.className}`}>
                     <StatusIcon className='mr-1 h-3 w-3' />
                     {statusConfig.label}
                   </Badge>

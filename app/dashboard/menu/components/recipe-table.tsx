@@ -1,6 +1,14 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { deleteRecipeAction } from '@/app/actions/recipe'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import {
   Table,
   TableBody,
@@ -9,18 +17,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { RecipeFormDialog, type RecipeWithIngredients } from './recipe-form-dialog'
-import { deleteRecipeAction } from '@/app/actions/recipe'
+import { ChefHat, Clock, Loader2, MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react'
+import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import { Plus, MoreHorizontal, Pencil, Trash2, ChefHat, Clock, Loader2 } from 'lucide-react'
+import { RecipeFormDialog, type RecipeWithIngredients } from './recipe-form-dialog'
 
 interface RecipeTableProps {
   recipes: RecipeWithIngredients[]
@@ -95,7 +95,7 @@ export function RecipeTable({ recipes: initialRecipes }: RecipeTableProps) {
                     <div className='flex flex-col gap-0.5'>
                       <span className='font-medium'>{recipe.name}</span>
                       {recipe.description && (
-                        <span className='line-clamp-1 text-xs text-muted-foreground'>
+                        <span className='line-clamp-1 text-muted-foreground'>
                           {recipe.description}
                         </span>
                       )}
@@ -105,7 +105,7 @@ export function RecipeTable({ recipes: initialRecipes }: RecipeTableProps) {
                     <div className='flex flex-wrap gap-1'>
                       {recipe.ingredients.slice(0, 3).map((ing) => (
                         <Badge key={ing.id} variant='secondary' className='text-xs'>
-                          {ing.name}
+                          {ing.ingredient.name}
                         </Badge>
                       ))}
                       {recipe.ingredients.length > 3 && (
@@ -117,7 +117,7 @@ export function RecipeTable({ recipes: initialRecipes }: RecipeTableProps) {
                   </TableCell>
                   <TableCell>
                     {recipe.prepTime || recipe.cookTime ? (
-                      <div className='flex items-center gap-1 text-sm text-muted-foreground'>
+                      <div className='flex items-center gap-1 text-muted-foreground'>
                         <Clock className='h-3.5 w-3.5' />
                         {(recipe.prepTime ?? 0) + (recipe.cookTime ?? 0)} phút
                       </div>

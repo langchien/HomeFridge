@@ -137,7 +137,7 @@ function RequestCard({ request, onApprove, onReject, isProcessing }: RequestCard
             </Badge>
           </div>
 
-          <div className='flex flex-wrap items-center gap-3 text-xs text-muted-foreground'>
+          <div className='flex flex-wrap items-center gap-3 text-muted-foreground'>
             <span>👤 {request.user.name}</span>
             {request.mealTime && (
               <span>{MEAL_TIME_LABEL[request.mealTime as keyof typeof MEAL_TIME_LABEL]}</span>
@@ -154,7 +154,7 @@ function RequestCard({ request, onApprove, onReject, isProcessing }: RequestCard
             <Button
               size='sm'
               variant='outline'
-              className='h-8 border-emerald-500 text-xs text-emerald-600 hover:bg-emerald-50'
+              className='h-8 border-emerald-500 text-emerald-600 hover:bg-emerald-50'
               onClick={onApprove}
               disabled={isProcessing}
             >
@@ -168,7 +168,7 @@ function RequestCard({ request, onApprove, onReject, isProcessing }: RequestCard
             <Button
               size='sm'
               variant='outline'
-              className='h-8 border-red-400 text-xs text-red-500 hover:bg-red-50'
+              className='h-8 border-red-400 text-red-500 hover:bg-red-50'
               onClick={onReject}
               disabled={isProcessing}
             >

@@ -1,9 +1,8 @@
 'use client'
 
-import * as React from 'react'
 import { Command as CommandPrimitive } from 'cmdk'
+import * as React from 'react'
 
-import { cn } from '@/lib/utils'
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { InputGroup, InputGroupAddon } from '@/components/ui/input-group'
-import { SearchIcon, CheckIcon } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { CheckIcon, SearchIcon } from 'lucide-react'
 
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
   return (
@@ -66,7 +66,7 @@ function CommandInput({
         <CommandPrimitive.Input
           data-slot='command-input'
           className={cn(
-            'w-full text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
+            'w-full outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
             className,
           )}
           {...props}
@@ -99,7 +99,7 @@ function CommandEmpty({
   return (
     <CommandPrimitive.Empty
       data-slot='command-empty'
-      className={cn('py-6 text-center text-sm', className)}
+      className={cn('py-6 text-center', className)}
       {...props}
     />
   )
@@ -143,7 +143,7 @@ function CommandItem({
     <CommandPrimitive.Item
       data-slot='command-item'
       className={cn(
-        "group/command-item relative flex cursor-default items-center gap-2 rounded-lg px-3 py-2 text-sm outline-hidden select-none in-data-[slot=dialog-content]:rounded-2xl data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground",
+        "group/command-item relative flex cursor-default items-center gap-2 rounded-lg px-3 py-2 outline-hidden select-none in-data-[slot=dialog-content]:rounded-2xl data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-selected:bg-muted data-selected:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-selected:*:[svg]:text-foreground",
         className,
       )}
       {...props}
@@ -159,7 +159,7 @@ function CommandShortcut({ className, ...props }: React.ComponentProps<'span'>) 
     <span
       data-slot='command-shortcut'
       className={cn(
-        'ml-auto text-xs tracking-widest text-muted-foreground group-data-selected/command-item:text-foreground',
+        'ml-auto tracking-widest text-muted-foreground group-data-selected/command-item:text-foreground',
         className,
       )}
       {...props}
@@ -170,11 +170,11 @@ function CommandShortcut({ className, ...props }: React.ComponentProps<'span'>) 
 export {
   Command,
   CommandDialog,
-  CommandInput,
-  CommandList,
   CommandEmpty,
   CommandGroup,
+  CommandInput,
   CommandItem,
-  CommandShortcut,
+  CommandList,
   CommandSeparator,
+  CommandShortcut,
 }

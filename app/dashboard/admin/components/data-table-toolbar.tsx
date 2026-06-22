@@ -75,7 +75,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           placeholder='Tìm theo họ tên...'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-          className='h-8 w-[160px] text-xs lg:w-[260px]'
+          className='h-8 w-[160px] lg:w-[260px]'
         />
         {table.getColumn('role') && (
           <DataTableFacetedFilter
@@ -89,7 +89,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
             variant='ghost'
             size='sm'
             onClick={() => table.resetColumnFilters()}
-            className='flex h-8 items-center gap-1 px-2 text-xs text-muted-foreground lg:px-3'
+            className='flex h-8 items-center gap-1 px-2 text-muted-foreground lg:px-3'
           >
             <span>Đặt lại bộ lọc</span>
             <X className='size-4' />
@@ -101,7 +101,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
           variant='outline'
           size='sm'
           onClick={handleExportExcel}
-          className='flex h-8 items-center gap-1.5 border-emerald-600/30 text-xs text-emerald-600 hover:border-emerald-600/60 hover:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20'
+          className='flex h-8 items-center gap-1.5 border-emerald-600/30 text-emerald-600 hover:border-emerald-600/60 hover:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20'
         >
           <FileDown className='size-4' />
           <span>Xuất Excel</span>
@@ -110,7 +110,7 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
         <Button
           size='sm'
           onClick={() => table.options.meta?.onAddRow?.()}
-          className='flex h-8 items-center gap-1.5 bg-primary text-xs font-medium text-primary-foreground hover:bg-primary/95'
+          className='flex h-8 items-center gap-1.5 bg-primary font-medium text-primary-foreground hover:bg-primary/95'
         >
           <UserPlus className='size-4' />
           <span>Thêm người dùng</span>

@@ -32,13 +32,13 @@ export default async function AdminPage() {
   }))
 
   return (
-    <main className='container mx-auto max-w-7xl space-y-8 px-4 py-8'>
+    <>
       {/* Title and Intro */}
       <div className='flex flex-col gap-1.5'>
         <h1 className='text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl'>
           Quản trị người dùng
         </h1>
-        <p className='max-w-2xl text-sm text-muted-foreground'>
+        <p className='max-w-2xl text-muted-foreground'>
           Quản lý thông tin tài khoản người dùng, thiết bị dùng chung và thiết lập phân quyền truy
           cập hệ thống HomieFridge.
         </p>
@@ -122,6 +122,6 @@ export default async function AdminPage() {
       <div className='rounded-xl border bg-card p-6 text-card-foreground shadow-sm'>
         <UserTable data={serializedUsers} />
       </div>
-    </main>
+    </>
   )
 }

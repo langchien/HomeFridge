@@ -5,20 +5,24 @@ import { MenuTabs } from './components/menu-tabs'
 import { CalendarDays } from 'lucide-react'
 
 export default async function MenuPage() {
-  // Kiểm tra quyền truy cập (middleware đã check, nhưng double-check ở server)
+  // Kiểm tra quyền truy cập (cho phép HOMEMAKER và ADMIN)
   const currentUser = await getCurrentUser()
-  if (!currentUser || currentUser.role !== 'HOMEMAKER') {
+  if (!currentUser || (currentUser.role !== 'HOMEMAKER' && currentUser.role !== 'ADMIN')) {
     redirect('/')
   }
 
   // Fetch tất cả data cần thiết
-  const [menus, recipes, requests, fridgeItems] = await Promise.all([
+  const [menus, recipes, requests] = await Promise.all([
     prisma.dailyMenu.findMany({
       include: {
         items: {
           include: {
             recipe: {
-              include: { ingredients: true },
+              include: {
+                ingredients: {
+                  include: { ingredient: true },
+                },
+              },
             },
           },
           orderBy: { createdAt: 'asc' },
@@ -28,22 +32,26 @@ export default async function MenuPage() {
     }),
 
     prisma.recipe.findMany({
-      include: { ingredients: true },
+      include: {
+        ingredients: {
+          include: { ingredient: true },
+        },
+      },
       orderBy: { name: 'asc' },
     }),
 
     prisma.menuRequest.findMany({
       include: {
         user: { select: { id: true, name: true, avatar: true } },
-        recipe: true,
+        recipe: {
+          include: {
+            ingredients: {
+              include: { ingredient: true },
+            },
+          },
+        },
       },
       orderBy: { createdAt: 'desc' },
-    }),
-
-    prisma.fridgeItem.findMany({
-      select: { id: true, name: true, quantity: true, unit: true },
-      orderBy: { name: 'asc' },
-      where: { quantity: { gt: 0 } },
     }),
   ])
 
@@ -83,12 +91,7 @@ export default async function MenuPage() {
       </div>
 
       {/* Main Content */}
-      <MenuTabs
-        menus={menus as any}
-        recipes={recipes as any}
-        requests={requests as any}
-        fridgeItems={fridgeItems}
-      />
+      <MenuTabs menus={menus as any} recipes={recipes as any} requests={requests as any} />
     </div>
   )
 }

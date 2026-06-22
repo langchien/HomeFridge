@@ -2,9 +2,9 @@
 
 import { type ColumnDef } from '@tanstack/react-table'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import { roles } from '../data/data'
 import { type User } from '../data/schema'
@@ -47,13 +47,13 @@ export const columns: ColumnDef<User>[] = [
         <div className='flex items-center gap-3'>
           <Avatar className='size-8 border border-muted/50'>
             <AvatarImage src={avatar || ''} alt={name} />
-            <AvatarFallback className='bg-primary/10 text-xs font-semibold text-primary'>
+            <AvatarFallback className='bg-primary/10 font-semibold text-primary'>
               {name ? name.substring(0, 2).toUpperCase() : 'US'}
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col'>
             <span className='text-sm leading-tight font-medium text-foreground'>{name}</span>
-            <span className='mt-0.5 text-xs text-muted-foreground'>@{username}</span>
+            <span className='mt-0.5 text-muted-foreground'>@{username}</span>
           </div>
         </div>
       )
@@ -79,7 +79,7 @@ export const columns: ColumnDef<User>[] = [
       if (!phone) {
         return <span className='text-xs text-muted-foreground/50 italic'>Chưa cấu hình</span>
       }
-      return <span className='font-mono text-sm text-foreground'>{phone}</span>
+      return <span className='font-mono text-foreground'>{phone}</span>
     },
   },
   {
@@ -124,7 +124,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const date = new Date(row.getValue('createdAt'))
       return (
-        <div className='font-mono text-xs text-muted-foreground'>
+        <div className='font-mono text-muted-foreground'>
           {date.toLocaleDateString('vi-VN', {
             year: 'numeric',
             month: '2-digit',

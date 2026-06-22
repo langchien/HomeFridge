@@ -13,7 +13,6 @@ import type {
   RecipeIngredient,
   MenuRequest,
   User,
-  FridgeItem,
 } from '@/generated/prisma/client'
 import type { RecipeWithIngredients } from './recipe-form-dialog'
 
@@ -25,16 +24,14 @@ type MenuRequestWithRelations = MenuRequest & {
   user: Pick<User, 'id' | 'name' | 'avatar'>
   recipe: Recipe | null
 }
-type FridgeItemBasic = Pick<FridgeItem, 'id' | 'name' | 'quantity' | 'unit'>
 
 interface MenuTabsProps {
   menus: DailyMenuWithItems[]
   recipes: RecipeWithIngredients[]
   requests: MenuRequestWithRelations[]
-  fridgeItems: FridgeItemBasic[]
 }
 
-export function MenuTabs({ menus, recipes, requests, fridgeItems }: MenuTabsProps) {
+export function MenuTabs({ menus, recipes, requests }: MenuTabsProps) {
   const pendingCount = requests.filter((r) => r.status === 'PENDING').length
 
   return (
@@ -64,7 +61,7 @@ export function MenuTabs({ menus, recipes, requests, fridgeItems }: MenuTabsProp
       </TabsList>
 
       <TabsContent value='menu' className='mt-0'>
-        <DailyMenuList menus={menus} recipes={recipes} fridgeItems={fridgeItems} />
+        <DailyMenuList menus={menus} recipes={recipes} />
       </TabsContent>
 
       <TabsContent value='recipes' className='mt-0'>

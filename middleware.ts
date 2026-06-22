@@ -52,8 +52,8 @@ export function middleware(request: NextRequest) {
     return response
   }
 
-  // 3. Phân quyền truy cập cho khu vực Admin
-  if (pathname.startsWith('/admin')) {
+  // 3. Phân quyền truy cập cho khu vực Dashboard Admin
+  if (pathname.startsWith('/dashboard/admin')) {
     if (decoded.role !== 'ADMIN') {
       // Không phải Admin, chuyển hướng về trang chủ
       return NextResponse.redirect(new URL('/', request.url))
@@ -63,9 +63,11 @@ export function middleware(request: NextRequest) {
   // 4. Phân quyền truy cập cho khu vực Dashboard
   if (pathname.startsWith('/dashboard')) {
     const isHomemakerOrAdmin = decoded.role === 'HOMEMAKER' || decoded.role === 'ADMIN'
-    const isDeviceOnFridge = decoded.role === 'DEVICE' && pathname.startsWith('/dashboard/fridge')
-    if (!isHomemakerOrAdmin && !isDeviceOnFridge) {
-      // Không phải HOMEMAKER/ADMIN, và cũng không phải là DEVICE truy cập vào /dashboard/fridge
+    const isDeviceOrMemberOnFridge =
+      (decoded.role === 'DEVICE' || decoded.role === 'MEMBER') &&
+      pathname.startsWith('/dashboard/fridge')
+    if (!isHomemakerOrAdmin && !isDeviceOrMemberOnFridge) {
+      // Không phải HOMEMAKER/ADMIN, và cũng không phải là DEVICE/MEMBER truy cập vào /dashboard/fridge
       return NextResponse.redirect(new URL('/', request.url))
     }
   }

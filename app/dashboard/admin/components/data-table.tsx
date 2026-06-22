@@ -1,7 +1,6 @@
 'use no memo'
 'use client'
 
-import * as React from 'react'
 import {
   flexRender,
   getCoreRowModel,
@@ -16,6 +15,7 @@ import {
   type SortingState,
   type VisibilityState,
 } from '@tanstack/react-table'
+import * as React from 'react'
 
 import {
   Table,
@@ -29,7 +29,6 @@ import {
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 
-import { type User } from '../data/schema'
 import { type RowData } from '@tanstack/react-table'
 
 declare module '@tanstack/react-table' {
@@ -127,7 +126,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className='h-24 text-center text-sm text-muted-foreground'
+                  className='h-24 text-center text-muted-foreground'
                 >
                   Không có dữ liệu hiển thị.
                 </TableCell>

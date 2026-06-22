@@ -1,7 +1,5 @@
 'use client'
 
-import * as React from 'react'
-import Link from 'next/link'
 import {
   IconCamera,
   IconChartBar,
@@ -19,6 +17,8 @@ import {
   IconSettings,
   IconUsers,
 } from '@tabler/icons-react'
+import Link from 'next/link'
+import * as React from 'react'
 
 import {
   Sidebar,

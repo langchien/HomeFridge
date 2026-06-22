@@ -1,38 +1,22 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { deleteDailyMenuAction, removeMenuItemAction } from '@/app/actions/menu'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MenuStatusBadge } from './menu-status-badge'
-import { AddMenuItemDialog } from './add-menu-item-dialog'
-import { DeductFridgeDialog } from './deduct-fridge-dialog'
-import { removeMenuItemAction, deleteDailyMenuAction } from '@/app/actions/menu'
+import { Separator } from '@/components/ui/separator'
+import type { DailyMenu, DailyMenuItem, Recipe, RecipeIngredient } from '@/generated/prisma/client'
+import { Moon, MoreHorizontal, Plus, Sun, Trash2, UtensilsCrossed, X } from 'lucide-react'
+import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
-import {
-  Plus,
-  Refrigerator,
-  MoreHorizontal,
-  Trash2,
-  X,
-  Sun,
-  Moon,
-  UtensilsCrossed,
-} from 'lucide-react'
-import type {
-  DailyMenu,
-  DailyMenuItem,
-  Recipe,
-  RecipeIngredient,
-  FridgeItem,
-} from '@/generated/prisma/client'
+import { AddMenuItemDialog } from './add-menu-item-dialog'
+import { MenuStatusBadge } from './menu-status-badge'
 import type { RecipeWithIngredients } from './recipe-form-dialog'
 
 type MenuItemWithRecipe = DailyMenuItem & {
@@ -40,12 +24,10 @@ type MenuItemWithRecipe = DailyMenuItem & {
 }
 
 type DailyMenuWithItems = DailyMenu & { items: MenuItemWithRecipe[] }
-type FridgeItemBasic = Pick<FridgeItem, 'id' | 'name' | 'quantity' | 'unit'>
 
 interface DailyMenuCardProps {
   menu: DailyMenuWithItems
   recipes: RecipeWithIngredients[]
-  fridgeItems: FridgeItemBasic[]
 }
 
 function formatDate(date: Date | string) {
@@ -63,10 +45,9 @@ function formatDateShort(date: Date | string) {
   return d.toISOString().split('T')[0]
 }
 
-export function DailyMenuCard({ menu, recipes, fridgeItems }: DailyMenuCardProps) {
+export function DailyMenuCard({ menu, recipes }: DailyMenuCardProps) {
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [defaultMealTime, setDefaultMealTime] = useState<'LUNCH' | 'DINNER'>('LUNCH')
-  const [deductDialogOpen, setDeductDialogOpen] = useState(false)
   const [removingId, setRemovingId] = useState<string | null>(null)
   const [deletingMenu, setDeletingMenu] = useState(false)
   const [isPending, startTransition] = useTransition()
@@ -119,16 +100,6 @@ export function DailyMenuCard({ menu, recipes, fridgeItems }: DailyMenuCardProps
               </div>
             </div>
             <div className='flex items-center gap-1'>
-              <Button
-                variant='outline'
-                size='sm'
-                className='h-8 gap-1.5 text-xs'
-                onClick={() => setDeductDialogOpen(true)}
-                disabled={menu.items.length === 0}
-              >
-                <Refrigerator className='h-3.5 w-3.5' />
-                Trừ tủ lạnh
-              </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant='ghost' size='icon' className='h-8 w-8'>
@@ -182,14 +153,6 @@ export function DailyMenuCard({ menu, recipes, fridgeItems }: DailyMenuCardProps
         recipes={recipes}
         defaultMealTime={defaultMealTime}
       />
-
-      <DeductFridgeDialog
-        open={deductDialogOpen}
-        onOpenChange={setDeductDialogOpen}
-        menuDate={formatDate(menu.date)}
-        menuItems={menu.items}
-        fridgeItems={fridgeItems}
-      />
     </>
   )
 }
@@ -214,14 +177,14 @@ function MealSection({
   return (
     <div className='flex flex-col gap-2'>
       <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-1.5 text-sm font-medium'>
+        <div className='flex items-center gap-1.5 font-medium'>
           {icon}
           {label}
         </div>
         <Button
           variant='ghost'
           size='sm'
-          className='h-7 gap-1 text-xs text-muted-foreground hover:text-foreground'
+          className='h-7 gap-1 text-muted-foreground hover:text-foreground'
           onClick={onAddMeal}
         >
           <Plus className='h-3.5 w-3.5' />
@@ -230,7 +193,7 @@ function MealSection({
       </div>
 
       {items.length === 0 ? (
-        <div className='flex items-center gap-2 rounded-md border border-dashed px-2 py-2 text-xs text-muted-foreground'>
+        <div className='flex items-center gap-2 rounded-md border border-dashed px-2 py-2 text-muted-foreground'>
           <UtensilsCrossed className='h-3.5 w-3.5' />
           Chưa có món cho bữa này
         </div>
@@ -242,9 +205,9 @@ function MealSection({
               className='group flex items-center justify-between gap-2 rounded-md bg-muted/40 px-3 py-2'
             >
               <div className='flex min-w-0 items-center gap-2'>
-                <span className='truncate text-sm font-medium'>{item.recipe.name}</span>
+                <span className='truncate font-medium'>{item.recipe.name}</span>
                 {item.servings > 1 && (
-                  <Badge variant='secondary' className='shrink-0 text-xs'>
+                  <Badge variant='secondary' className='shrink-0'>
                     x{item.servings}
                   </Badge>
                 )}

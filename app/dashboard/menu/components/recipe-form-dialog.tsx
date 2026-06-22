@@ -1,25 +1,28 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { useForm, useFieldArray } from 'react-hook-form'
+import { getIngredientsAction } from '@/app/actions/ingredient'
+import { createRecipeAction, updateRecipeAction } from '@/app/actions/recipe'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Separator } from '@/components/ui/separator'
-import { createRecipeAction, updateRecipeAction } from '@/app/actions/recipe'
+import { Textarea } from '@/components/ui/textarea'
+import type { Ingredient, Recipe, RecipeIngredient } from '@/generated/prisma/client'
+import { ChefHat, Loader2, Plus, Trash2 } from 'lucide-react'
+import { useEffect, useState, useTransition } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { Plus, Trash2, Loader2, ChefHat } from 'lucide-react'
-import type { Recipe, RecipeIngredient } from '@/generated/prisma/client'
 
-export type RecipeWithIngredients = Recipe & { ingredients: RecipeIngredient[] }
+export type RecipeWithIngredients = Recipe & {
+  ingredients: (RecipeIngredient & { ingredient: Ingredient })[]
+}
 
 interface RecipeFormDialogProps {
   open: boolean
@@ -32,12 +35,30 @@ interface FormValues {
   description: string
   prepTime: string
   cookTime: string
-  ingredients: { name: string; quantity: string; unit: string }[]
+  ingredients: { ingredientId: string; quantity: string; unit: string }[]
 }
 
 export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialogProps) {
   const [isPending, startTransition] = useTransition()
+  const [allIngredients, setAllIngredients] = useState<Ingredient[]>([])
   const isEdit = !!recipe
+
+  // Load danh sách nguyên liệu hệ thống
+  useEffect(() => {
+    async function loadIngredients() {
+      try {
+        const res = await getIngredientsAction()
+        if (res.success && res.data) {
+          setAllIngredients(res.data)
+        }
+      } catch (err) {
+        console.error('Lỗi khi tải danh sách nguyên liệu:', err)
+      }
+    }
+    if (open) {
+      loadIngredients()
+    }
+  }, [open])
 
   const {
     register,
@@ -52,17 +73,17 @@ export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialo
       prepTime: recipe?.prepTime?.toString() ?? '',
       cookTime: recipe?.cookTime?.toString() ?? '',
       ingredients: recipe?.ingredients?.map((ing) => ({
-        name: ing.name,
+        ingredientId: ing.ingredientId,
         quantity: ing.quantity.toString(),
         unit: ing.unit,
-      })) ?? [{ name: '', quantity: '1', unit: 'g' }],
+      })) ?? [{ ingredientId: '', quantity: '1', unit: 'g' }],
     },
   })
 
   const { fields, append, remove } = useFieldArray({ control, name: 'ingredients' })
 
   // Reset form khi recipe thay đổi
-  useState(() => {
+  useEffect(() => {
     if (open) {
       reset({
         name: recipe?.name ?? '',
@@ -70,13 +91,13 @@ export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialo
         prepTime: recipe?.prepTime?.toString() ?? '',
         cookTime: recipe?.cookTime?.toString() ?? '',
         ingredients: recipe?.ingredients?.map((ing) => ({
-          name: ing.name,
+          ingredientId: ing.ingredientId,
           quantity: ing.quantity.toString(),
           unit: ing.unit,
-        })) ?? [{ name: '', quantity: '1', unit: 'g' }],
+        })) ?? [{ ingredientId: '', quantity: '1', unit: 'g' }],
       })
     }
-  })
+  }, [recipe, open, reset])
 
   const onSubmit = (values: FormValues) => {
     startTransition(async () => {
@@ -86,7 +107,7 @@ export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialo
         prepTime: values.prepTime ? parseInt(values.prepTime) : undefined,
         cookTime: values.cookTime ? parseInt(values.cookTime) : undefined,
         ingredients: values.ingredients.map((ing) => ({
-          name: ing.name,
+          ingredientId: ing.ingredientId,
           quantity: parseFloat(ing.quantity) || 1,
           unit: ing.unit,
         })),
@@ -125,7 +146,7 @@ export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialo
                 </Label>
                 <Input
                   id='name'
-                  placeholder='Ví dụ: Canh chua cá lóc'
+                  placeholder='Ví dụ: Canh chua cá hồi'
                   {...register('name', { required: 'Tên món không được để trống' })}
                 />
                 {errors.name && <p className='text-xs text-destructive'>{errors.name.message}</p>}
@@ -178,7 +199,7 @@ export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialo
                     type='button'
                     size='sm'
                     variant='outline'
-                    onClick={() => append({ name: '', quantity: '1', unit: 'g' })}
+                    onClick={() => append({ ingredientId: '', quantity: '1', unit: 'g' })}
                   >
                     <Plus className='mr-1 h-4 w-4' />
                     Thêm nguyên liệu
@@ -201,12 +222,19 @@ export function RecipeFormDialog({ open, onOpenChange, recipe }: RecipeFormDialo
                       key={field.id}
                       className='grid grid-cols-[1fr_100px_90px_36px] items-center gap-2'
                     >
-                      <Input
-                        placeholder='Ví dụ: Cá lóc'
-                        {...register(`ingredients.${index}.name`, {
+                      <select
+                        className='flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+                        {...register(`ingredients.${index}.ingredientId`, {
                           required: 'Không được để trống',
                         })}
-                      />
+                      >
+                        <option value=''>Chọn nguyên liệu...</option>
+                        {allIngredients.map((ing) => (
+                          <option key={ing.id} value={ing.id}>
+                            {ing.name}
+                          </option>
+                        ))}
+                      </select>
                       <Input
                         type='number'
                         min='0'

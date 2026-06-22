@@ -14,22 +14,18 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 const localizedColumns: Record<string, string> = {
-  username: 'Tên đăng nhập',
-  name: 'Họ tên',
-  email: 'Email',
-  phone: 'Số điện thoại',
-  role: 'Vai trò',
-  createdAt: 'Ngày tạo',
+  name: 'Tên nguyên liệu',
+  category: 'Danh mục',
 }
 
-export function DataTableViewOptions<TData>({ table }: { table: Table<TData> }) {
+export function IngredientTableViewOptions<TData>({ table }: { table: Table<TData> }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant='outline'
           size='sm'
-          className='ml-auto hidden h-8 items-center gap-1.5 text-xs lg:flex'
+          className='ml-auto hidden h-8 items-center gap-1.5 lg:flex'
         >
           <Settings2 className='size-4' />
           <span>Hiển thị</span>

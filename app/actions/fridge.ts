@@ -154,7 +154,11 @@ export async function deleteFridgeItemAction(id: string): Promise<ActionResponse
 /**
  * Server Action: Tạo nhanh danh mục mới
  */
-export async function createCategoryAction(values: { name: string; icon?: string; description?: string }): Promise<ActionResponse> {
+export async function createCategoryAction(values: {
+  name: string
+  icon?: string
+  description?: string
+}): Promise<ActionResponse> {
   try {
     const currentUser = await getCurrentUser()
     if (!currentUser) {

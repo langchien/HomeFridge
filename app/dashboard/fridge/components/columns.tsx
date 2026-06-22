@@ -2,18 +2,9 @@
 
 import { DataTableColumnHeader } from '@/app/admin/components/data-table-column-header'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import type { Category, FridgeItem, User } from '@/generated/prisma/client'
 import { ColumnDef } from '@tanstack/react-table'
-import { Edit, MoreHorizontal, Trash } from 'lucide-react'
 import Image from 'next/image'
 
 import { FridgeRowActions } from './fridge-row-actions'
@@ -126,7 +117,7 @@ export const columns: ColumnDef<FridgeItemWithRelations>[] = [
 
       const isExpired = new Date(expiryDate) < new Date()
       const isExpiringSoon =
-      new Date(expiryDate) < new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) && !isExpired
+        new Date(expiryDate) < new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) && !isExpired
 
       return (
         <div className='flex items-center gap-2'>

@@ -56,8 +56,12 @@ export function ImageUpload({
       setLocalPreview(previewUrl)
 
       if (!cloudName || !uploadPreset) {
-        toast.warning('Chưa cấu hình tài khoản Cloudinary trong file .env! Bạn chỉ có thể xem ảnh cục bộ tạm thời.')
-        console.warn('Missing NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME or NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET')
+        toast.warning(
+          'Chưa cấu hình tài khoản Cloudinary trong file .env! Bạn chỉ có thể xem ảnh cục bộ tạm thời.',
+        )
+        console.warn(
+          'Missing NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME or NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET',
+        )
         return
       }
 
@@ -68,13 +72,10 @@ export function ImageUpload({
       formData.append('folder', folder)
 
       try {
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-          {
-            method: 'POST',
-            body: formData,
-          }
-        )
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: 'POST',
+          body: formData,
+        })
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}))
@@ -96,7 +97,7 @@ export function ImageUpload({
         setIsUploading(false)
       }
     },
-    [cloudName, uploadPreset, onChange, folder]
+    [cloudName, uploadPreset, onChange, folder],
   )
 
   const handleDrag = useCallback((e: React.DragEvent) => {
@@ -121,7 +122,7 @@ export function ImageUpload({
         await uploadFile(e.dataTransfer.files[0])
       }
     },
-    [disabled, isUploading, uploadFile]
+    [disabled, isUploading, uploadFile],
   )
 
   const handleFileChange = useCallback(
@@ -132,7 +133,7 @@ export function ImageUpload({
         await uploadFile(e.target.files[0])
       }
     },
-    [disabled, isUploading, uploadFile]
+    [disabled, isUploading, uploadFile],
   )
 
   const handleRemove = useCallback(
@@ -145,38 +146,40 @@ export function ImageUpload({
       setLocalPreview(null)
       onChange('')
     },
-    [onChange, localPreview]
+    [onChange, localPreview],
   )
 
   const displayImage = localPreview || value
 
   return (
-    <div className={cn('space-y-4 w-full', className)}>
+    <div className={cn('w-full space-y-4', className)}>
       {displayImage ? (
-        <div className="relative flex items-center justify-center border rounded-lg overflow-hidden bg-muted/30 aspect-video md:aspect-[2/1] max-h-[200px]">
+        <div className='relative flex aspect-video max-h-[200px] items-center justify-center overflow-hidden rounded-lg border bg-muted/30 md:aspect-[2/1]'>
           <Image
             src={displayImage}
-            alt="Upload preview"
+            alt='Upload preview'
             fill
             unoptimized
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className='object-contain'
+            sizes='(max-width: 768px) 100vw, 33vw'
             priority
           />
           {!disabled && !isUploading && (
             <button
               onClick={handleRemove}
-              type="button"
-              className="absolute top-2 right-2 p-1.5 rounded-full bg-destructive/90 text-destructive-foreground hover:bg-destructive transition-colors shadow-sm cursor-pointer z-10"
-              title="Xóa ảnh"
+              type='button'
+              className='text-destructive-foreground absolute top-2 right-2 z-10 cursor-pointer rounded-full bg-destructive/90 p-1.5 shadow-sm transition-colors hover:bg-destructive'
+              title='Xóa ảnh'
             >
-              <X className="size-4" />
+              <X className='size-4' />
             </button>
           )}
           {isUploading && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/85 backdrop-blur-xs z-10">
-              <Loader2 className="size-6 animate-spin text-primary" />
-              <span className="text-xs text-muted-foreground mt-2 font-medium">Đang tải lên Cloudinary...</span>
+            <div className='absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/85 backdrop-blur-xs'>
+              <Loader2 className='size-6 animate-spin text-primary' />
+              <span className='mt-2 text-xs font-medium text-muted-foreground'>
+                Đang tải lên Cloudinary...
+              </span>
             </div>
           )}
         </div>
@@ -187,38 +190,37 @@ export function ImageUpload({
           onDragLeave={handleDrag}
           onDrop={handleDrop}
           className={cn(
-            'flex flex-col items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer transition-all duration-200 min-h-[140px] p-4 text-center',
+            'flex min-h-[140px] w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-4 text-center transition-all duration-200',
             isDragActive
-              ? 'border-primary bg-primary/5 scale-[0.99]'
+              ? 'scale-[0.99] border-primary bg-primary/5'
               : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/10',
-            (disabled || isUploading) && 'opacity-60 cursor-not-allowed pointer-events-none'
+            (disabled || isUploading) && 'pointer-events-none cursor-not-allowed opacity-60',
           )}
         >
           <input
-            type="file"
-            accept="image/*"
-            className="hidden"
+            type='file'
+            accept='image/*'
+            className='hidden'
             onChange={handleFileChange}
             disabled={disabled || isUploading}
           />
-          
-          <div className="flex flex-col items-center justify-center space-y-2">
+
+          <div className='flex flex-col items-center justify-center space-y-2'>
             {isUploading ? (
               <>
-                <Loader2 className="size-8 animate-spin text-primary" />
-                <p className="text-sm font-medium text-muted-foreground">Đang tải ảnh lên...</p>
+                <Loader2 className='size-8 animate-spin text-primary' />
+                <p className='text-sm font-medium text-muted-foreground'>Đang tải ảnh lên...</p>
               </>
             ) : (
               <>
-                <div className="p-3 rounded-full bg-primary/10 text-primary mb-1">
-                  <Upload className="size-5" />
+                <div className='mb-1 rounded-full bg-primary/10 p-3 text-primary'>
+                  <Upload className='size-5' />
                 </div>
-                <p className="text-sm font-semibold">
-                  Click để chọn ảnh <span className="text-muted-foreground font-normal">hoặc kéo thả vào đây</span>
+                <p className='text-sm font-semibold'>
+                  Click để chọn ảnh{' '}
+                  <span className='font-normal text-muted-foreground'>hoặc kéo thả vào đây</span>
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Hỗ trợ PNG, JPG, WEBP (tối đa 5MB)
-                </p>
+                <p className='text-xs text-muted-foreground'>Hỗ trợ PNG, JPG, WEBP (tối đa 5MB)</p>
               </>
             )}
           </div>

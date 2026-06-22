@@ -43,7 +43,7 @@ export function FridgeGridCard({ item, onViewDetail }: FridgeGridCardProps) {
     <div
       className={[
         'group relative flex flex-col overflow-hidden rounded-xl border bg-card shadow-sm',
-        'transition-all duration-200 hover:shadow-md hover:-translate-y-0.5',
+        'transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md',
         isExpired
           ? 'border-destructive/30'
           : isExpiringSoon
@@ -69,7 +69,7 @@ export function FridgeGridCard({ item, onViewDetail }: FridgeGridCardProps) {
 
         {/* Badge trạng thái hạn */}
         {expiryStatus !== 'valid' && (
-          <div className='absolute right-2 top-2'>
+          <div className='absolute top-2 right-2'>
             {isExpired ? (
               <Badge variant='destructive' className='text-[10px] font-semibold shadow-sm'>
                 Hết hạn
@@ -86,7 +86,7 @@ export function FridgeGridCard({ item, onViewDetail }: FridgeGridCardProps) {
       {/* Nội dung */}
       <div className='flex flex-1 flex-col gap-2 p-3'>
         {/* Tên */}
-        <p className='line-clamp-1 text-sm font-semibold leading-tight text-foreground'>
+        <p className='line-clamp-1 text-sm leading-tight font-semibold text-foreground'>
           {item.name}
         </p>
 
@@ -132,7 +132,7 @@ export function FridgeGridCard({ item, onViewDetail }: FridgeGridCardProps) {
         <Button
           size='sm'
           variant='outline'
-          className='mt-auto h-7 w-full gap-1.5 text-[11px] font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400'
+          className='mt-auto h-7 w-full gap-1.5 text-[11px] font-medium transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400'
           onClick={() => onViewDetail(item)}
         >
           <Eye className='size-3' />

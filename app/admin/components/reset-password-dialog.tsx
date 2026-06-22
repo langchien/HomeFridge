@@ -152,7 +152,7 @@ export function ResetPasswordDialog({
               )}
             />
 
-            <DialogFooter className='pt-4 gap-2 sm:gap-0'>
+            <DialogFooter className='gap-2 pt-4 sm:gap-0'>
               <Button
                 type='button'
                 variant='outline'
@@ -162,7 +162,11 @@ export function ResetPasswordDialog({
               >
                 Hủy bỏ
               </Button>
-              <Button type='submit' disabled={loading} className='h-9 text-xs font-medium bg-amber-500 hover:bg-amber-600 text-white'>
+              <Button
+                type='submit'
+                disabled={loading}
+                className='h-9 bg-amber-500 text-xs font-medium text-white hover:bg-amber-600'
+              >
                 {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
                 Xác nhận
               </Button>

@@ -4,12 +4,7 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import {
   CalendarDays,
   MapPin,
@@ -67,7 +62,7 @@ function InfoRow({
         {icon}
       </div>
       <div className='min-w-0 flex-1'>
-        <p className='text-[11px] font-medium uppercase tracking-wide text-muted-foreground'>
+        <p className='text-[11px] font-medium tracking-wide text-muted-foreground uppercase'>
           {label}
         </p>
         <div className='mt-0.5 text-sm text-foreground'>{value}</div>
@@ -76,12 +71,7 @@ function InfoRow({
   )
 }
 
-export function FridgeDetailDialog({
-  item,
-  open,
-  onOpenChange,
-  onEdit,
-}: FridgeDetailDialogProps) {
+export function FridgeDetailDialog({ item, open, onOpenChange, onEdit }: FridgeDetailDialogProps) {
   if (!item) return null
 
   const now = new Date()
@@ -101,13 +91,7 @@ export function FridgeDetailDialog({
         {/* Ảnh header */}
         <div className='relative h-52 w-full overflow-hidden rounded-t-lg bg-secondary/40 sm:h-60'>
           {item.image ? (
-            <Image
-              src={item.image}
-              alt={item.name}
-              fill
-              className='object-cover'
-              sizes='560px'
-            />
+            <Image src={item.image} alt={item.name} fill className='object-cover' sizes='560px' />
           ) : (
             <div className='flex h-full w-full items-center justify-center text-7xl'>
               {item.category?.icon || '🍽️'}
@@ -118,7 +102,7 @@ export function FridgeDetailDialog({
           <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent' />
 
           {/* Badge trạng thái */}
-          <div className='absolute bottom-3 left-4 right-4 flex items-end justify-between'>
+          <div className='absolute right-4 bottom-3 left-4 flex items-end justify-between'>
             {isExpired ? (
               <Badge
                 variant='destructive'
@@ -150,7 +134,7 @@ export function FridgeDetailDialog({
         {/* Nội dung */}
         <div className='flex flex-col gap-5 p-5'>
           <DialogHeader className='space-y-1'>
-            <DialogTitle className='text-xl font-bold leading-tight'>{item.name}</DialogTitle>
+            <DialogTitle className='text-xl leading-tight font-bold'>{item.name}</DialogTitle>
             <p className='text-sm text-muted-foreground'>
               {item.category?.icon} {item.category?.name}
             </p>
@@ -224,7 +208,7 @@ export function FridgeDetailDialog({
                     icon={<BookOpen className='size-4' />}
                     label='Hướng dẫn bảo quản'
                     value={
-                      <p className='whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground'>
+                      <p className='text-sm leading-relaxed whitespace-pre-wrap text-muted-foreground'>
                         {item.storageInstructions}
                       </p>
                     }
@@ -235,7 +219,7 @@ export function FridgeDetailDialog({
                     icon={<FileText className='size-4' />}
                     label='Ghi chú'
                     value={
-                      <p className='whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground'>
+                      <p className='text-sm leading-relaxed whitespace-pre-wrap text-muted-foreground'>
                         {item.notes}
                       </p>
                     }

@@ -49,11 +49,7 @@ const baseSchema = {
     .string()
     .min(2, { message: 'Họ tên phải có ít nhất 2 ký tự.' })
     .max(100, { message: 'Họ tên không được vượt quá 100 ký tự.' }),
-  email: z
-    .string()
-    .email({ message: 'Email không đúng định dạng.' })
-    .optional()
-    .or(z.literal('')),
+  email: z.string().email({ message: 'Email không đúng định dạng.' }).optional().or(z.literal('')),
   phone: z
     .string()
     .regex(/^[0-9+ ]*$/, { message: 'Số điện thoại chỉ được chứa số, khoảng trắng và dấu (+).' })
@@ -62,7 +58,11 @@ const baseSchema = {
   role: z.enum(['ADMIN', 'MEMBER', 'DEVICE', 'HOMEMAKER'], {
     message: 'Vui lòng chọn vai trò người dùng.',
   }),
-  avatar: z.string().url({ message: 'Đường dẫn ảnh đại diện không hợp lệ.' }).optional().or(z.literal('')),
+  avatar: z
+    .string()
+    .url({ message: 'Đường dẫn ảnh đại diện không hợp lệ.' })
+    .optional()
+    .or(z.literal('')),
 }
 
 const addSchema = z.object({
@@ -152,7 +152,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
         toast.success(
           isEdit
             ? `Cập nhật thông tin của "${values.name}" thành công!`
-            : `Đã thêm người dùng "${values.name}" thành công!`
+            : `Đã thêm người dùng "${values.name}" thành công!`,
         )
         onSuccess()
         onOpenChange(false)
@@ -167,7 +167,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[500px] overflow-y-auto max-h-[90vh]'>
+      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[500px]'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-lg font-semibold'>
             {isEdit ? (
@@ -334,14 +334,14 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               control={form.control}
               name='avatar'
               render={({ field }) => (
-                <FormItem className="space-y-2">
+                <FormItem className='space-y-2'>
                   <FormLabel className='text-xs font-semibold'>Ảnh đại diện</FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
                       onChange={field.onChange}
                       disabled={loading}
-                      folder="avatars"
+                      folder='avatars'
                     />
                   </FormControl>
                   <FormMessage className='text-xs' />
@@ -349,7 +349,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               )}
             />
 
-            <DialogFooter className='pt-4 gap-2 sm:gap-0'>
+            <DialogFooter className='gap-2 pt-4 sm:gap-0'>
               <Button
                 type='button'
                 variant='outline'
@@ -359,7 +359,11 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               >
                 Hủy bỏ
               </Button>
-              <Button type='submit' disabled={loading} className='h-9 text-xs font-medium bg-primary'>
+              <Button
+                type='submit'
+                disabled={loading}
+                className='h-9 bg-primary text-xs font-medium'
+              >
                 {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
                 {isEdit ? 'Lưu thay đổi' : 'Thêm người dùng'}
               </Button>

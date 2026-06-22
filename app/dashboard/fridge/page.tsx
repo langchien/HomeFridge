@@ -34,7 +34,7 @@ export default async function FridgePage() {
 
   // Tính toán thống kê
   const totalItems = items.length
-  
+
   const now = new Date()
   const threeDaysFromNow = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000)
 
@@ -75,13 +75,14 @@ export default async function FridgePage() {
         </Card>
 
         {/* Alerts Container */}
-        <div className='md:col-span-2 flex flex-col gap-3 justify-center'>
+        <div className='flex flex-col justify-center gap-3 md:col-span-2'>
           {expiredCount > 0 && (
-            <Alert variant='destructive' className='bg-destructive/10 border-destructive/20'>
+            <Alert variant='destructive' className='border-destructive/20 bg-destructive/10'>
               <AlertCircle className='h-4 w-4' />
               <AlertTitle>Cảnh báo hết hạn</AlertTitle>
               <AlertDescription>
-                Có <strong>{expiredCount}</strong> thực phẩm đã quá hạn sử dụng. Vui lòng kiểm tra và xử lý ngay!
+                Có <strong>{expiredCount}</strong> thực phẩm đã quá hạn sử dụng. Vui lòng kiểm tra
+                và xử lý ngay!
               </AlertDescription>
             </Alert>
           )}
@@ -91,7 +92,8 @@ export default async function FridgePage() {
               <AlertTriangle className='h-4 w-4' />
               <AlertTitle>Sắp hết hạn</AlertTitle>
               <AlertDescription>
-                Có <strong>{expiringSoonCount}</strong> thực phẩm sẽ hết hạn trong vòng 3 ngày tới. Ưu tiên chế biến nhé!
+                Có <strong>{expiringSoonCount}</strong> thực phẩm sẽ hết hạn trong vòng 3 ngày tới.
+                Ưu tiên chế biến nhé!
               </AlertDescription>
             </Alert>
           )}

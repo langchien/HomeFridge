@@ -92,7 +92,6 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
-
   return (
     <div className='flex flex-col gap-4'>
       <DataTableToolbar table={table} />

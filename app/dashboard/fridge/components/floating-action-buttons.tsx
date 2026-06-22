@@ -10,12 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import type { Category, User } from '@/generated/prisma/client'
 import { FridgeFormDialog } from './fridge-form-dialog'
 import { useState, useEffect } from 'react'
@@ -36,14 +31,17 @@ export function FloatingActionButtons({ categories, users }: FloatingActionButto
   }
 
   return (
-    <div className='fixed bottom-6 right-6 flex flex-col gap-3 z-50'>
+    <div className='fixed right-6 bottom-6 z-50 flex flex-col gap-3'>
       <TooltipProvider delayDuration={100}>
         {/* Nút Lên Menu */}
         <Dialog>
           <Tooltip>
             <TooltipTrigger asChild>
               <DialogTrigger asChild>
-                <Button size='icon' className='h-14 w-14 rounded-full shadow-lg hover:shadow-xl bg-primary hover:bg-primary/90 transition-all'>
+                <Button
+                  size='icon'
+                  className='h-14 w-14 rounded-full bg-primary shadow-lg transition-all hover:bg-primary/90 hover:shadow-xl'
+                >
                   <ListPlus className='h-6 w-6' />
                   <span className='sr-only'>Lên menu</span>
                 </Button>
@@ -71,7 +69,7 @@ export function FloatingActionButtons({ categories, users }: FloatingActionButto
           <TooltipTrigger asChild>
             <Button
               size='icon'
-              className='h-14 w-14 rounded-full shadow-lg hover:shadow-xl bg-emerald-600 hover:bg-emerald-700 transition-all cursor-pointer'
+              className='h-14 w-14 cursor-pointer rounded-full bg-emerald-600 shadow-lg transition-all hover:bg-emerald-700 hover:shadow-xl'
               onClick={() => setIsAddOpen(true)}
             >
               <Plus className='h-6 w-6 text-white' />

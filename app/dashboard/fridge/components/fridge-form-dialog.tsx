@@ -48,7 +48,11 @@ export enum StorageLocation {
   PANTRY = 'PANTRY',
 }
 
-import { createFridgeItemAction, updateFridgeItemAction, createCategoryAction } from '@/app/actions/fridge'
+import {
+  createFridgeItemAction,
+  updateFridgeItemAction,
+  createCategoryAction,
+} from '@/app/actions/fridge'
 
 // Hàm format ngày thành yyyy-MM-dd bằng JS thuần để tránh dùng thư viện date-fns bên ngoài
 const formatDateString = (date: Date) => {
@@ -70,20 +74,25 @@ const LOCATION_MAP: Record<StorageLocation, string> = {
 
 // Danh mục ảnh mặc định dựa trên từ khóa tên danh mục
 const DEFAULT_IMAGES_BY_CATEGORY: Record<string, string> = {
-  'rau': 'https://images.unsplash.com/photo-1566385101042-1a0104b7b927?w=500&auto=format&fit=crop&q=80',
-  'thịt': 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=80',
-  'hải sản': 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
-  'cá': 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
-  'nước': 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80',
-  'đồ uống': 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80',
-  'sữa': 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=80',
-  'trứng': 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500&auto=format&fit=crop&q=80',
-  'quả': 'https://images.unsplash.com/photo-1610832958506-ee5633613df2?w=500&auto=format&fit=crop&q=80',
-  'trái cây': 'https://images.unsplash.com/photo-1610832958506-ee5633613df2?w=500&auto=format&fit=crop&q=80',
-  'bánh': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=80',
-  'ngọt': 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=80',
-  'gia vị': 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80',
-  'kem': 'https://images.unsplash.com/photo-1501443762811-7f1685449775?w=500&auto=format&fit=crop&q=80',
+  rau: 'https://images.unsplash.com/photo-1566385101042-1a0104b7b927?w=500&auto=format&fit=crop&q=80',
+  thịt: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=80',
+  'hải sản':
+    'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
+  cá: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
+  nước: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80',
+  'đồ uống':
+    'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=80',
+  sữa: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=80',
+  trứng:
+    'https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500&auto=format&fit=crop&q=80',
+  quả: 'https://images.unsplash.com/photo-1610832958506-ee5633613df2?w=500&auto=format&fit=crop&q=80',
+  'trái cây':
+    'https://images.unsplash.com/photo-1610832958506-ee5633613df2?w=500&auto=format&fit=crop&q=80',
+  bánh: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=80',
+  ngọt: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=80',
+  'gia vị':
+    'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=500&auto=format&fit=crop&q=80',
+  kem: 'https://images.unsplash.com/photo-1501443762811-7f1685449775?w=500&auto=format&fit=crop&q=80',
 }
 
 const SUGGESTED_UNITS = ['cái', 'kg', 'g', 'lít', 'ml', 'hộp', 'chai', 'túi', 'bó', 'quả']
@@ -94,11 +103,9 @@ const fridgeItemSchema = z.object({
   image: z.string().optional().or(z.literal('')),
   categoryId: z.string().min(1, { message: 'Vui lòng chọn danh mục.' }),
   location: z.nativeEnum(StorageLocation),
-  quantity: z
-    .string()
-    .refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
-      message: 'Số lượng phải là số thực lớn hơn 0.',
-    }),
+  quantity: z.string().refine((val) => !isNaN(parseFloat(val)) && parseFloat(val) > 0, {
+    message: 'Số lượng phải là số thực lớn hơn 0.',
+  }),
   unit: z.string().min(1, { message: 'Đơn vị không được để trống.' }),
   expiryDate: z.string().min(1, { message: 'Hạn sử dụng là bắt buộc.' }),
   storageInstructions: z.string().optional().or(z.literal('')),
@@ -111,7 +118,11 @@ type FridgeFormValues = z.infer<typeof fridgeItemSchema>
 // Zod Schema cho Dialog Tạo nhanh Danh mục
 const quickCategorySchema = z.object({
   name: z.string().min(2, { message: 'Tên danh mục ít nhất 2 ký tự.' }),
-  icon: z.string().max(4, { message: 'Icon chỉ nên chứa 1 biểu tượng cảm xúc.' }).optional().or(z.literal('')),
+  icon: z
+    .string()
+    .max(4, { message: 'Icon chỉ nên chứa 1 biểu tượng cảm xúc.' })
+    .optional()
+    .or(z.literal('')),
   description: z.string().optional().or(z.literal('')),
 })
 
@@ -215,12 +226,16 @@ export function FridgeFormDialog({
 
       // Nếu không có ảnh tự tải lên, tự động tìm ảnh mặc định theo tên danh mục
       if (!finalImage) {
-        const categoryName = categories.find((c) => c.id === values.categoryId)?.name?.toLowerCase() || ''
-        const matchKey = Object.keys(DEFAULT_IMAGES_BY_CATEGORY).find((key) => categoryName.includes(key))
+        const categoryName =
+          categories.find((c) => c.id === values.categoryId)?.name?.toLowerCase() || ''
+        const matchKey = Object.keys(DEFAULT_IMAGES_BY_CATEGORY).find((key) =>
+          categoryName.includes(key),
+        )
         if (matchKey) {
           finalImage = DEFAULT_IMAGES_BY_CATEGORY[matchKey]
         } else {
-          finalImage = 'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=500&auto=format&fit=crop&q=80'
+          finalImage =
+            'https://images.unsplash.com/photo-1588854337236-6889d631faa8?w=500&auto=format&fit=crop&q=80'
         }
       }
 
@@ -242,7 +257,7 @@ export function FridgeFormDialog({
         toast.success(
           isEdit
             ? `Cập nhật "${values.name}" thành công!`
-            : `Đã thêm "${values.name}" vào tủ lạnh!`
+            : `Đã thêm "${values.name}" vào tủ lạnh!`,
         )
         onSuccess()
         onOpenChange(false)
@@ -270,17 +285,17 @@ export function FridgeFormDialog({
       } else if (result.data) {
         const newCategory = result.data as Category
         toast.success(`Đã thêm danh mục mới "${newCategory.name}"!`)
-        
+
         // Thêm danh mục mới vào state cục bộ để hiển thị ngay trong dropdown
         const updatedList = [...categories, newCategory]
         setCategories(updatedList)
-        
+
         // Tự chọn danh mục vừa tạo trong form chính
         form.setValue('categoryId', newCategory.id)
-        
+
         // Gọi callback onSuccess để component cha cập nhật lại list
         onSuccess(updatedList)
-        
+
         // Đóng dialog con và reset form danh mục
         setIsCategoryDialogOpen(false)
         categoryForm.reset()
@@ -296,10 +311,10 @@ export function FridgeFormDialog({
   return (
     <>
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[600px] overflow-y-auto max-h-[90vh]">
+        <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[600px]'>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <Apple className="size-5 text-emerald-600" />
+            <DialogTitle className='flex items-center gap-2 text-lg font-bold text-foreground'>
+              <Apple className='size-5 text-emerald-600' />
               <span>{isEdit ? 'Chỉnh sửa thực phẩm' : 'Thêm thực phẩm mới'}</span>
             </DialogTitle>
             <DialogDescription>
@@ -310,66 +325,62 @@ export function FridgeFormDialog({
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 py-2'>
               {/* Tên thực phẩm */}
               <FormField
                 control={form.control}
-                name="name"
+                name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold">Tên thực phẩm *</FormLabel>
+                    <FormLabel className='text-xs font-semibold'>Tên thực phẩm *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="ví dụ: Thịt bò, Bắp cải, Sữa chua..."
+                        placeholder='ví dụ: Thịt bò, Bắp cải, Sữa chua...'
                         {...field}
                         disabled={loading}
-                        className="h-9 text-sm"
+                        className='h-9 text-sm'
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 {/* Danh mục */}
                 <FormField
                   control={form.control}
-                  name="categoryId"
+                  name='categoryId'
                   render={({ field }) => (
-                    <FormItem className="flex flex-col justify-end">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <FormLabel className="text-xs font-semibold">Danh mục *</FormLabel>
+                    <FormItem className='flex flex-col justify-end'>
+                      <div className='mb-1.5 flex items-center justify-between'>
+                        <FormLabel className='text-xs font-semibold'>Danh mục *</FormLabel>
                         <Button
-                          type="button"
-                          variant="link"
-                          size="sm"
-                          className="h-auto p-0 text-xs font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-0.5"
+                          type='button'
+                          variant='link'
+                          size='sm'
+                          className='flex h-auto items-center gap-0.5 p-0 text-xs font-medium text-emerald-600 hover:text-emerald-700'
                           onClick={() => setIsCategoryDialogOpen(true)}
                         >
-                          <Plus className="size-3" /> Tạo nhanh
+                          <Plus className='size-3' /> Tạo nhanh
                         </Button>
                       </div>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        disabled={loading}
-                      >
+                      <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
                         <FormControl>
-                          <SelectTrigger className="h-9 text-sm">
-                            <SelectValue placeholder="Chọn danh mục" />
+                          <SelectTrigger className='h-9 text-sm'>
+                            <SelectValue placeholder='Chọn danh mục' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {categories.map((category) => (
                             <SelectItem key={category.id} value={category.id}>
-                              <span className="mr-1.5">{category.icon || '📦'}</span>
+                              <span className='mr-1.5'>{category.icon || '📦'}</span>
                               {category.name}
                             </SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className='text-xs' />
                     </FormItem>
                   )}
                 />
@@ -377,18 +388,16 @@ export function FridgeFormDialog({
                 {/* Vị trí bảo quản */}
                 <FormField
                   control={form.control}
-                  name="location"
+                  name='location'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-semibold mb-1.5 block">Vị trí bảo quản *</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        disabled={loading}
-                      >
+                      <FormLabel className='mb-1.5 block text-xs font-semibold'>
+                        Vị trí bảo quản *
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
                         <FormControl>
-                          <SelectTrigger className="h-9 text-sm">
-                            <SelectValue placeholder="Chọn vị trí" />
+                          <SelectTrigger className='h-9 text-sm'>
+                            <SelectValue placeholder='Chọn vị trí' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -399,31 +408,31 @@ export function FridgeFormDialog({
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className='text-xs' />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 {/* Số lượng */}
                 <FormField
                   control={form.control}
-                  name="quantity"
+                  name='quantity'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-semibold">Số lượng *</FormLabel>
+                      <FormLabel className='text-xs font-semibold'>Số lượng *</FormLabel>
                       <FormControl>
                         <Input
-                          type="number"
-                          step="0.01"
-                          placeholder="ví dụ: 1 hoặc 1.5..."
+                          type='number'
+                          step='0.01'
+                          placeholder='ví dụ: 1 hoặc 1.5...'
                           {...field}
                           disabled={loading}
-                          className="h-9 text-sm"
+                          className='h-9 text-sm'
                         />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className='text-xs' />
                     </FormItem>
                   )}
                 />
@@ -431,57 +440,57 @@ export function FridgeFormDialog({
                 {/* Đơn vị */}
                 <FormField
                   control={form.control}
-                  name="unit"
+                  name='unit'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-semibold">Đơn vị tính *</FormLabel>
+                      <FormLabel className='text-xs font-semibold'>Đơn vị tính *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="ví dụ: cái, kg, hộp..."
+                          placeholder='ví dụ: cái, kg, hộp...'
                           {...field}
                           disabled={loading}
-                          className="h-9 text-sm"
+                          className='h-9 text-sm'
                         />
                       </FormControl>
                       {/* Đơn vị gợi ý dưới dạng các Badge có thể click */}
-                      <div className="flex flex-wrap gap-1 mt-1.5">
+                      <div className='mt-1.5 flex flex-wrap gap-1'>
                         {SUGGESTED_UNITS.map((u) => (
                           <Badge
                             key={u}
-                            variant="outline"
-                            className="cursor-pointer hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200 transition-colors font-normal text-[10px] py-0 px-1.5"
+                            variant='outline'
+                            className='cursor-pointer px-1.5 py-0 text-[10px] font-normal transition-colors hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700'
                             onClick={() => form.setValue('unit', u)}
                           >
                             {u}
                           </Badge>
                         ))}
                       </div>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className='text-xs' />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 {/* Hạn sử dụng */}
                 <FormField
                   control={form.control}
-                  name="expiryDate"
+                  name='expiryDate'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-semibold">Hạn sử dụng *</FormLabel>
+                      <FormLabel className='text-xs font-semibold'>Hạn sử dụng *</FormLabel>
                       <FormControl>
-                        <div className="relative">
+                        <div className='relative'>
                           <Input
-                            type="date"
+                            type='date'
                             {...field}
                             disabled={loading}
-                            className="h-9 text-sm pr-10"
+                            className='h-9 pr-10 text-sm'
                           />
-                          <CalendarIcon className="absolute right-3 top-2.5 size-4 text-muted-foreground pointer-events-none" />
+                          <CalendarIcon className='pointer-events-none absolute top-2.5 right-3 size-4 text-muted-foreground' />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className='text-xs' />
                     </FormItem>
                   )}
                 />
@@ -489,18 +498,16 @@ export function FridgeFormDialog({
                 {/* Người thêm (userId) */}
                 <FormField
                   control={form.control}
-                  name="userId"
+                  name='userId'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-semibold mb-1.5 block">Người thêm thực phẩm *</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                        disabled={loading}
-                      >
+                      <FormLabel className='mb-1.5 block text-xs font-semibold'>
+                        Người thêm thực phẩm *
+                      </FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
                         <FormControl>
-                          <SelectTrigger className="h-9 text-sm">
-                            <SelectValue placeholder="Chọn người dùng" />
+                          <SelectTrigger className='h-9 text-sm'>
+                            <SelectValue placeholder='Chọn người dùng' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -511,7 +518,7 @@ export function FridgeFormDialog({
                           ))}
                         </SelectContent>
                       </Select>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className='text-xs' />
                     </FormItem>
                   )}
                 />
@@ -520,19 +527,19 @@ export function FridgeFormDialog({
               {/* Hướng dẫn bảo quản */}
               <FormField
                 control={form.control}
-                name="storageInstructions"
+                name='storageInstructions'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold">Hướng dẫn bảo quản</FormLabel>
+                    <FormLabel className='text-xs font-semibold'>Hướng dẫn bảo quản</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="ví dụ: Bảo quản ngăn đông đá, đậy kín nắp, rửa sạch trước khi bỏ vào tủ..."
+                        placeholder='ví dụ: Bảo quản ngăn đông đá, đậy kín nắp, rửa sạch trước khi bỏ vào tủ...'
                         {...field}
                         disabled={loading}
-                        className="text-sm min-h-[60px]"
+                        className='min-h-[60px] text-sm'
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
@@ -540,19 +547,19 @@ export function FridgeFormDialog({
               {/* Ghi chú */}
               <FormField
                 control={form.control}
-                name="notes"
+                name='notes'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold">Ghi chú</FormLabel>
+                    <FormLabel className='text-xs font-semibold'>Ghi chú</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="ví dụ: Mua cho cả tuần, ưu tiên ăn trước vào thứ 4..."
+                        placeholder='ví dụ: Mua cho cả tuần, ưu tiên ăn trước vào thứ 4...'
                         {...field}
                         disabled={loading}
-                        className="text-sm min-h-[60px]"
+                        className='min-h-[60px] text-sm'
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
@@ -560,38 +567,43 @@ export function FridgeFormDialog({
               {/* Ảnh thực phẩm */}
               <FormField
                 control={form.control}
-                name="image"
+                name='image'
                 render={({ field }) => (
-                  <FormItem className="space-y-1.5">
-                    <FormLabel className="text-xs font-semibold">Hình ảnh thực phẩm</FormLabel>
+                  <FormItem className='space-y-1.5'>
+                    <FormLabel className='text-xs font-semibold'>Hình ảnh thực phẩm</FormLabel>
                     <FormControl>
                       <ImageUpload
                         value={field.value}
                         onChange={field.onChange}
                         disabled={loading}
-                        folder="fridge-items"
+                        folder='fridge-items'
                       />
                     </FormControl>
-                    <FormDescription className="text-[10px] text-muted-foreground">
-                      Nếu không tải ảnh lên, hệ thống sẽ tự động gán ảnh minh họa đẹp mắt từ Unsplash phù hợp với danh mục.
+                    <FormDescription className='text-[10px] text-muted-foreground'>
+                      Nếu không tải ảnh lên, hệ thống sẽ tự động gán ảnh minh họa đẹp mắt từ
+                      Unsplash phù hợp với danh mục.
                     </FormDescription>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
 
-              <DialogFooter className="pt-4 gap-2 sm:gap-0">
+              <DialogFooter className='gap-2 pt-4 sm:gap-0'>
                 <Button
-                  type="button"
-                  variant="outline"
+                  type='button'
+                  variant='outline'
                   disabled={loading}
                   onClick={() => onOpenChange(false)}
-                  className="h-9 text-xs font-medium"
+                  className='h-9 text-xs font-medium'
                 >
                   Hủy bỏ
                 </Button>
-                <Button type="submit" disabled={loading} className="h-9 text-xs font-medium bg-emerald-600 hover:bg-emerald-700 text-white">
-                  {loading && <Loader2 className="mr-2 size-4 animate-spin" />}
+                <Button
+                  type='submit'
+                  disabled={loading}
+                  className='h-9 bg-emerald-600 text-xs font-medium text-white hover:bg-emerald-700'
+                >
+                  {loading && <Loader2 className='mr-2 size-4 animate-spin' />}
                   {isEdit ? 'Lưu thay đổi' : 'Thêm thực phẩm'}
                 </Button>
               </DialogFooter>
@@ -602,85 +614,92 @@ export function FridgeFormDialog({
 
       {/* Dialog con: Tạo nhanh Danh mục */}
       <Dialog open={isCategoryDialogOpen} onOpenChange={setIsCategoryDialogOpen}>
-        <DialogContent className="sm:max-w-[400px]">
+        <DialogContent className='sm:max-w-[400px]'>
           <DialogHeader>
-            <DialogTitle className="text-base font-bold">Tạo danh mục mới</DialogTitle>
-            <DialogDescription className="text-xs">
+            <DialogTitle className='text-base font-bold'>Tạo danh mục mới</DialogTitle>
+            <DialogDescription className='text-xs'>
               Thêm một danh mục thực phẩm mới để dễ dàng phân loại trong tủ lạnh.
             </DialogDescription>
           </DialogHeader>
 
           <Form {...categoryForm}>
-            <form onSubmit={categoryForm.handleSubmit(onQuickCategorySubmit)} className="space-y-4 py-2">
+            <form
+              onSubmit={categoryForm.handleSubmit(onQuickCategorySubmit)}
+              className='space-y-4 py-2'
+            >
               <FormField
                 control={categoryForm.control}
-                name="name"
+                name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold">Tên danh mục *</FormLabel>
+                    <FormLabel className='text-xs font-semibold'>Tên danh mục *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="ví dụ: Hải sản, Bánh kẹo..."
+                        placeholder='ví dụ: Hải sản, Bánh kẹo...'
                         {...field}
                         disabled={categoryLoading}
-                        className="h-9 text-sm"
+                        className='h-9 text-sm'
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
 
               <FormField
                 control={categoryForm.control}
-                name="icon"
+                name='icon'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold">Biểu tượng (Emoji) *</FormLabel>
+                    <FormLabel className='text-xs font-semibold'>Biểu tượng (Emoji) *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="ví dụ: 🦀, 🍞, 🥛..."
+                        placeholder='ví dụ: 🦀, 🍞, 🥛...'
                         {...field}
                         disabled={categoryLoading}
-                        className="h-9 text-sm"
+                        className='h-9 text-sm'
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
 
               <FormField
                 control={categoryForm.control}
-                name="description"
+                name='description'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-semibold">Mô tả danh mục</FormLabel>
+                    <FormLabel className='text-xs font-semibold'>Mô tả danh mục</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="ví dụ: Các loại thực phẩm từ biển..."
+                        placeholder='ví dụ: Các loại thực phẩm từ biển...'
                         {...field}
                         disabled={categoryLoading}
-                        className="h-9 text-sm"
+                        className='h-9 text-sm'
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className='text-xs' />
                   </FormItem>
                 )}
               />
 
-              <DialogFooter className="pt-2 gap-2 sm:gap-0">
+              <DialogFooter className='gap-2 pt-2 sm:gap-0'>
                 <Button
-                  type="button"
-                  variant="outline"
+                  type='button'
+                  variant='outline'
                   disabled={categoryLoading}
                   onClick={() => setIsCategoryDialogOpen(false)}
-                  className="h-9 text-xs font-medium"
+                  className='h-9 text-xs font-medium'
                 >
                   Hủy
                 </Button>
-                <Button type="submit" disabled={categoryLoading} className="h-9 text-xs font-medium bg-emerald-600 hover:bg-emerald-700 text-white">
-                  {categoryLoading && <Loader2 className="mr-2 size-4 animate-spin" />}
+                <Button
+                  type='submit'
+                  disabled={categoryLoading}
+                  className='h-9 bg-emerald-600 text-xs font-medium text-white hover:bg-emerald-700'
+                >
+                  {categoryLoading && <Loader2 className='mr-2 size-4 animate-spin' />}
                   Tạo danh mục
                 </Button>
               </DialogFooter>

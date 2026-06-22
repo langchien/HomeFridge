@@ -31,8 +31,7 @@ const expiryTabs: { label: string; value: ExpiryFilter; className: string }[] = 
   {
     label: 'Tất cả',
     value: 'all',
-    className:
-      'data-[active=true]:bg-foreground data-[active=true]:text-background',
+    className: 'data-[active=true]:bg-foreground data-[active=true]:text-background',
   },
   {
     label: '✅ Còn hạn',
@@ -60,8 +59,7 @@ export function FridgeTableToolbar<TData>({
   expiryFilter,
   onExpiryFilterChange,
 }: FridgeTableToolbarProps<TData>) {
-  const isFiltered =
-    table.getState().columnFilters.length > 0 || expiryFilter !== 'all'
+  const isFiltered = table.getState().columnFilters.length > 0 || expiryFilter !== 'all'
 
   const categoryOptions = categories.map((cat) => ({
     label: `${cat.icon || '📦'} ${cat.name}`,
@@ -95,9 +93,7 @@ export function FridgeTableToolbar<TData>({
           <Input
             placeholder='Tìm tên thực phẩm...'
             value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-            onChange={(event) =>
-              table.getColumn('name')?.setFilterValue(event.target.value)
-            }
+            onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
             className='h-8 w-[160px] text-xs lg:w-[240px]'
           />
           {/* Filter Category */}

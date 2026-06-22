@@ -57,28 +57,28 @@ export function FridgeRowActions<TData>({ row, table }: FridgeRowActionsProps<TD
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="size-8 data-[state=open]:bg-muted">
-            <MoreHorizontal className="size-4" />
-            <span className="sr-only">Mở menu</span>
+          <Button variant='ghost' size='icon' className='size-8 data-[state=open]:bg-muted'>
+            <MoreHorizontal className='size-4' />
+            <span className='sr-only'>Mở menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuContent align='end' className='w-[160px]'>
           <DropdownMenuItem
             onClick={() => {
               const tableMeta = table?.options.meta
               tableMeta?.onEditRow?.(item as any)
             }}
           >
-            <Edit className="size-4 mr-2 text-muted-foreground" />
+            <Edit className='mr-2 size-4 text-muted-foreground' />
             <span>Chỉnh sửa</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            variant="destructive"
+            variant='destructive'
             onClick={() => setIsDeleteOpen(true)}
-            className="text-destructive focus:bg-destructive/10"
+            className='text-destructive focus:bg-destructive/10'
           >
-            <Trash2 className="size-4 mr-2" />
+            <Trash2 className='mr-2 size-4' />
             <span>Xóa thực phẩm</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -86,21 +86,32 @@ export function FridgeRowActions<TData>({ row, table }: FridgeRowActionsProps<TD
 
       {/* Dialog xác nhận xóa thực phẩm */}
       <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className='sm:max-w-[425px]'>
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-lg font-bold text-destructive">
-              <Trash2 className="size-5" />
+            <DialogTitle className='flex items-center gap-2 text-lg font-bold text-destructive'>
+              <Trash2 className='size-5' />
               <span>Xác nhận xóa thực phẩm?</span>
             </DialogTitle>
-            <DialogDescription className="pt-2 text-sm text-muted-foreground">
-              Hành động này không thể hoàn tác. Thực phẩm <strong>{item.name}</strong> sẽ bị xóa vĩnh viễn khỏi tủ lạnh của bạn.
+            <DialogDescription className='pt-2 text-sm text-muted-foreground'>
+              Hành động này không thể hoàn tác. Thực phẩm <strong>{item.name}</strong> sẽ bị xóa
+              vĩnh viễn khỏi tủ lạnh của bạn.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="mt-4 gap-2 sm:gap-0">
-            <Button variant="outline" disabled={isPending} onClick={() => setIsDeleteOpen(false)} className="h-9 text-xs">
+          <DialogFooter className='mt-4 gap-2 sm:gap-0'>
+            <Button
+              variant='outline'
+              disabled={isPending}
+              onClick={() => setIsDeleteOpen(false)}
+              className='h-9 text-xs'
+            >
               Hủy bỏ
             </Button>
-            <Button variant="destructive" disabled={isPending} onClick={handleDelete} className="h-9 text-xs">
+            <Button
+              variant='destructive'
+              disabled={isPending}
+              onClick={handleDelete}
+              className='h-9 text-xs'
+            >
               {isPending ? 'Đang xóa...' : 'Đồng ý xóa'}
             </Button>
           </DialogFooter>

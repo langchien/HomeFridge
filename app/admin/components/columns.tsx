@@ -105,7 +105,7 @@ export const columns: ColumnDef<User>[] = [
             }
             className={`text-xs font-normal ${
               roleValue === 'HOMEMAKER'
-                ? 'bg-teal-500/10 text-teal-600 border-teal-500/20 dark:bg-teal-500/20 dark:text-teal-400 dark:border-teal-500/30'
+                ? 'border-teal-500/20 bg-teal-500/10 text-teal-600 dark:border-teal-500/30 dark:bg-teal-500/20 dark:text-teal-400'
                 : ''
             }`}
           >

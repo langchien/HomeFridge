@@ -7,11 +7,7 @@ import { Home, LogOut } from 'lucide-react'
 import { logoutAction } from '@/app/actions/auth'
 import { ModeToggle } from '@/components/mode-toggle'
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const currentUser = await getCurrentUser()
 
   if (!currentUser || currentUser.role !== 'ADMIN') {
@@ -77,9 +73,7 @@ export default async function AdminLayout({
       </header>
 
       {/* Main dashboard content */}
-      <div className='flex-1'>
-        {children}
-      </div>
+      <div className='flex-1'>{children}</div>
 
       {/* Simple Footer */}
       <footer className='border-t bg-background py-6'>

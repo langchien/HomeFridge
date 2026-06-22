@@ -85,7 +85,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[420px]'>
+      <DialogContent size={'2xl'}>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-lg font-bold text-foreground'>
             <FolderPlus className='size-5 text-blue-600' />

@@ -190,7 +190,7 @@ export function RecipeFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='max-h-[92vh] overflow-y-auto sm:max-w-[680px]'>
+      <DialogContent size={'4xl'} className='max-h-[92vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-lg font-bold'>
             <UtensilsCrossed className='size-5 text-amber-600' />

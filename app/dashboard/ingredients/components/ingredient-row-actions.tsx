@@ -86,7 +86,7 @@ export function IngredientRowActions<TData>({ row, table }: IngredientRowActions
 
       {/* Dialog xác nhận xóa nguyên liệu */}
       <Dialog open={isDeleteOpen} onOpenChange={setIsDeleteOpen}>
-        <DialogContent className='sm:max-w-[425px]'>
+        <DialogContent size={'xl'}>
           <DialogHeader>
             <DialogTitle className='flex items-center gap-2 text-lg font-bold text-destructive'>
               <Trash2 className='size-5' />

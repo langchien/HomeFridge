@@ -181,7 +181,7 @@ export function IngredientFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='max-h-[90vh] overflow-y-auto sm:max-w-[500px]'>
+      <DialogContent size={'3xl'} className='max-h-[90vh] overflow-y-auto'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-lg font-bold text-foreground'>
             <Apple className='size-5 text-emerald-600' />

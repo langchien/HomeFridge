@@ -31,19 +31,20 @@ enum StorageLocation {
 }
 
 enum MealTime {
-  LUNCH  // Bữa trưa
+  BREAKFAST // Bữa sáng
+  LUNCH // Bữa trưa
   DINNER // Bữa tối
 }
 
 enum MenuStatus {
-  PLANNED   // Đã lên kế hoạch
-  COOKING   // Đang nấu
-  DONE      // Hoàn thành
+  PLANNED // Đã lên kế hoạch
+  COOKING // Đang nấu
+  DONE // Hoàn thành
   CANCELLED // Đã hủy
 }
 
 enum MenuRequestStatus {
-  PENDING  // Chờ duyệt
+  PENDING // Chờ duyệt
   APPROVED // Đã duyệt
   REJECTED // Từ chối
 }
@@ -51,17 +52,16 @@ enum MenuRequestStatus {
 // ─── Models ──────────────────────────────────────────────
 
 model User {
-  id        String       @id @default(uuid())
-  username  String       @unique
+  id        String   @id @default(uuid())
+  username  String   @unique
   password  String
   name      String
-  role      Role         @default(MEMBER)
+  role      Role     @default(MEMBER)
   avatar    String?
   phone     String?
-  email     String?      @unique
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  requests  MenuRequest[]
+  email     String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Category {
@@ -93,19 +93,18 @@ model Ingredient {
 // ─── Công thức nấu ăn ────────────────────────────────────
 
 model Recipe {
-  id          String   @id @default(uuid())
-  name        String
-  image       String?
-  description String?
-  prepTime    Int?     // Thời gian chuẩn bị (phút)
-  cookTime    Int?     // Thời gian nấu (phút)
+  id           String   @id @default(uuid())
+  title        String
+  thumbnail    String?
+  description  String?
+  prepTime     Int? // Thời gian chuẩn bị (phút)
+  cookTime     Int? // Thời gian nấu (phút)
+  instructions String[] // ["Bước 1: Ngâm ốc...", "Bước 2: Luộc ốc...", "Bước 3: Xào bơ..."]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   ingredients RecipeIngredient[]
-  menuItems   DailyMenuItem[]
-  requests    MenuRequest[]
 }
 
 model RecipeIngredient {
@@ -114,56 +113,5 @@ model RecipeIngredient {
   recipe       Recipe     @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   ingredientId String
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
-
-  quantity Float
-  unit     String
-
-  createdAt DateTime @default(now())
-}
-
-// ─── Menu ngày ───────────────────────────────────────────
-
-model DailyMenu {
-  id     String     @id @default(uuid())
-  date   DateTime   @db.Date
-  status MenuStatus @default(PLANNED)
-  notes  String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  items DailyMenuItem[]
-
-  @@unique([date]) // Mỗi ngày chỉ có 1 DailyMenu
-}
-
-model DailyMenuItem {
-  id          String    @id @default(uuid())
-  dailyMenuId String
-  dailyMenu   DailyMenu @relation(fields: [dailyMenuId], references: [id], onDelete: Cascade)
-  recipeId    String
-  recipe      Recipe    @relation(fields: [recipeId], references: [id])
-  mealTime    MealTime
-  servings    Int       @default(1) // Số phần ăn (để scale nguyên liệu)
-
-  createdAt DateTime @default(now())
-}
-
-// ─── Yêu cầu từ thành viên ───────────────────────────────
-
-model MenuRequest {
-  id       String  @id @default(uuid())
-  userId   String
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  recipeId String?
-  recipe   Recipe? @relation(fields: [recipeId], references: [id])
-
-  dishName String            // Tên món đề xuất
-  note     String?           // Ghi chú của thành viên
-  mealTime MealTime?         // Buổi mong muốn
-  date     DateTime? @db.Date // Ngày mong muốn
-  status   MenuRequestStatus @default(PENDING)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  quantity     Int
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { DataTableColumnHeader } from '@/app/dashboard/admin/components/data-table-column-header'
+import { DataTableColumnHeader } from '@/app/dashboard/user/components/data-table-column-header'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import type { Category, Ingredient } from '@/generated/prisma/client'

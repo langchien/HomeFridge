@@ -52,8 +52,8 @@ export function middleware(request: NextRequest) {
     return response
   }
 
-  // 3. Phân quyền truy cập cho khu vực Dashboard Admin
-  if (pathname.startsWith('/dashboard/admin')) {
+  // 3. Phân quyền truy cập cho khu vực Dashboard User
+  if (pathname.startsWith('/dashboard/user')) {
     if (decoded.role !== 'ADMIN') {
       // Không phải Admin, chuyển hướng về trang chủ
       return NextResponse.redirect(new URL('/', request.url))

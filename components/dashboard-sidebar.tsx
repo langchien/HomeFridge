@@ -44,8 +44,8 @@ export function DashboardSidebar({
 
   const navItems = [
     {
-      title: 'Quản trị hệ thống',
-      url: '/dashboard/admin',
+      title: 'Quản lý người dùng',
+      url: '/dashboard/user',
       icon: IconUsers,
       roles: ['ADMIN'],
     },

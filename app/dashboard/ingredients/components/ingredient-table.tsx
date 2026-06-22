@@ -25,7 +25,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { DataTablePagination } from '@/app/dashboard/admin/components/data-table-pagination'
+import { DataTablePagination } from '@/app/dashboard/user/components/data-table-pagination'
 import type { Category } from '@/generated/prisma/client'
 import { type RowData } from '@tanstack/react-table'
 import { LayoutGrid, List } from 'lucide-react'

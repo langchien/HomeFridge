@@ -67,7 +67,7 @@ export async function createUserAction(values: any): Promise<ActionResponse> {
       },
     })
 
-    revalidatePath('/admin')
+    revalidatePath('/dashboard/user')
     return { success: true }
   } catch (error) {
     console.error('Lỗi khi thêm người dùng:', error)
@@ -133,7 +133,7 @@ export async function updateUserAction(id: string, values: any): Promise<ActionR
       data: updateData,
     })
 
-    revalidatePath('/admin')
+    revalidatePath('/dashboard/user')
     return { success: true }
   } catch (error) {
     console.error('Lỗi khi cập nhật người dùng:', error)
@@ -167,7 +167,7 @@ export async function deleteUserAction(id: string): Promise<ActionResponse> {
       where: { id },
     })
 
-    revalidatePath('/admin')
+    revalidatePath('/dashboard/user')
     return { success: true }
   } catch (error) {
     console.error('Lỗi khi xóa người dùng:', error)
@@ -200,7 +200,7 @@ export async function resetPasswordAction(id: string, password: string): Promise
       },
     })
 
-    revalidatePath('/admin')
+    revalidatePath('/dashboard/user')
     return { success: true }
   } catch (error) {
     console.error('Lỗi khi đặt lại mật khẩu:', error)

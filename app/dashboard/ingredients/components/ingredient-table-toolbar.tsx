@@ -3,7 +3,7 @@
 import { type Table } from '@tanstack/react-table'
 import { X } from 'lucide-react'
 
-import { DataTableFacetedFilter } from '@/app/dashboard/admin/components/data-table-faceted-filter'
+import { DataTableFacetedFilter } from '@/app/dashboard/user/components/data-table-faceted-filter'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import type { Category } from '@/generated/prisma/client'

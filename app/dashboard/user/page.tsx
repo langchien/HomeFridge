@@ -5,7 +5,7 @@ import { ChefHat, Shield, Smartphone, Users } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { UserTable } from './components/user-table'
 
-export default async function AdminPage() {
+export default async function UserPage() {
   const currentUser = await getCurrentUser()
 
   if (!currentUser || currentUser.role !== 'ADMIN') {

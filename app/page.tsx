@@ -9,7 +9,7 @@ export default async function Page() {
   }
 
   if (user.role === 'ADMIN') {
-    redirect('/dashboard/admin')
+    redirect('/dashboard/user')
   }
 
   if (user.role === 'DEVICE') {

@@ -28,7 +28,7 @@ export async function createUserAction(values: any): Promise<ActionResponse> {
     const authError = await checkAdminAuth()
     if (authError) return authError
 
-    const { username, password, name, email, phone, role } = values
+    const { username, password, name, email, phone, role, avatar } = values
 
     if (!username || !password || !name) {
       return { error: 'Vui lòng điền đầy đủ các thông tin bắt buộc (Username, Password, Name)!' }
@@ -63,6 +63,7 @@ export async function createUserAction(values: any): Promise<ActionResponse> {
         email: email || null,
         phone: phone || null,
         role: role || 'MEMBER',
+        avatar: avatar || null,
       },
     })
 
@@ -82,7 +83,7 @@ export async function updateUserAction(id: string, values: any): Promise<ActionR
     const authError = await checkAdminAuth()
     if (authError) return authError
 
-    const { username, password, name, email, phone, role } = values
+    const { username, password, name, email, phone, role, avatar } = values
 
     if (!username || !name) {
       return { error: 'Vui lòng điền đầy đủ thông tin bắt buộc (Username, Name)!' }
@@ -119,6 +120,7 @@ export async function updateUserAction(id: string, values: any): Promise<ActionR
       email: email || null,
       phone: phone || null,
       role: role || 'MEMBER',
+      avatar: avatar || null,
     }
 
     // Nếu thay đổi mật khẩu

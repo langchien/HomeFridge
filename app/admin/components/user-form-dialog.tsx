@@ -34,6 +34,7 @@ import {
 } from '@/components/ui/select'
 import { type User } from '../data/schema'
 import { createUserAction, updateUserAction } from '@/app/actions/users'
+import { ImageUpload } from '@/components/ui/image-upload'
 
 // Định nghĩa schemas cho 2 trường hợp Add và Edit
 const baseSchema = {
@@ -328,19 +329,19 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               />
             </div>
 
-            {/* Ảnh đại diện (Link) */}
+            {/* Ảnh đại diện (Upload Cloudinary) */}
             <FormField
               control={form.control}
               name='avatar'
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Đường dẫn ảnh đại diện (URL)</FormLabel>
+                <FormItem className="space-y-2">
+                  <FormLabel className='text-xs font-semibold'>Ảnh đại diện</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder='https://example.com/avatar.jpg'
-                      {...field}
+                    <ImageUpload
+                      value={field.value}
+                      onChange={field.onChange}
                       disabled={loading}
-                      className='h-9 text-sm'
+                      folder="avatars"
                     />
                   </FormControl>
                   <FormMessage className='text-xs' />

@@ -70,13 +70,37 @@ export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProp
   const [loadingId, setLoadingId] = useState<string | null>(null)
 
   const handleStatusChange = async (id: string, status: MenuStatus) => {
+    // TODO: Tương lai - Tích hợp "Kế hoạch đi chợ"
+    // Khi người dùng chọn trạng thái 'DONE':
+    // 1. Dùng API kiểm tra (dry-run) xem nguyên liệu có đủ không.
+    // 2. Nếu THIẾU nguyên liệu, KHÔNG CẬP NHẬT TRẠNG THÁI NGAY. Hãy mở một Dialog Alert.
+    // 3. Dialog Alert sẽ cho người dùng 2 lựa chọn:
+    //    - Lựa chọn 1: "Chấp nhận hoàn thành & Xóa nguyên liệu về 0" (Tiếp tục gọi API trừ).
+    //    - Lựa chọn 2: "Từ chối hoàn thành & Thêm đồ còn thiếu vào Kế hoạch đi chợ".
     setLoadingId(id)
     try {
       const result = await updateMenuStatusAction(id, status)
       if (result.error) {
         toast.error(result.error)
       } else {
-        toast.success('Đã cập nhật trạng thái!')
+        if (status === 'DONE') {
+          if (result.deductWarning) {
+            // Vẫn thành công nhưng có nguyên liệu không đủ
+            toast.success('✅ Đã hoàn thành!')
+            toast.warning(`⚠️ ${result.deductWarning}`, { duration: 6000 })
+            if (result.deductedItems && result.deductedItems.length > 0) {
+              toast.info(`🛒 Đã trừ: ${result.deductedItems.join(', ')}`, { duration: 6000 })
+            }
+          } else {
+            if (result.deductedItems && result.deductedItems.length > 0) {
+              toast.success(`✅ Hoàn thành! Đã trừ: ${result.deductedItems.join(', ')}`, { duration: 5000 })
+            } else {
+              toast.success('✅ Hoàn thành! Món này không yêu cầu trừ nguyên liệu.')
+            }
+          }
+        } else {
+          toast.success('Đã cập nhật trạng thái!')
+        }
         onDataChange()
       }
     } catch {

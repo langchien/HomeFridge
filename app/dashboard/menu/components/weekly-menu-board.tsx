@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import type { MealTime, MenuStatus } from '@/generated/prisma/client'
 import type { Recipe } from '@/generated/prisma/client'
 import { cn } from '@/lib/utils'
-import { ChevronLeft, ChevronRight, Plus, Trash2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, Sparkles, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
@@ -72,6 +72,7 @@ interface WeeklyMenuBoardProps {
   recipes: Recipe[]
   onWeekChange: (newWeekStart: Date) => void
   onDataChange: () => void
+  onOpenAutoGen: () => void
 }
 
 // ─── Component ────────────────────────────────────────────────
@@ -82,6 +83,7 @@ export function WeeklyMenuBoard({
   recipes,
   onWeekChange,
   onDataChange,
+  onOpenAutoGen,
 }: WeeklyMenuBoardProps) {
   const [addDialogOpen, setAddDialogOpen] = useState(false)
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
@@ -180,6 +182,15 @@ export function WeeklyMenuBoard({
           </Button>
           <Button variant='outline' size='icon' onClick={goToNextWeek} title='Tuần sau'>
             <ChevronRight className='size-4' />
+          </Button>
+          <Button
+            variant='default'
+            className='ml-2 bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700'
+            size='sm'
+            onClick={onOpenAutoGen}
+          >
+            <Sparkles className='mr-2 size-4' />
+            Gợi ý thực đơn
           </Button>
         </div>
       </div>

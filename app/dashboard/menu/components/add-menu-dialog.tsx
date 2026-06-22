@@ -52,6 +52,8 @@ export const DAY_LABELS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
 // ─── Schema ───────────────────────────────────────────────────
 
 const formSchema = z.object({
+  date: z.string().min(1, 'Vui lòng chọn ngày'),
+  mealTime: z.enum(['BREAKFAST', 'LUNCH', 'DINNER']),
   recipeId: z.string().min(1, 'Vui lòng chọn món ăn'),
   note: z.string().optional(),
 })
@@ -64,10 +66,11 @@ interface AddMenuDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   /** Ngày được chọn dưới dạng ISO string (chỉ phần ngày) */
-  selectedDate: string | null
-  selectedMealTime: MealTime | null
+  selectedDate?: string | null
+  selectedMealTime?: MealTime | null
   recipes: Recipe[]
-  onSuccess: () => void
+  defaultRecipeId?: string
+  onSuccess?: () => void
 }
 
 // ─── Component ────────────────────────────────────────────────
@@ -78,6 +81,7 @@ export function AddMenuDialog({
   selectedDate,
   selectedMealTime,
   recipes,
+  defaultRecipeId,
   onSuccess,
 }: AddMenuDialogProps) {
   const [loading, setLoading] = useState(false)
@@ -85,21 +89,36 @@ export function AddMenuDialog({
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { recipeId: '', note: '' },
+    defaultValues: { 
+      date: selectedDate ? selectedDate.split('T')[0] : '', // format YYYY-MM-DD
+      mealTime: selectedMealTime || undefined,
+      recipeId: defaultRecipeId || '', 
+      note: '' 
+    },
   })
 
   // Reset form mỗi khi dialog mở
   useEffect(() => {
-    if (open) form.reset({ recipeId: '', note: '' })
-  }, [open, form])
+    if (open) form.reset({ 
+      date: selectedDate ? selectedDate.split('T')[0] : '',
+      mealTime: selectedMealTime || undefined,
+      recipeId: defaultRecipeId || '', 
+      note: '' 
+    })
+  }, [open, form, defaultRecipeId, selectedDate, selectedMealTime])
 
   const onSubmit = async (values: FormValues) => {
-    if (!selectedDate || !selectedMealTime) return
+    // TODO: Tương lai - Tích hợp "Kế hoạch đi chợ"
+    // 1. Dùng API kiểm tra số lượng nguyên liệu trong tủ lạnh trước khi addMenuPlanAction.
+    // 2. Nếu không đủ nguyên liệu (kể cả thiếu 1 phần), mở một Dialog Alert.
+    // 3. Dialog Alert thông báo món này đang thiếu nguyên liệu X, Y.
+    //    - Kèm theo một nút/gợi ý "Thêm các nguyên liệu còn thiếu vào Kế hoạch đi chợ".
+    // 4. Cho phép người dùng quyết định vẫn lên thực đơn hay hủy bỏ.
     setLoading(true)
     try {
       const result = await addMenuPlanAction({
-        date: selectedDate,
-        mealTime: selectedMealTime,
+        date: new Date(values.date).toISOString(),
+        mealTime: values.mealTime,
         recipeId: values.recipeId,
         note: values.note || undefined,
       })
@@ -108,8 +127,12 @@ export function AddMenuDialog({
         toast.error(result.error)
       } else {
         const recipeName = recipes.find((r) => r.id === values.recipeId)?.title || 'Món ăn'
-        toast.success(`Đã thêm "${recipeName}" vào thực đơn!`)
-        onSuccess()
+        if (defaultRecipeId) {
+          toast.success(`✨ Đã thêm "${recipeName}" từ gợi ý thông minh!`)
+        } else {
+          toast.success(`Đã thêm "${recipeName}" vào thực đơn!`)
+        }
+        onSuccess?.()
         onOpenChange(false)
       }
     } catch (error) {
@@ -120,34 +143,67 @@ export function AddMenuDialog({
     }
   }
 
-  // Định dạng ngày hiển thị
-  const formattedDate = selectedDate
-    ? new Date(selectedDate).toLocaleDateString('vi-VN', {
-        weekday: 'long',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        timeZone: 'UTC',
-      })
-    : ''
-
-  const mealLabel = selectedMealTime ? MEAL_TIME_LABELS[selectedMealTime] : ''
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-md'>
+      <DialogContent className='sm:max-w-2xl'>
         <DialogHeader>
           <DialogTitle className='flex items-center gap-2 text-lg font-bold'>
             <UtensilsCrossed className='size-5 text-teal-600' />
             Thêm món vào thực đơn
           </DialogTitle>
           <DialogDescription>
-            {formattedDate} — {mealLabel}
+            Điền thông tin để thêm món ăn vào thực đơn hàng tuần của bạn.
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 py-2'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+              {/* Ngày */}
+              <FormField
+                control={form.control}
+                name='date'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='font-semibold'>Ngày *</FormLabel>
+                    <FormControl>
+                      <input 
+                        type="date" 
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={loading}
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Bữa ăn */}
+              <FormField
+                control={form.control}
+                name='mealTime'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='font-semibold'>Bữa ăn *</FormLabel>
+                    <FormControl>
+                      <select 
+                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled={loading}
+                        {...field}
+                      >
+                        <option value="" disabled>Chọn bữa ăn...</option>
+                        <option value="BREAKFAST">{MEAL_TIME_LABELS['BREAKFAST']}</option>
+                        <option value="LUNCH">{MEAL_TIME_LABELS['LUNCH']}</option>
+                        <option value="DINNER">{MEAL_TIME_LABELS['DINNER']}</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             {/* Chọn món ăn */}
             <FormField
               control={form.control}

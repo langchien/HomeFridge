@@ -69,10 +69,16 @@ export function DashboardSidebar({
       roles: ['ADMIN'],
     },
     {
+      title: 'Tủ lạnh',
+      url: '/dashboard/fridge',
+      icon: IconFridge,
+      roles: ['HOMEMAKER', 'DEVICE'],
+    },
+    {
       title: 'Quản lý thực đơn',
       url: '/dashboard/menu',
       icon: IconChefHat,
-      roles: ['ADMIN', 'HOMEMAKER'],
+      roles: ['HOMEMAKER'],
     },
     {
       title: 'Thực đơn & Đề xuất',

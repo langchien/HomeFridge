@@ -67,14 +67,27 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // 4. Phân quyền truy cập cho khu vực Dashboard
+  // 3c. Phân quyền truy cập cho khu vực Menu (chỉ HOMEMAKER)
+  if (pathname.startsWith('/dashboard/menu')) {
+    if (decoded.role !== 'HOMEMAKER') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
+
+  // 3d. Phân quyền truy cập cho khu vực Fridge (chỉ HOMEMAKER và DEVICE)
+  if (pathname.startsWith('/dashboard/fridge')) {
+    const isAllowed = decoded.role === 'HOMEMAKER' || decoded.role === 'DEVICE'
+    if (!isAllowed) {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
+
+  // 4. Phân quyền chung cho khu vực Dashboard
+  // (HOMEMAKER và ADMIN truy cập các trang còn lại; các trang cụ thể đã xử lý riêng bên trên)
   if (pathname.startsWith('/dashboard')) {
     const isHomemakerOrAdmin = decoded.role === 'HOMEMAKER' || decoded.role === 'ADMIN'
-    const isDeviceOrMemberOnFridge =
-      (decoded.role === 'DEVICE' || decoded.role === 'MEMBER') &&
-      pathname.startsWith('/dashboard/fridge')
-    if (!isHomemakerOrAdmin && !isDeviceOrMemberOnFridge) {
-      // Không phải HOMEMAKER/ADMIN, và cũng không phải là DEVICE/MEMBER truy cập vào /dashboard/fridge
+    if (!isHomemakerOrAdmin) {
+      // DEVICE và MEMBER không có trong whitelist trên sẽ bị redirect
       return NextResponse.redirect(new URL('/', request.url))
     }
   }

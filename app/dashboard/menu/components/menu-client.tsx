@@ -1,0 +1,64 @@
+'use client'
+
+import { getWeekMenuAction, type MenuPlanWithRelations } from '@/app/actions/menu'
+import type { Recipe } from '@/generated/prisma/client'
+import { useCallback, useState } from 'react'
+import { MenuDetailTable } from './menu-detail-table'
+import { WeeklyMenuBoard } from './weekly-menu-board'
+
+interface MenuClientProps {
+  initialWeekStart: Date
+  initialPlans: MenuPlanWithRelations[]
+  recipes: Recipe[]
+}
+
+export function MenuClient({ initialWeekStart, initialPlans, recipes }: MenuClientProps) {
+  const [weekStart, setWeekStart] = useState<Date>(initialWeekStart)
+  const [menuPlans, setMenuPlans] = useState<MenuPlanWithRelations[]>(initialPlans)
+  const [loading, setLoading] = useState(false)
+
+  const fetchPlans = useCallback(async (ws: Date) => {
+    setLoading(true)
+    try {
+      const result = await getWeekMenuAction(ws)
+      if (result.data) setMenuPlans(result.data)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const handleWeekChange = (newWeekStart: Date) => {
+    setWeekStart(newWeekStart)
+    fetchPlans(newWeekStart)
+  }
+
+  // Khi trang refresh (router.refresh()), re-fetch tuần hiện tại
+  // WeeklyMenuBoard và MenuDetailTable gọi router.refresh() → Next.js Server Component re-render
+  // Client sẽ nhận initialPlans mới từ props, nhưng do đây là client component giữ state,
+  // chúng ta cũng cần re-fetch thủ công sau mỗi thao tác thêm/xóa.
+  // Giải pháp: truyền onSuccess callback từ các dialog lên đây thông qua fetchPlans.
+
+  return (
+    <div className={`flex flex-col gap-8 transition-opacity ${loading ? 'opacity-60' : ''}`}>
+      {/* Lịch tuần */}
+      <WeeklyMenuBoard
+        weekStart={weekStart}
+        menuPlans={menuPlans}
+        recipes={recipes}
+        onWeekChange={handleWeekChange}
+        onDataChange={() => fetchPlans(weekStart)}
+      />
+
+      {/* Bảng chi tiết */}
+      <div className='flex flex-col gap-3'>
+        <div>
+          <h2 className='text-xl font-semibold'>Danh sách chi tiết</h2>
+          <p className='text-sm text-muted-foreground'>
+            Tất cả {menuPlans.length} món trong tuần này
+          </p>
+        </div>
+        <MenuDetailTable menuPlans={menuPlans} onDataChange={() => fetchPlans(weekStart)} />
+      </div>
+    </div>
+  )
+}

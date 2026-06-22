@@ -43,6 +43,12 @@ enum MenuStatus {
   CANCELLED // Đã hủy
 }
 
+enum FridgeItemStatus {
+  FRESH // Tươi mới (>3 ngày)
+  EXPIRING_SOON // Sắp hết hạn (1-3 ngày)
+  EXPIRED // Đã hết hạn (<1 ngày)
+}
+
 // ─── Models ──────────────────────────────────────────────
 
 model User {
@@ -56,6 +62,8 @@ model User {
   email     String?  @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  menuPlans MenuPlan[]
 }
 
 model Category {
@@ -82,6 +90,7 @@ model Ingredient {
   updatedAt DateTime @updatedAt
 
   recipeIngredients RecipeIngredient[]
+  fridgeItems       FridgeItem[]
 }
 
 // ─── Công thức nấu ăn ────────────────────────────────────
@@ -100,6 +109,7 @@ model Recipe {
   updatedAt DateTime @updatedAt
 
   ingredients RecipeIngredient[]
+  menuPlans   MenuPlan[]
 }
 
 model RecipeIngredient {
@@ -109,4 +119,39 @@ model RecipeIngredient {
   ingredientId String
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
   quantity     Int
+}
+
+// ─── Thực đơn theo tuần ──────────────────────────────────
+
+model MenuPlan {
+  id       String     @id @default(uuid())
+  date     DateTime // Ngày của thực đơn (lưu theo UTC, chỉ dùng phần ngày)
+  mealTime MealTime // BREAKFAST | LUNCH | DINNER
+  status   MenuStatus @default(PLANNED)
+  note     String? // Ghi chú tùy chọn
+
+  recipeId String
+  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── Quản lý tủ lạnh ────────────────────────────────────
+
+model FridgeItem {
+  id              String           @id @default(uuid())
+  ingredientId    String
+  ingredient      Ingredient       @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  quantity        Float // Số lượng hiện tại
+  unit            String // Đơn vị (g, ml, piece, quả, bó, chai, etc.)
+  storageLocation StorageLocation // Vị trí lưu trữ trong tủ
+  expiryDate      DateTime // Ngày hết hạn
+  status          FridgeItemStatus // Trạng thái (FRESH, EXPIRING_SOON, EXPIRED)
+
+  addedAt   DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

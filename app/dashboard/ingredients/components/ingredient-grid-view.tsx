@@ -15,7 +15,7 @@ export function IngredientGridView({ items, onEdit }: IngredientGridViewProps) {
       <div className='flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed bg-card py-16 text-center'>
         <PackageOpen className='size-10 text-muted-foreground/50' />
         <div>
-          <p className='text-sm font-medium text-muted-foreground'>Không có nguyên liệu nào</p>
+          <p className='font-medium text-muted-foreground'>Không có nguyên liệu nào</p>
           <p className='mt-0.5 text-muted-foreground/70'>
             Thử thay đổi bộ lọc hoặc thêm nguyên liệu mới!
           </p>

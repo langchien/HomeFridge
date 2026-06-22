@@ -109,7 +109,6 @@ export const items = [
     unit: 'gói',
     storageInstructions: 'Bảo quản đông lạnh ở nhiệt độ dưới -18 độ C',
   },
-  // Bổ sung các nguyên liệu thông dụng mới theo yêu cầu của user
   {
     id: 'm3m3m3m3-3333-3333-3333-333333333334',
     name: 'Hành lá tươi',
@@ -185,5 +184,159 @@ export const items = [
     categoryId: 'f3740efe-ac8c-43d1-9cfe-e327f9d17351',
     unit: 'quả',
     storageInstructions: 'Bảo quản ngăn mát tủ lạnh để táo giữ được độ giòn ngọt lâu hơn',
+  },
+  // ─── Nguyên liệu bổ sung cho công thức đa dạng ───────────────
+  {
+    id: 'u1u1u1u1-1111-1111-1111-111111111172',
+    name: 'Bún tươi',
+    image:
+      'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=500&auto=format&fit=crop&q=80',
+    categoryId: '4de8b289-0e0c-4dcb-bd13-6dcde75f6d97',
+    unit: 'kg',
+    storageInstructions: 'Bảo quản ngăn mát, dùng trong ngày để đảm bảo độ tươi ngon',
+  },
+  {
+    id: 'v2v2v2v2-2222-2222-2222-222222222273',
+    name: 'Bánh phở tươi',
+    image:
+      'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=500&auto=format&fit=crop&q=80',
+    categoryId: '4de8b289-0e0c-4dcb-bd13-6dcde75f6d97',
+    unit: 'kg',
+    storageInstructions: 'Dùng ngay sau khi mua, bảo quản ngăn mát nếu chưa dùng ngay',
+  },
+  {
+    id: 'w3w3w3w3-3333-3333-3333-333333333374',
+    name: 'Sả tươi',
+    image:
+      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'cây',
+    storageInstructions: 'Bọc gốc bằng giấy ẩm, bảo quản ngăn mát tủ lạnh đến 2 tuần',
+  },
+  {
+    id: 'x4x4x4x4-4444-4444-4444-444444444475',
+    name: 'Gừng tươi',
+    image:
+      'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'g',
+    storageInstructions: 'Để nguyên vỏ, bảo quản ở nơi khô ráo hoặc ngăn mát tủ lạnh',
+  },
+  {
+    id: 'y5y5y5y5-5555-5555-5555-555555555576',
+    name: 'Ớt sừng tươi',
+    image:
+      'https://images.unsplash.com/photo-1585561124040-a64861a6bc9d?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'quả',
+    storageInstructions: 'Bảo quản ngăn mát tủ lạnh, tránh để nơi ẩm ướt',
+  },
+  {
+    id: 'z6z6z6z6-6666-6666-6666-666666666677',
+    name: 'Đậu phụ trắng mịn',
+    image:
+      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'bìa',
+    storageInstructions: 'Ngâm trong nước muối nhạt, bảo quản ngăn mát, dùng trong 2-3 ngày',
+  },
+  {
+    id: 'a7a7a7a7-7777-7777-7777-777777777778',
+    name: 'Nấm đông cô khô',
+    image:
+      'https://images.unsplash.com/photo-1508747703725-719777637510?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'g',
+    storageInstructions: 'Bảo quản nơi khô ráo, thoáng mát trong hộp kín hoặc túi zip',
+  },
+  {
+    id: 'b8b8b8b8-8888-8888-8888-888888888879',
+    name: 'Cà rốt tươi',
+    image:
+      'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'kg',
+    storageInstructions: 'Cắt bỏ lá, bọc túi nilon đục lỗ, bảo quản ngăn mát tủ lạnh',
+  },
+  {
+    id: 'c9c9c9c9-9999-9999-9999-999999999980',
+    name: 'Nước cốt dừa',
+    image:
+      'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=500&auto=format&fit=crop&q=80',
+    categoryId: '7427074d-e5a7-4d3a-bbc6-5227d80b3daa',
+    unit: 'hộp',
+    storageInstructions: 'Sau khi mở hộp, đậy kín và bảo quản ngăn mát, dùng trong 2-3 ngày',
+  },
+  {
+    id: 'd0d0d0d0-0000-0000-0000-000000000081',
+    name: 'Me chua khô',
+    image:
+      'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=500&auto=format&fit=crop&q=80',
+    categoryId: '7427074d-e5a7-4d3a-bbc6-5227d80b3daa',
+    unit: 'g',
+    storageInstructions: 'Bảo quản trong hũ kín ở nơi khô ráo, thoáng mát',
+  },
+  {
+    id: 'e1e1e1e1-1111-1111-1111-111111111182',
+    name: 'Rau húng quế tươi',
+    image:
+      'https://images.unsplash.com/photo-1455099929016-e4a8b8f3c9e3?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'bó',
+    storageInstructions: 'Cho vào lọ nước như hoa tươi hoặc bọc ẩm bảo quản ngăn mát',
+  },
+  {
+    id: 'f2f2f2f2-2222-2222-2222-222222222283',
+    name: 'Xương heo ống',
+    image:
+      'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
+    unit: 'kg',
+    storageInstructions: 'Rửa sạch, trụng qua nước sôi, bảo quản ngăn đông nếu không dùng ngay',
+  },
+  {
+    id: 'g3g3g3g3-3333-3333-3333-333333333384',
+    name: 'Thịt gà nguyên con',
+    image:
+      'https://images.unsplash.com/photo-1612170153139-6f881ff067e0?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
+    unit: 'con',
+    storageInstructions: 'Bảo quản ngăn mát nếu dùng trong ngày, ngăn đông nếu để lâu hơn',
+  },
+  {
+    id: 'h4h4h4h4-4444-4444-4444-444444444485',
+    name: 'Bí đỏ tươi',
+    image:
+      'https://images.unsplash.com/photo-1570586437263-ab629fccc818?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
+    unit: 'kg',
+    storageInstructions: 'Để nơi thoáng mát, khô ráo; sau khi cắt bọc màng bọc bảo quản ngăn mát',
+  },
+  {
+    id: 'i5i5i5i5-5555-5555-5555-555555555586',
+    name: 'Cua đồng tươi sống',
+    image:
+      'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
+    unit: 'kg',
+    storageInstructions: 'Dùng ngay sau khi mua, bảo quản sống trong chậu nước lạnh',
+  },
+  {
+    id: 'j6j6j6j6-6666-6666-6666-666666666687',
+    name: 'Cá lóc tươi',
+    image:
+      'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
+    categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
+    unit: 'con',
+    storageInstructions: 'Làm sạch, bảo quản ngăn mát trong ngày hoặc ngăn đông',
+  },
+  {
+    id: 'k7k7k7k7-7777-7777-7777-777777777788',
+    name: 'Miến dong',
+    image:
+      'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=500&auto=format&fit=crop&q=80',
+    categoryId: '4de8b289-0e0c-4dcb-bd13-6dcde75f6d97',
+    unit: 'g',
+    storageInstructions: 'Bảo quản nơi khô ráo, thoáng mát trong túi kín',
   },
 ]

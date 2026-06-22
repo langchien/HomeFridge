@@ -209,18 +209,18 @@ export function ImageUpload({
             {isUploading ? (
               <>
                 <Loader2 className='size-8 animate-spin text-primary' />
-                <p className='text-sm font-medium text-muted-foreground'>Đang tải ảnh lên...</p>
+                <p className='font-medium text-muted-foreground'>Đang tải ảnh lên...</p>
               </>
             ) : (
               <>
                 <div className='mb-1 rounded-full bg-primary/10 p-3 text-primary'>
                   <Upload className='size-5' />
                 </div>
-                <p className='text-sm font-semibold'>
+                <p className='font-semibold'>
                   Click để chọn ảnh{' '}
                   <span className='font-normal text-muted-foreground'>hoặc kéo thả vào đây</span>
                 </p>
-                <p className='text-xs text-muted-foreground'>Hỗ trợ PNG, JPG, WEBP (tối đa 5MB)</p>
+                <p className='text-muted-foreground'>Hỗ trợ PNG, JPG, WEBP (tối đa 5MB)</p>
               </>
             )}
           </div>

@@ -43,12 +43,6 @@ enum MenuStatus {
   CANCELLED // Đã hủy
 }
 
-enum MenuRequestStatus {
-  PENDING // Chờ duyệt
-  APPROVED // Đã duyệt
-  REJECTED // Từ chối
-}
-
 // ─── Models ──────────────────────────────────────────────
 
 model User {
@@ -99,6 +93,7 @@ model Recipe {
   description  String?
   prepTime     Int? // Thời gian chuẩn bị (phút)
   cookTime     Int? // Thời gian nấu (phút)
+  servings     Int? // Số khẩu phần (người)
   instructions String[] // ["Bước 1: Ngâm ốc...", "Bước 2: Luộc ốc...", "Bước 3: Xào bơ..."]
 
   createdAt DateTime @default(now())

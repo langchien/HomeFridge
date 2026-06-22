@@ -32,7 +32,7 @@ export function IngredientTableViewOptions<TData>({ table }: { table: Table<TDat
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-[160px]'>
-        <DropdownMenuLabel className='text-xs'>Ẩn/Hiện cột</DropdownMenuLabel>
+        <DropdownMenuLabel className=''>Ẩn/Hiện cột</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
@@ -41,7 +41,7 @@ export function IngredientTableViewOptions<TData>({ table }: { table: Table<TDat
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className='text-xs'
+                className=''
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >

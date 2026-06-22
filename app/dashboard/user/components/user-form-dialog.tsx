@@ -198,7 +198,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                 name='username'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs font-semibold'>Tên đăng nhập *</FormLabel>
+                    <FormLabel className='font-semibold'>Tên đăng nhập *</FormLabel>
                     <FormControl>
                       <Input
                         placeholder='ví dụ: nguyenvanadmin'
@@ -207,7 +207,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         className='h-9'
                       />
                     </FormControl>
-                    <FormMessage className='text-xs' />
+                    <FormMessage className='' />
                   </FormItem>
                 )}
               />
@@ -218,7 +218,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                 name='role'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs font-semibold'>Vai trò *</FormLabel>
+                    <FormLabel className='font-semibold'>Vai trò *</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -237,7 +237,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         <SelectItem value='HOMEMAKER'>Nội trợ</SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage className='text-xs' />
+                    <FormMessage className='' />
                   </FormItem>
                 )}
               />
@@ -249,7 +249,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Họ và tên *</FormLabel>
+                  <FormLabel className='font-semibold'>Họ và tên *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='ví dụ: Nguyễn Văn A'
@@ -258,7 +258,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -269,7 +269,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>
+                  <FormLabel className='font-semibold'>
                     {isEdit ? 'Mật khẩu mới (bỏ trống nếu giữ nguyên)' : 'Mật khẩu *'}
                   </FormLabel>
                   <FormControl>
@@ -281,7 +281,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -293,7 +293,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs font-semibold'>Email</FormLabel>
+                    <FormLabel className='font-semibold'>Email</FormLabel>
                     <FormControl>
                       <Input
                         type='email'
@@ -303,7 +303,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         className='h-9'
                       />
                     </FormControl>
-                    <FormMessage className='text-xs' />
+                    <FormMessage className='' />
                   </FormItem>
                 )}
               />
@@ -314,7 +314,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                 name='phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='text-xs font-semibold'>Số điện thoại</FormLabel>
+                    <FormLabel className='font-semibold'>Số điện thoại</FormLabel>
                     <FormControl>
                       <Input
                         placeholder='ví dụ: 0987654321'
@@ -323,7 +323,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                         className='h-9'
                       />
                     </FormControl>
-                    <FormMessage className='text-xs' />
+                    <FormMessage className='' />
                   </FormItem>
                 )}
               />
@@ -335,7 +335,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
               name='avatar'
               render={({ field }) => (
                 <FormItem className='space-y-2'>
-                  <FormLabel className='text-xs font-semibold'>Ảnh đại diện</FormLabel>
+                  <FormLabel className='font-semibold'>Ảnh đại diện</FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
@@ -344,7 +344,7 @@ export function UserFormDialog({ open, onOpenChange, user, onSuccess }: UserForm
                       folder='avatars'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />

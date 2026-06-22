@@ -61,11 +61,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
               <SidebarTrigger className='h-9 w-9 rounded-lg border bg-background shadow-sm transition-all hover:bg-muted' />
               <div className='mx-2 h-4 w-px bg-muted' />
               <div className='flex items-center gap-2.5'>
-                <span className='text-sm font-bold tracking-tight text-foreground sm:text-base'>
+                <span className='font-bold tracking-tight text-foreground sm:text-base'>
                   HomieFridge
                 </span>
                 <span
-                  className={`rounded-full border px-2 py-0.5 text-[10px] font-semibold tracking-wider uppercase shadow-sm ${badgeConfig.classes}`}
+                  className={`rounded-full border px-2 py-0.5 text-xs font-semibold tracking-wider uppercase shadow-sm ${badgeConfig.classes}`}
                 >
                   {badgeConfig.label}
                 </span>

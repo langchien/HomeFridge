@@ -60,6 +60,13 @@ export function middleware(request: NextRequest) {
     }
   }
 
+  // 3b. Phân quyền truy cập cho khu vực Recipes (chỉ Admin)
+  if (pathname.startsWith('/dashboard/recipes')) {
+    if (decoded.role !== 'ADMIN') {
+      return NextResponse.redirect(new URL('/dashboard', request.url))
+    }
+  }
+
   // 4. Phân quyền truy cập cho khu vực Dashboard
   if (pathname.startsWith('/dashboard')) {
     const isHomemakerOrAdmin = decoded.role === 'HOMEMAKER' || decoded.role === 'ADMIN'

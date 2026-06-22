@@ -52,7 +52,7 @@ export const columns: ColumnDef<User>[] = [
             </AvatarFallback>
           </Avatar>
           <div className='flex flex-col'>
-            <span className='text-sm leading-tight font-medium text-foreground'>{name}</span>
+            <span className='leading-tight font-medium text-foreground'>{name}</span>
             <span className='mt-0.5 text-muted-foreground'>@{username}</span>
           </div>
         </div>
@@ -66,9 +66,9 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const email = row.getValue('email') as string
       if (!email) {
-        return <span className='text-xs text-muted-foreground/50 italic'>Chưa cấu hình</span>
+        return <span className='text-muted-foreground/50 italic'>Chưa cấu hình</span>
       }
-      return <span className='text-sm text-foreground'>{email}</span>
+      return <span className='text-foreground'>{email}</span>
     },
   },
   {
@@ -77,7 +77,7 @@ export const columns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const phone = row.getValue('phone') as string
       if (!phone) {
-        return <span className='text-xs text-muted-foreground/50 italic'>Chưa cấu hình</span>
+        return <span className='text-muted-foreground/50 italic'>Chưa cấu hình</span>
       }
       return <span className='font-mono text-foreground'>{phone}</span>
     },
@@ -103,7 +103,7 @@ export const columns: ColumnDef<User>[] = [
                   ? 'secondary'
                   : 'outline'
             }
-            className={`text-xs font-normal ${
+            className={`font-normal ${
               roleValue === 'HOMEMAKER'
                 ? 'border-teal-500/20 bg-teal-500/10 text-teal-600 dark:border-teal-500/30 dark:bg-teal-500/20 dark:text-teal-400'
                 : ''

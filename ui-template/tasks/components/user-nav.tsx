@@ -25,8 +25,8 @@ export function UserNav() {
       <DropdownMenuContent className='w-56' align='end' forceMount>
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
-            <p className='text-sm leading-none font-medium'>shadcn</p>
-            <p className='text-xs leading-none text-muted-foreground'>m@example.com</p>
+            <p className='leading-none font-medium'>shadcn</p>
+            <p className='leading-none text-muted-foreground'>m@example.com</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

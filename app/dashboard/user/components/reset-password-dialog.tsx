@@ -116,7 +116,7 @@ export function ResetPasswordDialog({
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Mật khẩu mới *</FormLabel>
+                  <FormLabel className='font-semibold'>Mật khẩu mới *</FormLabel>
                   <FormControl>
                     <Input
                       type='password'
@@ -126,7 +126,7 @@ export function ResetPasswordDialog({
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -137,7 +137,7 @@ export function ResetPasswordDialog({
               name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Xác nhận mật khẩu mới *</FormLabel>
+                  <FormLabel className='font-semibold'>Xác nhận mật khẩu mới *</FormLabel>
                   <FormControl>
                     <Input
                       type='password'
@@ -147,7 +147,7 @@ export function ResetPasswordDialog({
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />

@@ -82,7 +82,7 @@ export function LoginForm() {
         </div>
         <div className='space-y-1'>
           <CardTitle className='text-3xl font-extrabold tracking-tight text-foreground'>
-            Homie<span className='text-green-600 dark:text-green-500'>Fridge</span>
+            Home<span className='text-green-600 dark:text-green-500'>Fridge</span>
           </CardTitle>
           <CardDescription className='font-medium text-muted-foreground'>
             Hệ thống quản lý phòng & tủ lạnh nội bộ
@@ -139,9 +139,7 @@ export function LoginForm() {
       </CardContent>
 
       <CardFooter className='flex justify-center border-t pt-4 text-muted-foreground'>
-        <p className='text-center text-[10px]'>
-          HomieFridge v0.0.1 • Chỉ lưu hành nội bộ trong phòng
-        </p>
+        <p className='text-center text-xs'>HomieFridge v0.0.1 • Chỉ lưu hành nội bộ trong phòng</p>
       </CardFooter>
     </Card>
   )

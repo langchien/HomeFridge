@@ -91,7 +91,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
             <FolderPlus className='size-5 text-blue-600' />
             <span>Thêm danh mục mới</span>
           </DialogTitle>
-          <DialogDescription className='text-xs text-muted-foreground'>
+          <DialogDescription className='text-muted-foreground'>
             Thêm một danh mục thực phẩm mới để dễ dàng phân loại nguyên liệu.
           </DialogDescription>
         </DialogHeader>
@@ -104,7 +104,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Tên danh mục *</FormLabel>
+                  <FormLabel className='font-semibold'>Tên danh mục *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='ví dụ: Thảo mộc, Đồ đóng hộp, Bánh ngọt...'
@@ -113,7 +113,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -124,7 +124,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
               name='icon'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Biểu tượng (Emoji) *</FormLabel>
+                  <FormLabel className='font-semibold'>Biểu tượng (Emoji) *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='ví dụ: 🌿, 🥫, 🧁...'
@@ -133,7 +133,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -144,7 +144,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
               name='description'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Mô tả danh mục</FormLabel>
+                  <FormLabel className='font-semibold'>Mô tả danh mục</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='ví dụ: Các loại thảo mộc khô và tươi dùng nêm nếm...'
@@ -153,7 +153,7 @@ export function CategoryFormDialog({ open, onOpenChange, onSuccess }: CategoryFo
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />

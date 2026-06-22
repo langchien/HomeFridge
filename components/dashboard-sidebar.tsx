@@ -1,6 +1,7 @@
 'use client'
 
 import {
+  IconBook2,
   IconChefHat,
   IconDashboard,
   IconFridge,
@@ -62,6 +63,12 @@ export function DashboardSidebar({
       roles: ['ADMIN'],
     },
     {
+      title: 'Quản lý công thức',
+      url: '/dashboard/recipes',
+      icon: IconBook2,
+      roles: ['ADMIN'],
+    },
+    {
       title: 'Quản lý thực đơn',
       url: '/dashboard/menu',
       icon: IconChefHat,
@@ -90,7 +97,7 @@ export function DashboardSidebar({
                 </div>
                 <div className='flex flex-col gap-0.5 leading-none'>
                   <span className='text-lg font-bold'>HomieFridge</span>
-                  <span className='text-xs text-muted-foreground'>
+                  <span className='text-muted-foreground'>
                     {userName || 'Người dùng'} (
                     {userRole === 'ADMIN'
                       ? 'Quản trị'
@@ -139,10 +146,10 @@ export function DashboardSidebar({
           </Avatar>
           {state !== 'collapsed' && (
             <div className='flex min-w-0 flex-1 flex-col text-left leading-tight'>
-              <span className='truncate text-sm font-semibold text-foreground'>
+              <span className='truncate font-semibold text-foreground'>
                 {userName || 'Người dùng'}
               </span>
-              <span className='truncate text-[11px] text-muted-foreground'>
+              <span className='truncate text-sm text-muted-foreground'>
                 @{userUsername || 'user'}
               </span>
             </div>

@@ -47,7 +47,7 @@ export function IngredientGridCard({ item, onEdit }: IngredientGridCardProps) {
         <div className='flex items-center justify-between gap-1'>
           <Badge
             variant='outline'
-            className='flex h-5 items-center gap-0.5 px-1.5 py-0 text-[10px] font-normal'
+            className='flex h-5 items-center gap-0.5 px-1.5 py-0 text-xs font-normal'
           >
             {item.category?.icon && <span className='shrink-0'>{item.category.icon}</span>}
             <span className='truncate'>{item.category?.name}</span>
@@ -58,7 +58,7 @@ export function IngredientGridCard({ item, onEdit }: IngredientGridCardProps) {
         <Button
           size='sm'
           variant='outline'
-          className='mt-auto h-7 w-full gap-1.5 text-[11px] font-medium transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400'
+          className='mt-auto h-7 w-full gap-1.5 text-sm font-medium transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400'
           onClick={() => onEdit(item)}
         >
           <Edit className='size-3' />

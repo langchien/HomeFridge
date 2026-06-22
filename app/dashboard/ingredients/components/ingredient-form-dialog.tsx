@@ -202,7 +202,7 @@ export function IngredientFormDialog({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Tên nguyên liệu *</FormLabel>
+                  <FormLabel className='font-semibold'>Tên nguyên liệu *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='ví dụ: Thịt bò, Bắp cải, Sữa chua...'
@@ -211,7 +211,7 @@ export function IngredientFormDialog({
                       className='h-9'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -222,7 +222,7 @@ export function IngredientFormDialog({
               name='categoryId'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Danh mục *</FormLabel>
+                  <FormLabel className='font-semibold'>Danh mục *</FormLabel>
                   <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
                     <FormControl>
                       <SelectTrigger className='h-9'>
@@ -238,7 +238,7 @@ export function IngredientFormDialog({
                       ))}
                     </SelectContent>
                   </Select>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -249,9 +249,7 @@ export function IngredientFormDialog({
               name='unit'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>
-                    Đơn vị đo lường mặc định *
-                  </FormLabel>
+                  <FormLabel className='font-semibold'>Đơn vị đo lường mặc định *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder='ví dụ: g, kg, ml, quả, bó...'
@@ -266,13 +264,13 @@ export function IngredientFormDialog({
                         key={u}
                         type='button'
                         onClick={() => form.setValue('unit', u)}
-                        className='cursor-pointer rounded border border-muted bg-secondary/50 px-2 py-0.5 text-[10px] font-medium text-secondary-foreground transition-colors hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700'
+                        className='cursor-pointer rounded border border-muted bg-secondary/50 px-2 py-0.5 text-xs font-medium text-secondary-foreground transition-colors hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700'
                       >
                         {u}
                       </button>
                     ))}
                   </div>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -283,7 +281,7 @@ export function IngredientFormDialog({
               name='storageInstructions'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className='text-xs font-semibold'>Cách thức bảo quản</FormLabel>
+                  <FormLabel className='font-semibold'>Cách thức bảo quản</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder='ví dụ: Bọc giấy báo cất ngăn mát tủ lạnh, Bảo quản đông lạnh ở nhiệt độ -18 độ C...'
@@ -292,7 +290,7 @@ export function IngredientFormDialog({
                       className='min-h-[80px] resize-none'
                     />
                   </FormControl>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />
@@ -303,7 +301,7 @@ export function IngredientFormDialog({
               name='image'
               render={({ field }) => (
                 <FormItem className='space-y-1.5'>
-                  <FormLabel className='text-xs font-semibold'>Hình ảnh nguyên liệu</FormLabel>
+                  <FormLabel className='font-semibold'>Hình ảnh nguyên liệu</FormLabel>
                   <FormControl>
                     <ImageUpload
                       value={field.value}
@@ -312,10 +310,10 @@ export function IngredientFormDialog({
                       folder='ingredients'
                     />
                   </FormControl>
-                  <FormDescription className='text-[10px] text-muted-foreground'>
+                  <FormDescription className='text-xs text-muted-foreground'>
                     Nếu không tải ảnh lên, hệ thống sẽ tự động gán ảnh minh họa phù hợp từ Unsplash.
                   </FormDescription>
-                  <FormMessage className='text-xs' />
+                  <FormMessage className='' />
                 </FormItem>
               )}
             />

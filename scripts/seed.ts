@@ -4,11 +4,13 @@ import { Role } from '../generated/prisma/client'
 import { prisma } from '../lib/prisma'
 import { categories } from './data/categories'
 import { items } from './data/items'
+import { recipes } from './data/recipes'
 import { users } from './data/users'
 
 async function main() {
   console.log('🔄 1. Bắt đầu dọn dẹp dữ liệu cũ trong Database...')
   await prisma.recipeIngredient.deleteMany() // Xóa liên kết trước để tránh lỗi FK
+  await prisma.recipe.deleteMany()
   await prisma.ingredient.deleteMany()
   await prisma.category.deleteMany()
   await prisma.user.deleteMany()
@@ -68,6 +70,34 @@ async function main() {
     ingredientImportCount++
   }
   console.log(`🎉 Đã nạp thành công ${ingredientImportCount} nguyên liệu mẫu.`)
+
+  console.log('\n🔄 5. Đang nạp 20 công thức nấu ăn mẫu...')
+  let recipeImportCount = 0
+  for (const recipe of recipes) {
+    const { ingredients, ...recipeData } = recipe
+
+    await prisma.recipe.create({
+      data: {
+        id: recipeData.id,
+        title: recipeData.title,
+        thumbnail: recipeData.thumbnail,
+        description: recipeData.description,
+        prepTime: recipeData.prepTime,
+        cookTime: recipeData.cookTime,
+        servings: recipeData.servings,
+        instructions: recipeData.instructions,
+        ingredients: {
+          create: ingredients.map((ing) => ({
+            ingredientId: ing.ingredientId,
+            quantity: ing.quantity,
+          })),
+        },
+      },
+    })
+    console.log(`🍳 Đã nạp công thức: ${recipeData.title}`)
+    recipeImportCount++
+  }
+  console.log(`🎉 Đã nạp thành công ${recipeImportCount} công thức nấu ăn mẫu.`)
 
   console.log('\n======================================================')
   console.log('🎉 QUÁ TRÌNH SEED VÀ IMPORT DỮ LIỆU HOÀN TẤT THÀNH CÔNG!')

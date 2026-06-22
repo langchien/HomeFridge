@@ -1,31 +1,36 @@
 export const items = [
   {
     name: 'Cá hồi tươi phi lê',
-    image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
     location: 'CHILLER',
     quantity: 1,
     unit: 'khay 200gr',
     addedDate: '2026-06-22T08:00:00.000Z',
     expiryDate: '2026-06-25T23:59:59.000Z',
-    storageInstructions: 'Bảo quản ở ngăn đông mềm (chiller) để giữ độ tươi, dùng trong 2-3 ngày. Bọc kín để tránh ám mùi tủ lạnh.',
+    storageInstructions:
+      'Bảo quản ở ngăn đông mềm (chiller) để giữ độ tươi, dùng trong 2-3 ngày. Bọc kín để tránh ám mùi tủ lạnh.',
     notes: 'Dùng để áp chảo hoặc nấu canh chua',
   },
   {
     name: 'Rau muống Vietgap',
-    image: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
     location: 'VEGETABLE_DRAWER',
     quantity: 2,
     unit: 'túi 400gr',
     addedDate: '2026-06-21T15:30:00.000Z',
     expiryDate: '2026-06-25T23:59:59.000Z',
-    storageInstructions: 'Không rửa nước trước khi cất tủ lạnh, lót giấy báo hoặc khăn giấy để hút ẩm giúp rau tươi lâu hơn.',
+    storageInstructions:
+      'Không rửa nước trước khi cất tủ lạnh, lót giấy báo hoặc khăn giấy để hút ẩm giúp rau tươi lâu hơn.',
     notes: 'Rau ăn lẩu',
   },
   {
     name: 'Trứng gà tươi HG size 55gr',
-    image: 'https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500&auto=format&fit=crop&q=80',
     categoryId: 'ef5a89f5-72d3-44cd-be97-2f2dbecb181f',
     location: 'DOOR_SHELF',
     quantity: 1,
@@ -37,7 +42,8 @@ export const items = [
   },
   {
     name: 'Lốc 4 hộp sữa tươi tiệt trùng TH True milk ít đường',
-    image: 'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&auto=format&fit=crop&q=80',
     categoryId: 'a9f52438-5e90-43e1-a5e3-1618d04961f9',
     location: 'FRIDGE_SHELF',
     quantity: 4,
@@ -49,7 +55,8 @@ export const items = [
   },
   {
     name: 'Tôm thẻ nõn Miền Hạ Long hấp sơ',
-    image: 'https://images.unsplash.com/photo-1559742811-82428ed4658e?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1559742811-82428ed4658e?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
     location: 'FREEZER',
     quantity: 1,
@@ -61,31 +68,36 @@ export const items = [
   },
   {
     name: 'Cà chua quả Vietgap',
-    image: 'https://images.unsplash.com/photo-1595855759920-86582396756a?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1595855759920-86582396756a?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
     location: 'VEGETABLE_DRAWER',
     quantity: 1,
     unit: 'túi 300gr',
     addedDate: '2026-06-22T08:30:00.000Z',
     expiryDate: '2026-06-30T23:59:59.000Z',
-    storageInstructions: 'Tránh để chung với các loại quả sinh khí ethylene nhiều để rau củ khác không bị chín ép.',
+    storageInstructions:
+      'Tránh để chung với các loại quả sinh khí ethylene nhiều để rau củ khác không bị chín ép.',
     notes: null,
   },
   {
     name: 'Nước mắm ĐẦU BẾP TÔM nấu chấm đều ngon',
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&auto=format&fit=crop&q=80',
     categoryId: '7427074d-e5a7-4d3a-bbc6-5227d80b3daa',
     location: 'PANTRY',
     quantity: 1,
     unit: 'chai 800ml',
     addedDate: '2026-05-10T14:00:00.000Z',
     expiryDate: '2027-05-10T23:59:59.000Z',
-    storageInstructions: 'Để nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Đậy nắp kín sau khi sử dụng.',
+    storageInstructions:
+      'Để nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp. Đậy nắp kín sau khi sử dụng.',
     notes: 'Đang dùng dở',
   },
   {
     name: 'Nước ngọt Pepsi cola',
-    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500&auto=format&fit=crop&q=80',
     categoryId: '27ea68ba-36c4-4601-abfe-74010b243e6a',
     location: 'DOOR_SHELF',
     quantity: 6,
@@ -97,31 +109,36 @@ export const items = [
   },
   {
     name: 'Gạo ST25 Sóc Trăng (Ông Cua)',
-    image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&auto=format&fit=crop&q=80',
     categoryId: '4de8b289-0e0c-4dcb-bd13-6dcde75f6d97',
     location: 'PANTRY',
     quantity: 1,
     unit: 'túi 5kg',
     addedDate: '2026-06-01T09:00:00.000Z',
     expiryDate: '2026-12-01T23:59:59.000Z',
-    storageInstructions: 'Đổ vào thùng kín nắp, để kê cao cách mặt đất và tránh nơi ẩm thấp để không bị mối mọt.',
+    storageInstructions:
+      'Đổ vào thùng kín nắp, để kê cao cách mặt đất và tránh nơi ẩm thấp để không bị mối mọt.',
     notes: 'Gạo rất dẻo và thơm',
   },
   {
     name: 'Bơ 034 thơm ngon',
-    image: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=500&auto=format&fit=crop&q=80',
     categoryId: 'f3740efe-ac8c-43d1-9cfe-e327f9d17351',
     location: 'PANTRY',
     quantity: 1,
     unit: 'khay 1kg',
     addedDate: '2026-06-22T08:00:00.000Z',
     expiryDate: '2026-06-26T23:59:59.000Z',
-    storageInstructions: 'Bảo quản ở nhiệt độ phòng đến khi bơ chín mềm tay. Chỉ cho vào ngăn mát tủ lạnh (FRIDGE_SHELF) khi bơ đã chín để làm chậm quá trình hỏng.',
+    storageInstructions:
+      'Bảo quản ở nhiệt độ phòng đến khi bơ chín mềm tay. Chỉ cho vào ngăn mát tủ lạnh (FRIDGE_SHELF) khi bơ đã chín để làm chậm quá trình hỏng.',
     notes: 'Đang chờ bơ chín',
   },
   {
     name: 'Thịt ba chỉ heo sạch',
-    image: 'https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1602470520998-f4a52199a3d6?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
     location: 'CHILLER',
     quantity: 1,
@@ -133,7 +150,8 @@ export const items = [
   },
   {
     name: 'Thịt bò Mỹ ba chỉ cuộn',
-    image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd1cd810c-2de5-449a-aa75-b907829501e4',
     location: 'FREEZER',
     quantity: 1,
@@ -145,7 +163,8 @@ export const items = [
   },
   {
     name: 'Cá viên basa đông lạnh',
-    image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=500&auto=format&fit=crop&q=80',
     categoryId: '6763c707-011a-4ee9-b9f0-bb69a1beae88',
     location: 'FREEZER',
     quantity: 2,
@@ -157,7 +176,8 @@ export const items = [
   },
   {
     name: 'Trứng vịt lộn',
-    image: 'https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1516448620398-c5f44bf9f441?w=500&auto=format&fit=crop&q=80',
     categoryId: 'ef5a89f5-72d3-44cd-be97-2f2dbecb181f',
     location: 'FRIDGE_SHELF',
     quantity: 5,
@@ -169,7 +189,8 @@ export const items = [
   },
   {
     name: 'Phô mai lát Cheddar',
-    image: 'https://images.unsplash.com/photo-1618164435735-413d3b066c9a?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1618164435735-413d3b066c9a?w=500&auto=format&fit=crop&q=80',
     categoryId: 'a9f52438-5e90-43e1-a5e3-1618d04961f9',
     location: 'FRIDGE_SHELF',
     quantity: 1,
@@ -181,7 +202,8 @@ export const items = [
   },
   {
     name: 'Bơ lạt Anchor',
-    image: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=500&auto=format&fit=crop&q=80',
     categoryId: 'a9f52438-5e90-43e1-a5e3-1618d04961f9',
     location: 'FRIDGE_SHELF',
     quantity: 1,
@@ -193,7 +215,8 @@ export const items = [
   },
   {
     name: 'Sữa chua Vinamilk có đường',
-    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&auto=format&fit=crop&q=80',
     categoryId: 'a9f52438-5e90-43e1-a5e3-1618d04961f9',
     location: 'FRIDGE_SHELF',
     quantity: 4,
@@ -205,7 +228,8 @@ export const items = [
   },
   {
     name: 'Bia Heineken lon',
-    image: 'https://images.unsplash.com/photo-1600788886242-5c96aabe3757?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1600788886242-5c96aabe3757?w=500&auto=format&fit=crop&q=80',
     categoryId: '27ea68ba-36c4-4601-abfe-74010b243e6a',
     location: 'DOOR_SHELF',
     quantity: 12,
@@ -217,7 +241,8 @@ export const items = [
   },
   {
     name: 'Nước khoáng La Vie',
-    image: 'https://images.unsplash.com/photo-1608885898957-a599fb1b1494?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://res.cloudinary.com/dy8lediqy/image/upload/v1782121777/fridge-items/ubzzp1z6knrsnaxuyium.jpg',
     categoryId: '27ea68ba-36c4-4601-abfe-74010b243e6a',
     location: 'DOOR_SHELF',
     quantity: 6,
@@ -229,7 +254,8 @@ export const items = [
   },
   {
     name: 'Hạt nêm Knorr hương thịt thăn',
-    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80',
     categoryId: '7427074d-e5a7-4d3a-bbc6-5227d80b3daa',
     location: 'PANTRY',
     quantity: 1,
@@ -241,7 +267,8 @@ export const items = [
   },
   {
     name: 'Tương ớt Chinsu',
-    image: 'https://images.unsplash.com/photo-1619531006579-22a014979e27?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://res.cloudinary.com/dy8lediqy/image/upload/v1782121821/fridge-items/jmhl7gllf8ozzeqiq7zz.png',
     categoryId: '7427074d-e5a7-4d3a-bbc6-5227d80b3daa',
     location: 'DOOR_SHELF',
     quantity: 1,
@@ -253,7 +280,8 @@ export const items = [
   },
   {
     name: 'Bột mì đa dụng số 11',
-    image: 'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=500&auto=format&fit=crop&q=80',
     categoryId: '4de8b289-0e0c-4dcb-bd13-6dcde75f6d97',
     location: 'PANTRY',
     quantity: 1,
@@ -265,7 +293,8 @@ export const items = [
   },
   {
     name: 'Táo Envy Mỹ size lớn',
-    image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500&auto=format&fit=crop&q=80',
     categoryId: 'f3740efe-ac8c-43d1-9cfe-e327f9d17351',
     location: 'VEGETABLE_DRAWER',
     quantity: 5,
@@ -277,7 +306,8 @@ export const items = [
   },
   {
     name: 'Chuối ngự chín tự nhiên',
-    image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&auto=format&fit=crop&q=80',
     categoryId: 'f3740efe-ac8c-43d1-9cfe-e327f9d17351',
     location: 'PANTRY',
     quantity: 1,
@@ -289,7 +319,8 @@ export const items = [
   },
   {
     name: 'Bắp cải thảo Vietgap Đà Lạt',
-    image: 'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1551248429-40975aa4de74?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
     location: 'VEGETABLE_DRAWER',
     quantity: 1,
@@ -301,7 +332,8 @@ export const items = [
   },
   {
     name: 'Súp lơ xanh Đà Lạt',
-    image: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
     location: 'VEGETABLE_DRAWER',
     quantity: 1,
@@ -313,19 +345,22 @@ export const items = [
   },
   {
     name: 'Khoai tây Đà Lạt size vừa',
-    image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500&auto=format&fit=crop&q=80',
     categoryId: 'd625bc45-f3ef-48cf-92f6-0e423855679d',
     location: 'PANTRY',
     quantity: 1,
     unit: 'túi 1kg',
     addedDate: '2026-06-20T08:00:00.000Z',
     expiryDate: '2026-07-20T23:59:59.000Z',
-    storageInstructions: 'Bảo quản nơi tối và khô ráo, tránh ánh sáng trực tiếp để khoai không lên mầm.',
+    storageInstructions:
+      'Bảo quản nơi tối và khô ráo, tránh ánh sáng trực tiếp để khoai không lên mầm.',
     notes: null,
   },
   {
     name: 'Pizza cấp đông xúc xích phô mai',
-    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=80',
     categoryId: '6763c707-011a-4ee9-b9f0-bb69a1beae88',
     location: 'FREEZER',
     quantity: 1,
@@ -337,7 +372,8 @@ export const items = [
   },
   {
     name: 'Tỏi Lý Sơn khô thơm ngon',
-    image: 'https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?w=500&auto=format&fit=crop&q=80',
     categoryId: '6f62f783-051b-475f-852d-333755765436',
     location: 'PANTRY',
     quantity: 1,
@@ -349,7 +385,8 @@ export const items = [
   },
   {
     name: 'Mì tôm Hảo Hảo chua cay',
-    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&auto=format&fit=crop&q=80',
+    image:
+      'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500&auto=format&fit=crop&q=80',
     categoryId: '6f62f783-051b-475f-852d-333755765436',
     location: 'PANTRY',
     quantity: 10,

@@ -3,12 +3,14 @@ import 'dotenv/config'
 import { Role } from '../generated/prisma/client'
 import { prisma } from '../lib/prisma'
 import { categories } from './data/categories'
+import { fridgeItems } from './data/fridgeItems'
 import { items } from './data/items'
 import { recipes } from './data/recipes'
 import { users } from './data/users'
 
 async function main() {
   console.log('🔄 1. Bắt đầu dọn dẹp dữ liệu cũ trong Database...')
+  await prisma.fridgeItem.deleteMany() // Xóa tủ lạnh trước
   await prisma.recipeIngredient.deleteMany() // Xóa liên kết trước để tránh lỗi FK
   await prisma.recipe.deleteMany()
   await prisma.ingredient.deleteMany()
@@ -98,6 +100,27 @@ async function main() {
     recipeImportCount++
   }
   console.log(`🎉 Đã nạp thành công ${recipeImportCount} công thức nấu ăn mẫu.`)
+
+  console.log('\n🔄 6. Đang nạp dữ liệu tủ lạnh mẫu...')
+  let fridgeImportCount = 0
+  for (const fridgeItem of fridgeItems) {
+    await prisma.fridgeItem.create({
+      data: {
+        id: fridgeItem.id,
+        ingredientId: fridgeItem.ingredientId,
+        quantity: fridgeItem.quantity,
+        unit: fridgeItem.unit,
+        storageLocation: fridgeItem.storageLocation,
+        expiryDate: fridgeItem.expiryDate,
+        status: fridgeItem.status,
+      },
+    })
+    console.log(
+      `❄️  Đã thêm vào tủ lạnh: ${fridgeItem.quantity}${fridgeItem.unit} (Hết hạn: ${fridgeItem.expiryDate.toLocaleDateString('vi-VN')})`,
+    )
+    fridgeImportCount++
+  }
+  console.log(`🎉 Đã nạp thành công \${fridgeImportCount} items vào tủ lạnh mẫu.`)
 
   console.log('\n======================================================')
   console.log('🎉 QUÁ TRÌNH SEED VÀ IMPORT DỮ LIỆU HOÀN TẤT THÀNH CÔNG!')

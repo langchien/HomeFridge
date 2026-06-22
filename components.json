@@ -8,7 +8,8 @@
     "css": "app/globals.css",
     "baseColor": "mist",
     "cssVariables": true,
-    "prefix": ""
+    "prefix": "",
+    "pointer": true
   },
   "iconLibrary": "lucide",
   "rtl": false,

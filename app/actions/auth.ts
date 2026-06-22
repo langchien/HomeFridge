@@ -40,7 +40,7 @@ export async function loginAction(values: any): Promise<ActionResponse> {
     const payload: JWTPayload = {
       userId: user.id,
       username: user.username,
-      role: user.role as 'ADMIN' | 'MEMBER' | 'DEVICE',
+      role: user.role as 'ADMIN' | 'MEMBER' | 'DEVICE' | 'HOMEMAKER',
     }
     const token = signJWT(payload)
 

@@ -16,6 +16,7 @@ enum Role {
   ADMIN
   MEMBER
   DEVICE
+  HOMEMAKER
 }
 
 model User {

@@ -16,7 +16,7 @@ export async function comparePassword(password: string, hash: string): Promise<b
 export interface JWTPayload {
   userId: string
   username: string
-  role: 'ADMIN' | 'MEMBER' | 'DEVICE'
+  role: 'ADMIN' | 'MEMBER' | 'DEVICE' | 'HOMEMAKER'
 }
 
 /**

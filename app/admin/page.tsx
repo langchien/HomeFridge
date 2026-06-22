@@ -1,60 +1,127 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentUser } from '@/lib/auth'
+import { prisma } from '@/lib/prisma'
+import { ChefHat, Shield, Smartphone, Users } from 'lucide-react'
 import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { UserTable } from './components/user-table'
 
 export default async function AdminPage() {
-  const user = await getCurrentUser()
+  const currentUser = await getCurrentUser()
 
-  if (!user || user.role !== 'ADMIN') {
+  if (!currentUser || currentUser.role !== 'ADMIN') {
     redirect('/')
   }
 
+  // Lấy toàn bộ người dùng từ database
+  const users = await prisma.user.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
+
+  // Thống kê nhanh
+  const totalUsers = users.length
+  const adminCount = users.filter((u) => u.role === 'ADMIN').length
+  const homemakerCount = users.filter((u) => u.role === 'HOMEMAKER').length
+  const memberCount = users.filter((u) => u.role === 'MEMBER').length
+  const deviceCount = users.filter((u) => u.role === 'DEVICE').length
+
+  // Serialize dates sang chuỗi ISO để chuyển giao giữa Server và Client Component
+  const serializedUsers = users.map((user) => ({
+    ...user,
+    createdAt: user.createdAt.toISOString(),
+    updatedAt: user.updatedAt.toISOString(),
+  }))
+
   return (
-    <div className='flex min-h-screen items-center justify-center bg-background p-4'>
-      <Card className='w-full max-w-xl'>
-        <CardHeader className='text-center'>
-          <div className='mb-2 flex justify-center'>
-            <Badge variant='destructive'>Khu vực quản trị</Badge>
-          </div>
-          <CardTitle className='text-2xl font-bold'>Admin Dashboard</CardTitle>
-          <CardDescription>Trang quản trị hệ thống nội bộ HomieFridge</CardDescription>
-        </CardHeader>
+    <main className='container mx-auto max-w-7xl space-y-8 px-4 py-8'>
+      {/* Title and Intro */}
+      <div className='flex flex-col gap-1.5'>
+        <h1 className='text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl'>
+          Quản trị người dùng
+        </h1>
+        <p className='max-w-2xl text-sm text-muted-foreground'>
+          Quản lý thông tin tài khoản người dùng, thiết bị dùng chung và thiết lập phân quyền truy
+          cập hệ thống HomieFridge.
+        </p>
+      </div>
 
-        <CardContent className='space-y-4'>
-          <div className='space-y-2 rounded-lg border bg-muted/40 p-4'>
-            <h3 className='font-semibold text-foreground'>Thông tin Admin đang đăng nhập:</h3>
-            <p className='text-sm text-muted-foreground'>
-              Tên: <span className='font-medium text-foreground'>{user.name}</span>
+      {/* Statistics Grid */}
+      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-5'>
+        <Card className='border-muted/60 shadow-sm transition-all hover:border-primary/20 hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+              Tổng tài khoản
+            </CardTitle>
+            <Users className='size-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold text-foreground'>{totalUsers}</div>
+            <p className='mt-1 text-[10px] text-muted-foreground'>
+              Người dùng và thiết bị trong hệ thống
             </p>
-            <p className='text-sm text-muted-foreground'>
-              Tài khoản: <span className='font-mono text-foreground'>@{user.username}</span>
-            </p>
-            <p className='text-sm text-muted-foreground'>
-              Email: <span className='text-foreground'>{user.email || 'Chưa cấu hình'}</span>
-            </p>
-          </div>
-          <p className='text-center text-xs text-muted-foreground'>
-            Trang này chỉ hiển thị khi tài khoản có quyền ADMIN. Mọi lượt truy cập trái phép đều
-            được chặn từ Middleware.
-          </p>
-        </CardContent>
+          </CardContent>
+        </Card>
 
-        <CardFooter className='flex justify-center border-t pt-6'>
-          <Link href='/'>
-            <Button variant='outline'>Quay lại Trang chủ</Button>
-          </Link>
-        </CardFooter>
-      </Card>
-    </div>
+        <Card className='border-muted/60 shadow-sm transition-all hover:border-primary/20 hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+              Quản trị viên
+            </CardTitle>
+            <Shield className='size-4 text-rose-500' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold text-rose-500'>{adminCount}</div>
+            <p className='mt-1 text-[10px] text-muted-foreground'>Có toàn quyền quản lý hệ thống</p>
+          </CardContent>
+        </Card>
+
+        <Card className='border-muted/60 shadow-sm transition-all hover:border-primary/20 hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+              Người nội trợ
+            </CardTitle>
+            <ChefHat className='size-4 text-teal-500' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold text-teal-500'>{homemakerCount}</div>
+            <p className='mt-1 text-[10px] text-muted-foreground'>
+              Quản lý tủ lạnh & đi chợ gia đình
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className='border-muted/60 shadow-sm transition-all hover:border-primary/20 hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+              Thành viên
+            </CardTitle>
+            <Users className='size-4 text-blue-500' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold text-blue-500'>{memberCount}</div>
+            <p className='mt-1 text-[10px] text-muted-foreground'>Tài khoản gia đình, người dùng</p>
+          </CardContent>
+        </Card>
+
+        <Card className='border-muted/60 shadow-sm transition-all hover:border-primary/20 hover:shadow-md'>
+          <CardHeader className='flex flex-row items-center justify-between pb-2'>
+            <CardTitle className='text-xs font-semibold tracking-wider text-muted-foreground uppercase'>
+              Thiết bị tủ lạnh
+            </CardTitle>
+            <Smartphone className='size-4 text-amber-500' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold text-amber-500'>{deviceCount}</div>
+            <p className='mt-1 text-[10px] text-muted-foreground'>
+              Tài khoản kết nối thiết bị thông minh
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* User Table container */}
+      <div className='rounded-xl border bg-card p-6 text-card-foreground shadow-sm'>
+        <UserTable data={serializedUsers} />
+      </div>
+    </main>
   )
 }

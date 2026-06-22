@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation'
-import Link from 'next/link'
-import { getCurrentUser } from '@/lib/auth'
+import { logoutAction } from '@/app/actions/auth'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,9 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Badge } from '@/components/ui/badge'
-import { logoutAction } from '@/app/actions/auth'
+import { getCurrentUser } from '@/lib/auth'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export default async function Page() {
   const user = await getCurrentUser()
@@ -23,6 +23,7 @@ export default async function Page() {
 
   const isDevice = user.role === 'DEVICE'
   const isAdmin = user.role === 'ADMIN'
+  const isHomemaker = user.role === 'HOMEMAKER'
 
   return (
     <div className='flex min-h-screen items-center justify-center bg-background p-4'>
@@ -80,6 +81,14 @@ export default async function Page() {
             <Link href='/admin' className='w-full sm:w-auto'>
               <Button variant='default' className='w-full'>
                 Vào trang Admin
+              </Button>
+            </Link>
+          )}
+
+          {isHomemaker && (
+            <Link href='/dashboard' className='w-full sm:w-auto'>
+              <Button variant='default' className='w-full'>
+                Vào trang Dashboard
               </Button>
             </Link>
           )}

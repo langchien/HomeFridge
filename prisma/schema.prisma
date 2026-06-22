@@ -19,15 +19,59 @@ enum Role {
   HOMEMAKER
 }
 
+enum StorageLocation {
+  FREEZER
+  CHILLER
+  FRIDGE_SHELF
+  VEGETABLE_DRAWER
+  DOOR_SHELF
+  PANTRY
+}
+
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
+  id        String       @id @default(uuid())
+  username  String       @unique
   password  String
   name      String
-  role      Role     @default(MEMBER)
+  role      Role         @default(MEMBER)
   avatar    String?
   phone     String?
-  email     String?  @unique
+  email     String?      @unique
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  items     FridgeItem[]
+}
+
+model Category {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  icon        String?
+  description String?
+  items       FridgeItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FridgeItem {
+  id         String   @id @default(uuid())
+  name       String
+  image      String?
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  location StorageLocation @default(FRIDGE_SHELF)
+  quantity Float           @default(1)
+  unit     String          @default("cái")
+
+  addedDate           DateTime  @default(now())
+  expiryDate          DateTime?
+  storageInstructions String?
+  notes               String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

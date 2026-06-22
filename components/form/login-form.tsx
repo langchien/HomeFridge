@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { IconFridge } from '@tabler/icons-react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -75,9 +76,18 @@ export function LoginForm() {
 
   return (
     <Card className='w-full max-w-md'>
-      <CardHeader className='space-y-1 text-center'>
-        <CardTitle className='text-2xl font-bold'>HomieFridge</CardTitle>
-        <CardDescription>Hệ thống quản lý phòng & tủ lạnh nội bộ</CardDescription>
+      <CardHeader className='space-y-4 text-center'>
+        <div className='mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 shadow-sm dark:bg-green-900/30'>
+          <IconFridge className='h-8 w-8 text-green-600 dark:text-green-400' />
+        </div>
+        <div className='space-y-1'>
+          <CardTitle className='text-3xl font-extrabold tracking-tight text-foreground'>
+            Homie<span className='text-green-600 dark:text-green-500'>Fridge</span>
+          </CardTitle>
+          <CardDescription className='font-medium text-muted-foreground'>
+            Hệ thống quản lý phòng & tủ lạnh nội bộ
+          </CardDescription>
+        </div>
       </CardHeader>
 
       <CardContent className='grid gap-4'>
@@ -128,19 +138,8 @@ export function LoginForm() {
         </Form>
       </CardContent>
 
-      <CardFooter className='flex flex-col gap-2 border-t pt-4 text-xs text-muted-foreground'>
-        <div className='w-full space-y-1'>
-          <span className='font-semibold text-foreground'>💡 Tài khoản mẫu:</span>
-          <p>
-            • Admin: <code className='font-mono'>admin</code> /{' '}
-            <code className='font-mono'>admin123</code>
-          </p>
-          <p>
-            • Thiết bị: <code className='font-mono'>device_fridge</code> /{' '}
-            <code className='font-mono'>fridge123</code>
-          </p>
-        </div>
-        <p className='mt-2 text-center text-[10px]'>
+      <CardFooter className='flex justify-center border-t pt-4 text-xs text-muted-foreground'>
+        <p className='text-center text-[10px]'>
           HomieFridge v0.0.1 • Chỉ lưu hành nội bộ trong phòng
         </p>
       </CardFooter>

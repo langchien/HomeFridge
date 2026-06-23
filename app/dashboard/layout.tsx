@@ -62,7 +62,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               <div className='mx-2 h-4 w-px bg-muted' />
               <div className='flex items-center gap-2.5'>
                 <span className='font-bold tracking-tight text-foreground sm:text-base'>
-                  HomieFridge
+                  HomeFridge
                 </span>
                 <span
                   className={`rounded-full border px-2 py-0.5 text-xs font-semibold tracking-wider uppercase shadow-sm ${badgeConfig.classes}`}

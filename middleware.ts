@@ -51,43 +51,32 @@ export function middleware(request: NextRequest) {
     response.cookies.delete('auth_token')
     return response
   }
-
-  // 3. Phân quyền truy cập cho khu vực Dashboard User
-  if (pathname.startsWith('/dashboard/user')) {
-    if (decoded.role !== 'ADMIN') {
-      // Không phải Admin, chuyển hướng về trang chủ
-      return NextResponse.redirect(new URL('/', request.url))
-    }
-  }
-
-  // 3b. Phân quyền truy cập cho khu vực Recipes (chỉ Admin)
-  if (pathname.startsWith('/dashboard/recipes')) {
-    if (decoded.role !== 'ADMIN') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  }
-
-  // 3c. Phân quyền truy cập cho khu vực Menu (chỉ HOMEMAKER)
-  if (pathname.startsWith('/dashboard/menu')) {
-    if (decoded.role !== 'HOMEMAKER') {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  }
-
-  // 3d. Phân quyền truy cập cho khu vực Fridge (chỉ HOMEMAKER và DEVICE)
-  if (pathname.startsWith('/dashboard/fridge')) {
-    const isAllowed = decoded.role === 'HOMEMAKER' || decoded.role === 'DEVICE'
-    if (!isAllowed) {
-      return NextResponse.redirect(new URL('/dashboard', request.url))
-    }
-  }
-
-  // 4. Phân quyền chung cho khu vực Dashboard
-  // (HOMEMAKER và ADMIN truy cập các trang còn lại; các trang cụ thể đã xử lý riêng bên trên)
+  const role = decoded.role
+  
+  // 3. Phân quyền truy cập cho khu vực Dashboard
   if (pathname.startsWith('/dashboard')) {
-    const isHomemakerOrAdmin = decoded.role === 'HOMEMAKER' || decoded.role === 'ADMIN'
-    if (!isHomemakerOrAdmin) {
-      // DEVICE và MEMBER không có trong whitelist trên sẽ bị redirect
+    if (role === 'ADMIN') {
+      // ADMIN chỉ vào được user và recipes
+      if (!pathname.startsWith('/dashboard/user') && !pathname.startsWith('/dashboard/recipes')) {
+        return NextResponse.redirect(new URL('/dashboard/user', request.url))
+      }
+    } else if (role === 'HOMEMAKER') {
+      // HOMEMAKER vào được các trang trừ user và recipes
+      if (pathname.startsWith('/dashboard/user') || pathname.startsWith('/dashboard/recipes')) {
+        return NextResponse.redirect(new URL('/dashboard', request.url))
+      }
+    } else if (role === 'DEVICE') {
+      // DEVICE chỉ vào được duy nhất fridge
+      if (!pathname.startsWith('/dashboard/fridge')) {
+        return NextResponse.redirect(new URL('/dashboard/fridge', request.url))
+      }
+    } else if (role === 'MEMBER') {
+      // MEMBER chỉ được vào shopping
+      if (!pathname.startsWith('/dashboard/shopping')) {
+        return NextResponse.redirect(new URL('/dashboard/shopping', request.url))
+      }
+    } else {
+      // Fallback an toàn cho trường hợp không xác định
       return NextResponse.redirect(new URL('/', request.url))
     }
   }

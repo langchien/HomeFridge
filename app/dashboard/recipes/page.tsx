@@ -46,7 +46,7 @@ export default async function RecipesPage() {
         <div>
           <h1 className='text-3xl font-bold tracking-tight'>Quản lý công thức nấu ăn</h1>
           <p className='text-muted-foreground'>
-            Thư viện công thức nấu ăn dùng chung cho hệ thống HomieFridge
+            Thư viện công thức nấu ăn dùng chung cho hệ thống HomeFridge
           </p>
         </div>
       </div>

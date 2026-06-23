@@ -17,7 +17,7 @@ export default async function Page() {
   }
 
   if (user.role === 'MEMBER') {
-    redirect('/member/menu')
+    redirect('/dashboard/shopping')
   }
 
   // Mặc định cho HOMEMAKER

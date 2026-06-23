@@ -6,9 +6,8 @@ import {
   IconDashboard,
   IconFridge,
   IconLogout,
-  IconMessage2,
-  IconUsers,
   IconShoppingCart,
+  IconUsers,
 } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -87,12 +86,6 @@ export function DashboardSidebar({
       icon: IconShoppingCart,
       roles: ['HOMEMAKER', 'MEMBER'],
     },
-    {
-      title: 'Thực đơn & Đề xuất',
-      url: '/member/menu',
-      icon: IconMessage2,
-      roles: ['MEMBER'],
-    },
   ]
 
   // Filter items based on user role
@@ -109,9 +102,8 @@ export function DashboardSidebar({
                   <IconFridge className='size-5' />
                 </div>
                 <div className='flex flex-col gap-0.5 leading-none'>
-                  <span className='text-lg font-bold'>HomieFridge</span>
+                  <span className='text-lg font-bold'>HomeFridge</span>
                   <span className='text-muted-foreground'>
-                    {userName || 'Người dùng'} (
                     {userRole === 'ADMIN'
                       ? 'Quản trị'
                       : userRole === 'HOMEMAKER'
@@ -119,7 +111,6 @@ export function DashboardSidebar({
                         : userRole === 'MEMBER'
                           ? 'Thành viên'
                           : 'Thiết bị'}
-                    )
                   </span>
                 </div>
               </Link>

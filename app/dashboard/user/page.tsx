@@ -40,7 +40,7 @@ export default async function UserPage() {
         </h1>
         <p className='max-w-2xl text-muted-foreground'>
           Quản lý thông tin tài khoản người dùng, thiết bị dùng chung và thiết lập phân quyền truy
-          cập hệ thống HomieFridge.
+          cập hệ thống HomeFridge.
         </p>
       </div>
 

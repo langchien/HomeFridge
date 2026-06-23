@@ -5,7 +5,7 @@ import { FridgeStats } from './components/fridge-stats'
 import { FridgeView } from './components/fridge-view'
 
 export const metadata = {
-  title: 'Quản lý tủ lạnh | HomieFridge',
+  title: 'Quản lý tủ lạnh | HomeFridge',
   description: 'Quản lý nguyên liệu trong tủ lạnh, theo dõi ngày hết hạn và tình trạng tươi mới.',
 }
 

@@ -139,7 +139,7 @@ export function LoginForm() {
       </CardContent>
 
       <CardFooter className='flex justify-center border-t pt-4 text-muted-foreground'>
-        <p className='text-center text-xs'>HomieFridge v0.0.1 • Chỉ lưu hành nội bộ trong phòng</p>
+        <p className='text-center text-xs'>HomeFridge v0.0.1 • Chỉ lưu hành nội bộ trong phòng</p>
       </CardFooter>
     </Card>
   )

@@ -1,15 +1,15 @@
 import { getWeekMenuAction } from '@/app/actions/menu'
-import { getWeekStart } from '@/lib/week-utils'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { getCurrentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { getWeekStart } from '@/lib/week-utils'
 import { ChefHat } from 'lucide-react'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { MenuClient } from './components/menu-client'
 
 export const metadata: Metadata = {
-  title: 'Quản lý thực đơn | HomieFridge',
+  title: 'Quản lý thực đơn | HomeFridge',
   description: 'Lên kế hoạch thực đơn theo tuần cho gia đình',
 }
 

@@ -71,8 +71,8 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard/fridge', request.url))
       }
     } else if (role === 'MEMBER') {
-      // MEMBER chỉ được vào shopping
-      if (!pathname.startsWith('/dashboard/shopping')) {
+      // MEMBER chỉ được vào shopping và fridge
+      if (!pathname.startsWith('/dashboard/shopping') && !pathname.startsWith('/dashboard/fridge')) {
         return NextResponse.redirect(new URL('/dashboard/shopping', request.url))
       }
     } else {

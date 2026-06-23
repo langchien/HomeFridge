@@ -16,8 +16,8 @@ export default async function FridgePage() {
     redirect('/login')
   }
 
-  // Chỉ HOMEMAKER, ADMIN và DEVICE được vào trang tủ lạnh
-  if (!['HOMEMAKER', 'DEVICE', 'ADMIN'].includes(user.role)) {
+  // Chỉ HOMEMAKER, ADMIN, DEVICE và MEMBER được vào trang tủ lạnh
+  if (!['HOMEMAKER', 'DEVICE', 'ADMIN', 'MEMBER'].includes(user.role)) {
     redirect('/dashboard')
   }
 

@@ -72,7 +72,7 @@ export function DashboardSidebar({
       title: 'Tủ lạnh',
       url: '/dashboard/fridge',
       icon: IconFridge,
-      roles: ['HOMEMAKER', 'DEVICE'],
+      roles: ['HOMEMAKER', 'DEVICE', 'MEMBER'],
     },
     {
       title: 'Quản lý thực đơn',

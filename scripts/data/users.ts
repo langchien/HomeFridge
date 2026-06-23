@@ -9,7 +9,7 @@ export const users = [
     avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=admin',
   },
   {
-    username: 'device_fridge',
+    username: 'device',
     password: '123456',
     name: 'Thiết Bị Tủ Lạnh',
     role: 'DEVICE',
@@ -18,7 +18,7 @@ export const users = [
     phone: null,
   },
   {
-    username: 'member_an',
+    username: 'member',
     password: '123456',
     name: 'Nguyễn Văn An',
     role: 'MEMBER',
@@ -36,11 +36,11 @@ export const users = [
     avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=binh',
   },
   {
-    username: '20225933',
+    username: 'homemaker',
     password: '123456',
-    name: 'Lăng Trọng Tiến',
+    name: 'Người nội trợ',
     role: 'HOMEMAKER',
-    email: '20225933@sis.hust.edu.vn',
+    email: 'homemaker@homiefridge.local',
     phone: '0349174556',
     avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=20225933',
   },

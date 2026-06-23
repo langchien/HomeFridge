@@ -49,7 +49,7 @@ function calculateStatus(expiryDate: Date): FridgeItemStatus {
 async function checkFridgeAccess() {
   const user = await getCurrentUser()
   if (!user) throw new Error('Chưa đăng nhập.')
-  if (!['HOMEMAKER', 'DEVICE', 'ADMIN'].includes(user.role)) {
+  if (!['HOMEMAKER', 'DEVICE', 'ADMIN', 'MEMBER'].includes(user.role)) {
     throw new Error('Bạn không có quyền quản lý tủ lạnh.')
   }
   return user

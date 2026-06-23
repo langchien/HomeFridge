@@ -152,9 +152,15 @@ export function FridgeDataTable({ items }: FridgeDataTableProps) {
         header: () => <span className='font-semibold'>Còn lại</span>,
         cell: ({ row }) => {
           const days = getDaysRemaining(row.original.expiryDate)
-          if (days < 0) return <span className='text-xs font-semibold text-red-600'>{Math.abs(days)} ngày trước</span>
+          if (days < 0)
+            return (
+              <span className='text-xs font-semibold text-red-600'>
+                {Math.abs(days)} ngày trước
+              </span>
+            )
           if (days === 0) return <span className='text-xs font-semibold text-red-600'>Hôm nay</span>
-          if (days <= 3) return <span className='text-xs font-semibold text-amber-600'>{days} ngày</span>
+          if (days <= 3)
+            return <span className='text-xs font-semibold text-amber-600'>{days} ngày</span>
           return <span className='text-xs text-muted-foreground'>{days} ngày</span>
         },
       },
@@ -211,7 +217,9 @@ export function FridgeDataTable({ items }: FridgeDataTableProps) {
       <div className='flex flex-col items-center justify-center gap-3 py-16 text-center'>
         <Package className='size-12 text-muted-foreground/40' />
         <p className='text-base font-medium text-muted-foreground'>Không có nguyên liệu nào</p>
-        <p className='text-sm text-muted-foreground/70'>Thử thay đổi bộ lọc hoặc thêm nguyên liệu mới.</p>
+        <p className='text-sm text-muted-foreground/70'>
+          Thử thay đổi bộ lọc hoặc thêm nguyên liệu mới.
+        </p>
       </div>
     )
   }
@@ -235,10 +243,7 @@ export function FridgeDataTable({ items }: FridgeDataTableProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                className='transition-colors hover:bg-muted/30'
-              >
+              <TableRow key={row.id} className='transition-colors hover:bg-muted/30'>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} className='py-3 text-sm'>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

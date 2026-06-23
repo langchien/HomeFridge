@@ -62,9 +62,7 @@ export default async function MenuPage() {
         </div>
         <div>
           <h1 className='text-3xl font-bold tracking-tight'>Quản lý thực đơn</h1>
-          <p className='text-muted-foreground'>
-            Lên kế hoạch bữa ăn theo tuần cho cả gia đình
-          </p>
+          <p className='text-muted-foreground'>Lên kế hoạch bữa ăn theo tuần cho cả gia đình</p>
         </div>
       </div>
 
@@ -85,14 +83,10 @@ export default async function MenuPage() {
         <Card className='border-blue-200/60 bg-blue-50/40 shadow-sm dark:border-blue-900/40 dark:bg-blue-950/20'>
           <CardHeader className='pb-1'>
             <CardTitle className='text-4xl font-bold text-blue-600'>{totalPlanned}</CardTitle>
-            <CardDescription className='font-semibold text-foreground'>
-              Đã kế hoạch
-            </CardDescription>
+            <CardDescription className='font-semibold text-foreground'>Đã kế hoạch</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className='text-sm text-muted-foreground'>
-              Số món đang ở trạng thái chờ nấu.
-            </p>
+            <p className='text-sm text-muted-foreground'>Số món đang ở trạng thái chờ nấu.</p>
           </CardContent>
         </Card>
 
@@ -110,11 +104,7 @@ export default async function MenuPage() {
       </div>
 
       {/* Client component — lịch tuần + bảng chi tiết */}
-      <MenuClient
-        initialWeekStart={weekStart}
-        initialPlans={initialPlans}
-        recipes={recipes}
-      />
+      <MenuClient initialWeekStart={weekStart} initialPlans={initialPlans} recipes={recipes} />
     </div>
   )
 }

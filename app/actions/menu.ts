@@ -161,9 +161,9 @@ export async function updateMenuStatusAction(
     // (tránh trừ trùng lặp nếu người dùng bấm DONE nhiều lần)
     if (status === 'DONE' && menuPlan.status !== 'DONE') {
       const deductResult = await deductFridgeIngredients(menuPlan.recipeId)
-      return { 
+      return {
         deductWarning: deductResult.warning,
-        deductedItems: deductResult.deducted
+        deductedItems: deductResult.deducted,
       }
     }
 
@@ -179,7 +179,9 @@ export async function updateMenuStatusAction(
  * Ưu tiên item sắp hết hạn nhất (FIFO theo expiryDate).
  * Trả về warning nếu có nguyên liệu không đủ trong tủ.
  */
-async function deductFridgeIngredients(recipeId: string): Promise<{ warning?: string, deducted?: string[] }> {
+async function deductFridgeIngredients(
+  recipeId: string,
+): Promise<{ warning?: string; deducted?: string[] }> {
   const recipe = await prisma.recipe.findUnique({
     where: { id: recipeId },
     include: {
@@ -240,8 +242,11 @@ async function deductFridgeIngredients(recipeId: string): Promise<{ warning?: st
   revalidatePath('/dashboard/fridge')
 
   return {
-    warning: missingIngredients.length > 0 ? `Một số nguyên liệu không đủ trong tủ lạnh: ${missingIngredients.join(', ')}` : undefined,
-    deducted: deductedIngredients.length > 0 ? deductedIngredients : undefined
+    warning:
+      missingIngredients.length > 0
+        ? `Một số nguyên liệu không đủ trong tủ lạnh: ${missingIngredients.join(', ')}`
+        : undefined,
+    deducted: deductedIngredients.length > 0 ? deductedIngredients : undefined,
   }
 }
 

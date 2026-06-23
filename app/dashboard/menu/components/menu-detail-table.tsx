@@ -93,7 +93,9 @@ export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProp
             }
           } else {
             if (result.deductedItems && result.deductedItems.length > 0) {
-              toast.success(`✅ Hoàn thành! Đã trừ: ${result.deductedItems.join(', ')}`, { duration: 5000 })
+              toast.success(`✅ Hoàn thành! Đã trừ: ${result.deductedItems.join(', ')}`, {
+                duration: 5000,
+              })
             } else {
               toast.success('✅ Hoàn thành! Món này không yêu cầu trừ nguyên liệu.')
             }

@@ -23,9 +23,12 @@ const LOCATION_LABELS: Record<string, string> = {
 
 // Màu nền card theo trạng thái
 const STATUS_CARD_CLASS: Record<string, string> = {
-  FRESH: 'border-green-200/70 bg-green-50/50 hover:border-green-300 dark:border-green-800/50 dark:bg-green-950/30 dark:hover:border-green-700',
-  EXPIRING_SOON: 'border-amber-200/70 bg-amber-50/50 hover:border-amber-300 dark:border-amber-800/50 dark:bg-amber-950/30 dark:hover:border-amber-700',
-  EXPIRED: 'border-red-200/70 bg-red-50/50 hover:border-red-300 dark:border-red-800/50 dark:bg-red-950/30 dark:hover:border-red-700',
+  FRESH:
+    'border-green-200/70 bg-green-50/50 hover:border-green-300 dark:border-green-800/50 dark:bg-green-950/30 dark:hover:border-green-700',
+  EXPIRING_SOON:
+    'border-amber-200/70 bg-amber-50/50 hover:border-amber-300 dark:border-amber-800/50 dark:bg-amber-950/30 dark:hover:border-amber-700',
+  EXPIRED:
+    'border-red-200/70 bg-red-50/50 hover:border-red-300 dark:border-red-800/50 dark:bg-red-950/30 dark:hover:border-red-700',
 }
 
 function getDaysRemaining(expiryDate: Date): { text: string; urgent: boolean } {
@@ -104,17 +107,23 @@ export function FridgeGrid({ items }: FridgeGridProps) {
               {/* Số lượng */}
               <p className='mb-3 text-lg font-semibold text-foreground'>
                 {item.quantity}
-                <span className='ml-0.5 text-sm font-normal text-muted-foreground'>{item.unit}</span>
+                <span className='ml-0.5 text-sm font-normal text-muted-foreground'>
+                  {item.unit}
+                </span>
               </p>
 
               {/* Vị trí */}
               <div className='mb-1.5 flex items-center gap-1.5 text-xs text-muted-foreground'>
                 <MapPin className='size-3 shrink-0' />
-                <span className='truncate'>{LOCATION_LABELS[item.storageLocation] ?? item.storageLocation}</span>
+                <span className='truncate'>
+                  {LOCATION_LABELS[item.storageLocation] ?? item.storageLocation}
+                </span>
               </div>
 
               {/* Ngày hết hạn */}
-              <div className={`mb-4 flex items-center gap-1.5 text-xs ${urgent ? 'font-semibold text-red-600 dark:text-red-400' : 'text-muted-foreground'}`}>
+              <div
+                className={`mb-4 flex items-center gap-1.5 text-xs ${urgent ? 'font-semibold text-red-600 dark:text-red-400' : 'text-muted-foreground'}`}
+              >
                 <Calendar className='size-3 shrink-0' />
                 <span>{daysText}</span>
               </div>

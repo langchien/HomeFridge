@@ -10,6 +10,9 @@ import { users } from './data/users'
 
 async function main() {
   console.log('🔄 1. Bắt đầu dọn dẹp dữ liệu cũ trong Database...')
+  await prisma.shoppingListItem.deleteMany()
+  await prisma.shoppingList.deleteMany()
+  await prisma.menuPlan.deleteMany()
   await prisma.fridgeItem.deleteMany() // Xóa tủ lạnh trước
   await prisma.recipeIngredient.deleteMany() // Xóa liên kết trước để tránh lỗi FK
   await prisma.recipe.deleteMany()
@@ -120,7 +123,72 @@ async function main() {
     )
     fridgeImportCount++
   }
-  console.log(`🎉 Đã nạp thành công \${fridgeImportCount} items vào tủ lạnh mẫu.`)
+  console.log(`🎉 Đã nạp thành công ${fridgeImportCount} items vào tủ lạnh mẫu.`)
+
+  console.log('\n🔄 7. Đang nạp dữ liệu Thực đơn mẫu...')
+  const homemaker = await prisma.user.findFirst({ where: { role: 'HOMEMAKER' } })
+  if (homemaker) {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    await prisma.menuPlan.createMany({
+      data: [
+        {
+          date: today,
+          mealTime: 'DINNER',
+          recipeId: 'rec-001-0000-0000-0000-000000000001', // Phở bò
+          createdById: homemaker.id,
+          note: 'Ăn tối cùng cả nhà',
+        },
+        {
+          date: new Date(today.getTime() + 86400000), // ngày mai
+          mealTime: 'LUNCH',
+          recipeId: 'rec-010-0000-0000-0000-000000000010', // Cơm chiên
+          createdById: homemaker.id,
+        },
+      ],
+    })
+    console.log('🎉 Đã nạp thành công 2 thực đơn.')
+  }
+
+  console.log('\n🔄 8. Đang nạp dữ liệu Danh sách đi chợ mẫu...')
+  if (homemaker) {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+
+    const shoppingList = await prisma.shoppingList.create({
+      data: {
+        date: today,
+        createdById: homemaker.id,
+        items: {
+          create: [
+            {
+              ingredientId: 'a1a1a1a1-1111-1111-1111-111111111111', // Cá hồi
+              quantity: 2,
+              unit: 'kg',
+              isBought: false,
+              isStored: false,
+            },
+            {
+              ingredientId: 'p6p6p6p6-6666-6666-6666-666666666667', // Ức gà
+              quantity: 1.5,
+              unit: 'kg',
+              isBought: true,
+              isStored: false,
+            },
+            {
+              ingredientId: 'b2b2b2b2-2222-2222-2222-222222222222', // Rau muống
+              quantity: 3,
+              unit: 'bó',
+              isBought: false,
+              isStored: false,
+            },
+          ],
+        },
+      },
+    })
+    console.log('🎉 Đã nạp thành công 1 danh sách đi chợ với 3 món.')
+  }
 
   console.log('\n======================================================')
   console.log('🎉 QUÁ TRÌNH SEED VÀ IMPORT DỮ LIỆU HOÀN TẤT THÀNH CÔNG!')

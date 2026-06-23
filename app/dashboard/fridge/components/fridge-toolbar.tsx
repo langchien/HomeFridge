@@ -4,20 +4,28 @@ import { FridgeItemWithIngredient } from '@/app/actions/fridge'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
 import { Filter, LayoutGrid, Plus, Search, Table2, X } from 'lucide-react'
 import { FridgeItemDialog } from './fridge-item-dialog'
 import { useState } from 'react'
 
 const STATUS_OPTIONS = [
-  { value: 'FRESH', label: 'Tươi mới', color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' },
-  { value: 'EXPIRING_SOON', label: 'Sắp hết hạn', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300' },
-  { value: 'EXPIRED', label: 'Đã hết hạn', color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' },
+  {
+    value: 'FRESH',
+    label: 'Tươi mới',
+    color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+  },
+  {
+    value: 'EXPIRING_SOON',
+    label: 'Sắp hết hạn',
+    color: 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
+  },
+  {
+    value: 'EXPIRED',
+    label: 'Đã hết hạn',
+    color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
+  },
 ]
 
 const LOCATION_OPTIONS = [
@@ -88,18 +96,18 @@ export function FridgeToolbar({
         {/* Left: Search + Filter */}
         <div className='flex flex-1 items-center gap-2'>
           {/* Search */}
-          <div className='relative flex-1 max-w-sm'>
-            <Search className='absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground' />
+          <div className='relative max-w-sm flex-1'>
+            <Search className='absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground' />
             <Input
               placeholder='Tìm nguyên liệu...'
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className='h-9 pl-9 pr-9'
+              className='h-9 pr-9 pl-9'
             />
             {searchQuery && (
               <button
                 onClick={() => onSearchChange('')}
-                className='absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground'
+                className='absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground'
               >
                 <X className='size-3.5' />
               </button>
@@ -122,7 +130,7 @@ export function FridgeToolbar({
             <PopoverContent className='w-64 p-3' align='start'>
               {/* Trạng thái */}
               <div className='mb-3'>
-                <p className='mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground'>
+                <p className='mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase'>
                   Trạng thái
                 </p>
                 <div className='flex flex-col gap-1'>
@@ -134,16 +142,19 @@ export function FridgeToolbar({
                         key={opt.value}
                         onClick={() => toggleStatus(opt.value)}
                         className={`flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors ${
-                          isActive
-                            ? 'bg-primary/10 text-primary'
-                            : 'hover:bg-muted text-foreground'
+                          isActive ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-muted'
                         }`}
                       >
                         <span className='flex items-center gap-2'>
-                          <span className={`inline-block size-2 rounded-full ${
-                            opt.value === 'FRESH' ? 'bg-green-500' :
-                            opt.value === 'EXPIRING_SOON' ? 'bg-amber-400' : 'bg-red-500'
-                          }`} />
+                          <span
+                            className={`inline-block size-2 rounded-full ${
+                              opt.value === 'FRESH'
+                                ? 'bg-green-500'
+                                : opt.value === 'EXPIRING_SOON'
+                                  ? 'bg-amber-400'
+                                  : 'bg-red-500'
+                            }`}
+                          />
                           {opt.label}
                         </span>
                         <span className='text-xs text-muted-foreground'>{count}</span>
@@ -157,7 +168,7 @@ export function FridgeToolbar({
 
               {/* Vị trí */}
               <div className='mb-3'>
-                <p className='mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground'>
+                <p className='mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase'>
                   Vị trí lưu trữ
                 </p>
                 <div className='flex flex-col gap-1'>
@@ -169,9 +180,7 @@ export function FridgeToolbar({
                         key={opt.value}
                         onClick={() => toggleLocation(opt.value)}
                         className={`flex items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors ${
-                          isActive
-                            ? 'bg-primary/10 text-primary'
-                            : 'hover:bg-muted text-foreground'
+                          isActive ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-muted'
                         }`}
                       >
                         {opt.label}
@@ -188,7 +197,7 @@ export function FridgeToolbar({
                   <Button
                     variant='ghost'
                     size='sm'
-                    className='w-full h-8 text-xs text-muted-foreground'
+                    className='h-8 w-full text-xs text-muted-foreground'
                     onClick={clearAllFilters}
                   >
                     <X className='mr-1.5 size-3' />
@@ -208,7 +217,7 @@ export function FridgeToolbar({
                   <Badge
                     key={s}
                     variant='secondary'
-                    className='h-7 gap-1 pr-1.5 text-xs font-medium cursor-pointer'
+                    className='h-7 cursor-pointer gap-1 pr-1.5 text-xs font-medium'
                     onClick={() => toggleStatus(s)}
                   >
                     {opt.label}
@@ -222,7 +231,7 @@ export function FridgeToolbar({
                   <Badge
                     key={l}
                     variant='secondary'
-                    className='h-7 gap-1 pr-1.5 text-xs font-medium cursor-pointer'
+                    className='h-7 cursor-pointer gap-1 pr-1.5 text-xs font-medium'
                     onClick={() => toggleLocation(l)}
                   >
                     {opt.label}
@@ -271,11 +280,7 @@ export function FridgeToolbar({
       </div>
 
       {/* Add Dialog */}
-      <FridgeItemDialog
-        open={addDialogOpen}
-        onOpenChange={setAddDialogOpen}
-        item={null}
-      />
+      <FridgeItemDialog open={addDialogOpen} onOpenChange={setAddDialogOpen} item={null} />
     </>
   )
 }

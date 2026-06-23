@@ -17,10 +17,7 @@ import { AddMenuDialog, MEAL_TIME_LABELS } from './add-menu-dialog'
 
 const MEAL_TIMES: MealTime[] = ['BREAKFAST', 'LUNCH', 'DINNER']
 
-const STATUS_CONFIG: Record<
-  MenuStatus,
-  { label: string; classes: string }
-> = {
+const STATUS_CONFIG: Record<MenuStatus, { label: string; classes: string }> = {
   PLANNED: {
     label: 'Kế hoạch',
     classes: 'bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300',
@@ -217,7 +214,7 @@ export function WeeklyMenuBoard({
                 >
                   <span
                     className={cn(
-                      'text-xs font-medium uppercase tracking-wide text-muted-foreground',
+                      'text-xs font-medium tracking-wide text-muted-foreground uppercase',
                       today && 'text-teal-600 dark:text-teal-400',
                     )}
                   >
@@ -226,9 +223,7 @@ export function WeeklyMenuBoard({
                   <span
                     className={cn(
                       'flex size-8 items-center justify-center rounded-full text-sm font-bold',
-                      today
-                        ? 'bg-teal-600 text-white shadow-sm'
-                        : 'text-foreground',
+                      today ? 'bg-teal-600 text-white shadow-sm' : 'text-foreground',
                     )}
                   >
                     {date.getUTCDate()}
@@ -240,10 +235,7 @@ export function WeeklyMenuBoard({
 
           {/* Hàng từng bữa */}
           {MEAL_TIMES.map((mealTime) => (
-            <div
-              key={mealTime}
-              className='grid grid-cols-8 border-b last:border-b-0'
-            >
+            <div key={mealTime} className='grid grid-cols-8 border-b last:border-b-0'>
               {/* Label bữa */}
               <div className='flex flex-col items-center justify-center gap-0.5 border-r bg-muted/20 p-3 text-center'>
                 <span className='text-lg'>
@@ -263,10 +255,9 @@ export function WeeklyMenuBoard({
                   <div
                     key={dayIdx}
                     className={cn(
-                      'group relative flex min-h-[100px] flex-col gap-1.5 border-r p-2 last:border-r-0 transition-colors',
+                      'group relative flex min-h-[100px] flex-col gap-1.5 border-r p-2 transition-colors last:border-r-0',
                       today && 'bg-teal-50/30 dark:bg-teal-950/10',
-                      plans.length === 0 &&
-                        'cursor-pointer hover:bg-muted/40',
+                      plans.length === 0 && 'cursor-pointer hover:bg-muted/40',
                     )}
                     onClick={() => {
                       if (plans.length === 0) openAddDialog(date, mealTime)
@@ -293,7 +284,7 @@ export function WeeklyMenuBoard({
                         )}
 
                         {/* Tên món */}
-                        <p className='line-clamp-2 text-xs font-medium leading-tight'>
+                        <p className='line-clamp-2 text-xs leading-tight font-medium'>
                           {plan.recipe.title}
                         </p>
 
@@ -312,7 +303,7 @@ export function WeeklyMenuBoard({
                         <button
                           onClick={() => handleDelete(plan.id, plan.recipe.title)}
                           disabled={deletingId === plan.id}
-                          className='absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-destructive/80 text-destructive-foreground opacity-0 transition-opacity hover:bg-destructive group-hover/card:opacity-100'
+                          className='text-destructive-foreground absolute top-1 right-1 flex size-5 items-center justify-center rounded-full bg-destructive/80 opacity-0 transition-opacity group-hover/card:opacity-100 hover:bg-destructive'
                           title='Xóa khỏi thực đơn'
                         >
                           <Trash2 className='size-2.5' />

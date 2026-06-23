@@ -64,6 +64,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   menuPlans MenuPlan[]
+  shoppingLists ShoppingList[]
 }
 
 model Category {
@@ -91,6 +92,7 @@ model Ingredient {
 
   recipeIngredients RecipeIngredient[]
   fridgeItems       FridgeItem[]
+  shoppingListItems ShoppingListItem[]
 }
 
 // ─── Công thức nấu ăn ────────────────────────────────────
@@ -154,4 +156,34 @@ model FridgeItem {
 
   addedAt   DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// ─── Danh sách mua sắm ──────────────────────────────────
+
+model ShoppingList {
+  id          String   @id @default(uuid())
+  date        DateTime // Ngày của danh sách đi chợ
+  createdById String
+  createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items ShoppingListItem[]
+}
+
+model ShoppingListItem {
+  id             String       @id @default(uuid())
+  shoppingListId String
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  ingredientId   String
+  ingredient     Ingredient   @relation(fields: [ingredientId], references: [id], onDelete: Cascade)
+  
+  quantity Float
+  unit     String // Đơn vị tính: g, kg, bó, chai...
+  isBought Boolean @default(false)
+  isStored Boolean @default(false)
+  note     String?
+
+  addedAt DateTime @default(now())
 }

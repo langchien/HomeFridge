@@ -8,6 +8,7 @@ import {
   IconLogout,
   IconMessage2,
   IconUsers,
+  IconShoppingCart,
 } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -79,6 +80,12 @@ export function DashboardSidebar({
       url: '/dashboard/menu',
       icon: IconChefHat,
       roles: ['HOMEMAKER'],
+    },
+    {
+      title: 'Quản lý đi chợ',
+      url: '/dashboard/shopping',
+      icon: IconShoppingCart,
+      roles: ['HOMEMAKER', 'MEMBER'],
     },
     {
       title: 'Thực đơn & Đề xuất',

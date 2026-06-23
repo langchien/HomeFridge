@@ -89,22 +89,23 @@ export function AddMenuDialog({
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { 
+    defaultValues: {
       date: selectedDate ? selectedDate.split('T')[0] : '', // format YYYY-MM-DD
       mealTime: selectedMealTime || undefined,
-      recipeId: defaultRecipeId || '', 
-      note: '' 
+      recipeId: defaultRecipeId || '',
+      note: '',
     },
   })
 
   // Reset form mỗi khi dialog mở
   useEffect(() => {
-    if (open) form.reset({ 
-      date: selectedDate ? selectedDate.split('T')[0] : '',
-      mealTime: selectedMealTime || undefined,
-      recipeId: defaultRecipeId || '', 
-      note: '' 
-    })
+    if (open)
+      form.reset({
+        date: selectedDate ? selectedDate.split('T')[0] : '',
+        mealTime: selectedMealTime || undefined,
+        recipeId: defaultRecipeId || '',
+        note: '',
+      })
   }, [open, form, defaultRecipeId, selectedDate, selectedMealTime])
 
   const onSubmit = async (values: FormValues) => {
@@ -158,7 +159,7 @@ export function AddMenuDialog({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4 py-2'>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
               {/* Ngày */}
               <FormField
                 control={form.control}
@@ -167,11 +168,11 @@ export function AddMenuDialog({
                   <FormItem>
                     <FormLabel className='font-semibold'>Ngày *</FormLabel>
                     <FormControl>
-                      <input 
-                        type="date" 
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      <input
+                        type='date'
+                        className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
                         disabled={loading}
-                        {...field} 
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -187,15 +188,17 @@ export function AddMenuDialog({
                   <FormItem>
                     <FormLabel className='font-semibold'>Bữa ăn *</FormLabel>
                     <FormControl>
-                      <select 
-                        className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      <select
+                        className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
                         disabled={loading}
                         {...field}
                       >
-                        <option value="" disabled>Chọn bữa ăn...</option>
-                        <option value="BREAKFAST">{MEAL_TIME_LABELS['BREAKFAST']}</option>
-                        <option value="LUNCH">{MEAL_TIME_LABELS['LUNCH']}</option>
-                        <option value="DINNER">{MEAL_TIME_LABELS['DINNER']}</option>
+                        <option value='' disabled>
+                          Chọn bữa ăn...
+                        </option>
+                        <option value='BREAKFAST'>{MEAL_TIME_LABELS['BREAKFAST']}</option>
+                        <option value='LUNCH'>{MEAL_TIME_LABELS['LUNCH']}</option>
+                        <option value='DINNER'>{MEAL_TIME_LABELS['DINNER']}</option>
                       </select>
                     </FormControl>
                     <FormMessage />

@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 /**
  * Giải mã JWT Payload mà không cần verify chữ ký (dành riêng cho Edge Runtime của Next.js Middleware).
@@ -52,17 +52,26 @@ export function middleware(request: NextRequest) {
     return response
   }
   const role = decoded.role
-  
+
   // 3. Phân quyền truy cập cho khu vực Dashboard
   if (pathname.startsWith('/dashboard')) {
     if (role === 'ADMIN') {
-      // ADMIN chỉ vào được user và recipes
-      if (!pathname.startsWith('/dashboard/user') && !pathname.startsWith('/dashboard/recipes')) {
+      // ADMIN được vào dashboard tổng, user, recipes và ingredients
+      if (
+        pathname !== '/dashboard' &&
+        !pathname.startsWith('/dashboard/user') &&
+        !pathname.startsWith('/dashboard/recipes') &&
+        !pathname.startsWith('/dashboard/ingredients')
+      ) {
         return NextResponse.redirect(new URL('/dashboard/user', request.url))
       }
     } else if (role === 'HOMEMAKER') {
-      // HOMEMAKER vào được các trang trừ user và recipes
-      if (pathname.startsWith('/dashboard/user') || pathname.startsWith('/dashboard/recipes')) {
+      // HOMEMAKER vào được các trang trừ user và recipes, Nguyên liệu
+      if (
+        pathname.startsWith('/dashboard/user') ||
+        pathname.startsWith('/dashboard/recipes') ||
+        pathname.startsWith('/dashboard/ingredients')
+      ) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     } else if (role === 'DEVICE') {
@@ -72,7 +81,10 @@ export function middleware(request: NextRequest) {
       }
     } else if (role === 'MEMBER') {
       // MEMBER chỉ được vào shopping và fridge
-      if (!pathname.startsWith('/dashboard/shopping') && !pathname.startsWith('/dashboard/fridge')) {
+      if (
+        !pathname.startsWith('/dashboard/shopping') &&
+        !pathname.startsWith('/dashboard/fridge')
+      ) {
         return NextResponse.redirect(new URL('/dashboard/shopping', request.url))
       }
     } else {

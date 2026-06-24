@@ -10,7 +10,7 @@ export default async function IngredientsPage() {
   // Kiểm tra phân quyền: chỉ cho phép ADMIN truy cập trang này
   const currentUser = await getCurrentUser()
   if (!currentUser || currentUser.role !== 'ADMIN') {
-    redirect('/dashboard') // Redirect người dùng không phải admin về trang tổng quan
+    redirect('/') // Redirect người dùng không phải admin về trang tổng quan
   }
 
   // Fetch dữ liệu song song

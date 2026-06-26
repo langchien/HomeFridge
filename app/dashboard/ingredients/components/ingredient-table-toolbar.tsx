@@ -1,7 +1,9 @@
 'use client'
 
 import { type Table } from '@tanstack/react-table'
-import { X } from 'lucide-react'
+import { FileDown, X } from 'lucide-react'
+import { toast } from 'sonner'
+import * as XLSX from 'xlsx'
 
 import { DataTableFacetedFilter } from '@/app/dashboard/user/components/data-table-faceted-filter'
 import { Button } from '@/components/ui/button'
@@ -19,6 +21,45 @@ export function IngredientTableToolbar<TData>({
   categories,
 }: IngredientTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
+
+  const handleExportExcel = () => {
+    try {
+      const rows = table.getFilteredRowModel().rows
+      if (rows.length === 0) {
+        toast.error('Không có dữ liệu để xuất file!')
+        return
+      }
+
+      const dataToExport = rows.map((row) => {
+        const ingredient = row.original as any
+        return {
+          'Tên nguyên liệu': ingredient.name || '',
+          'Danh mục': ingredient.category?.name || '',
+          'Đơn vị đo mặc định': ingredient.defaultUnit || '',
+          'Lượng calo': ingredient.calories || '',
+          'Ngày tạo': new Date(ingredient.createdAt).toLocaleDateString('vi-VN'),
+        }
+      })
+
+      const worksheet = XLSX.utils.json_to_sheet(dataToExport)
+      const workbook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Danh sách')
+
+      const maxLengths = Object.keys(dataToExport[0] || {}).map((key) => {
+        return Math.max(
+          key.length + 4,
+          ...dataToExport.map((row: any) => String(row[key] || '').length + 2),
+        )
+      })
+      worksheet['!cols'] = maxLengths.map((w) => ({ wch: w }))
+
+      XLSX.writeFile(workbook, 'Danh_sach_nguyen_lieu.xlsx')
+      toast.success(`Đã xuất thành công ${rows.length} nguyên liệu ra file Excel!`)
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi xuất file Excel!')
+      console.error(error)
+    }
+  }
 
   const categoryOptions = categories.map((cat) => ({
     label: `${cat.icon || '📦'} ${cat.name}`,
@@ -59,6 +100,15 @@ export function IngredientTableToolbar<TData>({
           )}
         </div>
         <div className='flex items-center justify-end gap-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={handleExportExcel}
+            className='flex h-8 items-center gap-1.5 border-emerald-600/30 text-emerald-600 hover:border-emerald-600/60 hover:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20'
+          >
+            <FileDown className='size-4' />
+            <span>Xuất Excel</span>
+          </Button>
           <IngredientTableViewOptions table={table} />
         </div>
       </div>

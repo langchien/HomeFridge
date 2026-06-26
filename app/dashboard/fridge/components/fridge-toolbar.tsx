@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
-import { Filter, LayoutGrid, Plus, Search, Table2, X } from 'lucide-react'
+import { Filter, LayoutGrid, Plus, Search, Table2, X, FileDown } from 'lucide-react'
 import { FridgeItemDialog } from './fridge-item-dialog'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import * as XLSX from 'xlsx'
 
 const STATUS_OPTIONS = [
   {
@@ -86,6 +88,66 @@ export function FridgeToolbar({
     onStatusFilterChange([])
     onLocationFilterChange([])
     onSearchChange('')
+  }
+
+  const handleExportExcel = () => {
+    try {
+      // Lọc dữ liệu trước khi xuất
+      let filteredItems = items
+      
+      if (searchQuery) {
+        filteredItems = filteredItems.filter(item => 
+          item.ingredient.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      }
+      
+      if (statusFilter.length > 0) {
+        filteredItems = filteredItems.filter(item => statusFilter.includes(item.status))
+      }
+      
+      if (locationFilter.length > 0) {
+        filteredItems = filteredItems.filter(item => locationFilter.includes(item.storageLocation))
+      }
+
+      if (filteredItems.length === 0) {
+        toast.error('Không có dữ liệu để xuất file!')
+        return
+      }
+
+      const dataToExport = filteredItems.map((item) => {
+        return {
+          'Tên nguyên liệu': item.ingredient.name || '',
+          'Số lượng': item.quantity || 0,
+          'Đơn vị': item.unit || '',
+          'Trạng thái': 
+            item.status === 'FRESH' ? 'Tươi mới' 
+            : item.status === 'EXPIRING_SOON' ? 'Sắp hết hạn' 
+            : 'Đã hết hạn',
+          'Vị trí': 
+            LOCATION_OPTIONS.find(opt => opt.value === item.storageLocation)?.label || item.storageLocation,
+          'Ngày nhập': new Date(item.addedAt).toLocaleDateString('vi-VN'),
+          'Ngày hết hạn': item.expiryDate ? new Date(item.expiryDate).toLocaleDateString('vi-VN') : '',
+        }
+      })
+
+      const worksheet = XLSX.utils.json_to_sheet(dataToExport)
+      const workbook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Tủ lạnh')
+
+      const maxLengths = Object.keys(dataToExport[0] || {}).map((key) => {
+        return Math.max(
+          key.length + 4,
+          ...dataToExport.map((row: any) => String(row[key] || '').length + 2),
+        )
+      })
+      worksheet['!cols'] = maxLengths.map((w) => ({ wch: w }))
+
+      XLSX.writeFile(workbook, 'Danh_sach_tu_lanh.xlsx')
+      toast.success(`Đã xuất thành công ${filteredItems.length} mục ra file Excel!`)
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi xuất file Excel!')
+      console.error(error)
+    }
   }
 
   const hasActiveFilters = activeFilterCount > 0 || searchQuery.length > 0
@@ -245,6 +307,16 @@ export function FridgeToolbar({
 
         {/* Right: View Toggle + Add button */}
         <div className='flex items-center gap-2'>
+          <Button
+            variant='outline'
+            size='sm'
+            onClick={handleExportExcel}
+            className='h-9 gap-1.5 border-emerald-600/30 text-emerald-600 hover:border-emerald-600/60 hover:bg-emerald-500/10 dark:text-emerald-400 dark:hover:bg-emerald-500/20'
+          >
+            <FileDown className='size-4' />
+            <span className='hidden sm:inline'>Xuất Excel</span>
+          </Button>
+
           {/* Toggle Grid / Table */}
           <div className='flex rounded-lg border p-0.5'>
             <Button

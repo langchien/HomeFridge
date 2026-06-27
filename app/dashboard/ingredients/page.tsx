@@ -7,10 +7,10 @@ import { FloatingActionButtons } from './components/floating-action-buttons'
 import { IngredientTable } from './components/ingredient-table'
 
 export default async function IngredientsPage() {
-  // Kiểm tra phân quyền: chỉ cho phép ADMIN truy cập trang này
+  // Kiểm tra phân quyền: chỉ cho phép ADMIN và HOMEMAKER truy cập trang này
   const currentUser = await getCurrentUser()
-  if (!currentUser || currentUser.role !== 'ADMIN') {
-    redirect('/') // Redirect người dùng không phải admin về trang tổng quan
+  if (!currentUser || (currentUser.role !== 'ADMIN' && currentUser.role !== 'HOMEMAKER')) {
+    redirect('/') // Redirect người dùng không có quyền về trang tổng quan
   }
 
   // Fetch dữ liệu song song
@@ -90,9 +90,9 @@ export default async function IngredientsPage() {
       </div>
 
       {/* Main Content Area */}
-      <IngredientTable columns={columns} data={items} categories={categories} />
+      <IngredientTable columns={columns} data={items} categories={categories} userRole={currentUser.role} />
 
-      <FloatingActionButtons categories={categories} />
+      <FloatingActionButtons categories={categories} userRole={currentUser.role} />
     </div>
   )
 }

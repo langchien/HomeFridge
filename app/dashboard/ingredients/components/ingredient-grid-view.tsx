@@ -7,9 +7,10 @@ import { IngredientGridCard } from './ingredient-grid-card'
 interface IngredientGridViewProps {
   items: IngredientWithRelations[]
   onEdit: (item: IngredientWithRelations) => void
+  userRole?: string
 }
 
-export function IngredientGridView({ items, onEdit }: IngredientGridViewProps) {
+export function IngredientGridView({ items, onEdit, userRole }: IngredientGridViewProps) {
   if (items.length === 0) {
     return (
       <div className='flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed bg-card py-16 text-center'>
@@ -27,7 +28,7 @@ export function IngredientGridView({ items, onEdit }: IngredientGridViewProps) {
   return (
     <div className='grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-4'>
       {items.map((item) => (
-        <IngredientGridCard key={item.id} item={item} onEdit={onEdit} />
+        <IngredientGridCard key={item.id} item={item} onEdit={onEdit} userRole={userRole} />
       ))}
     </div>
   )

@@ -9,9 +9,10 @@ import type { IngredientWithRelations } from './columns'
 interface IngredientGridCardProps {
   item: IngredientWithRelations
   onEdit: (item: IngredientWithRelations) => void
+  userRole?: string
 }
 
-export function IngredientGridCard({ item, onEdit }: IngredientGridCardProps) {
+export function IngredientGridCard({ item, onEdit, userRole }: IngredientGridCardProps) {
   return (
     <div
       className={[
@@ -55,15 +56,17 @@ export function IngredientGridCard({ item, onEdit }: IngredientGridCardProps) {
         </div>
 
         {/* Nút chỉnh sửa */}
-        <Button
-          size='sm'
-          variant='outline'
-          className='mt-auto h-7 w-full gap-1.5 text-sm font-medium transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400'
-          onClick={() => onEdit(item)}
-        >
-          <Edit className='size-3' />
-          Chỉnh sửa
-        </Button>
+        {userRole === 'ADMIN' && (
+          <Button
+            size='sm'
+            variant='outline'
+            className='mt-auto h-7 w-full gap-1.5 text-sm font-medium transition-colors hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/30 dark:hover:text-emerald-400'
+            onClick={() => onEdit(item)}
+          >
+            <Edit className='size-3' />
+            Chỉnh sửa
+          </Button>
+        )}
       </div>
     </div>
   )

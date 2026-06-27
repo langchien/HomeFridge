@@ -66,12 +66,8 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/dashboard/user', request.url))
       }
     } else if (role === 'HOMEMAKER') {
-      // HOMEMAKER vào được các trang trừ user và recipes, Nguyên liệu
-      if (
-        pathname.startsWith('/dashboard/user') ||
-        pathname.startsWith('/dashboard/recipes') ||
-        pathname.startsWith('/dashboard/ingredients')
-      ) {
+      // HOMEMAKER vào được các trang trừ user (recipes và ingredients chỉ được xem)
+      if (pathname.startsWith('/dashboard/user')) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     } else if (role === 'DEVICE') {

@@ -15,7 +15,7 @@ interface RecipeDetailPageProps {
 
 export default async function RecipeDetailPage({ params }: RecipeDetailPageProps) {
   const currentUser = await getCurrentUser()
-  if (!currentUser || currentUser.role !== 'ADMIN') {
+  if (!currentUser || (currentUser.role !== 'ADMIN' && currentUser.role !== 'HOMEMAKER')) {
     redirect('/dashboard')
   }
 
@@ -104,7 +104,7 @@ export default async function RecipeDetailPage({ params }: RecipeDetailPageProps
 
           {/* Admin actions */}
           <div className='ml-auto'>
-            <RecipeDetailActions recipe={recipe as any} />
+            <RecipeDetailActions recipe={recipe as any} userRole={currentUser.role} />
           </div>
         </div>
       </div>

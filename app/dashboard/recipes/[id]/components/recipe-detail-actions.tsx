@@ -12,9 +12,10 @@ import type { RecipeWithRelations } from '../../components/columns'
 
 interface RecipeDetailActionsProps {
   recipe: RecipeWithRelations
+  userRole?: string
 }
 
-export function RecipeDetailActions({ recipe }: RecipeDetailActionsProps) {
+export function RecipeDetailActions({ recipe, userRole }: RecipeDetailActionsProps) {
   const router = useRouter()
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -62,6 +63,8 @@ export function RecipeDetailActions({ recipe }: RecipeDetailActionsProps) {
     }
     setIsEditOpen(true)
   }
+
+  if (userRole !== 'ADMIN') return null
 
   return (
     <>

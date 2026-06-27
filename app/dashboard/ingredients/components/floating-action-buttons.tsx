@@ -11,9 +11,10 @@ import { CategoryFormDialog } from './category-form-dialog'
 
 interface FloatingActionButtonsProps {
   categories: Category[]
+  userRole?: string
 }
 
-export function FloatingActionButtons({ categories }: FloatingActionButtonsProps) {
+export function FloatingActionButtons({ categories, userRole }: FloatingActionButtonsProps) {
   const router = useRouter()
   const [isAddIngredientOpen, setIsAddIngredientOpen] = useState(false)
   const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false)
@@ -33,6 +34,8 @@ export function FloatingActionButtons({ categories }: FloatingActionButtonsProps
   const handleIngredientSuccess = () => {
     router.refresh()
   }
+
+  if (userRole !== 'ADMIN') return null
 
   return (
     <div className='fixed right-6 bottom-6 z-50 flex flex-col items-center gap-3'>

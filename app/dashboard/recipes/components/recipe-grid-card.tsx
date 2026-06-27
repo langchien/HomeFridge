@@ -10,9 +10,10 @@ import type { RecipeWithRelations } from './columns'
 interface RecipeGridCardProps {
   recipe: RecipeWithRelations
   onEdit: (recipe: RecipeWithRelations) => void
+  userRole?: string
 }
 
-export function RecipeGridCard({ recipe, onEdit }: RecipeGridCardProps) {
+export function RecipeGridCard({ recipe, onEdit, userRole }: RecipeGridCardProps) {
   const totalTime = (recipe.prepTime || 0) + (recipe.cookTime || 0)
 
   return (
@@ -74,15 +75,17 @@ export function RecipeGridCard({ recipe, onEdit }: RecipeGridCardProps) {
 
         {/* Nút */}
         <div className='mt-auto flex gap-2 pt-1'>
-          <Button
-            size='sm'
-            variant='outline'
-            className='h-7 flex-1 gap-1.5 text-sm font-medium transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:hover:bg-amber-950/30 dark:hover:text-amber-400'
-            onClick={() => onEdit(recipe)}
-          >
-            <Pencil className='size-3' />
-            Sửa
-          </Button>
+          {userRole === 'ADMIN' && (
+            <Button
+              size='sm'
+              variant='outline'
+              className='h-7 flex-1 gap-1.5 text-sm font-medium transition-colors hover:border-amber-300 hover:bg-amber-50 hover:text-amber-700 dark:hover:bg-amber-950/30 dark:hover:text-amber-400'
+              onClick={() => onEdit(recipe)}
+            >
+              <Pencil className='size-3' />
+              Sửa
+            </Button>
+          )}
           <Button
             size='sm'
             variant='outline'

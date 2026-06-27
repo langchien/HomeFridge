@@ -7,9 +7,9 @@ import { FloatingActionButtons } from './components/floating-action-buttons'
 import { RecipeTable } from './components/recipe-table'
 
 export default async function RecipesPage() {
-  // Kiểm tra phân quyền: chỉ cho phép ADMIN truy cập
+  // Kiểm tra phân quyền: chỉ cho phép ADMIN và HOMEMAKER truy cập
   const currentUser = await getCurrentUser()
-  if (!currentUser || currentUser.role !== 'ADMIN') {
+  if (!currentUser || (currentUser.role !== 'ADMIN' && currentUser.role !== 'HOMEMAKER')) {
     redirect('/dashboard')
   }
 
@@ -105,10 +105,10 @@ export default async function RecipesPage() {
       </div>
 
       {/* Bảng danh sách */}
-      <RecipeTable columns={columns} data={recipes} ingredients={ingredients} />
+      <RecipeTable columns={columns} data={recipes} ingredients={ingredients} userRole={currentUser.role} />
 
       {/* FAB */}
-      <FloatingActionButtons ingredients={ingredients} />
+      <FloatingActionButtons ingredients={ingredients} userRole={currentUser.role} />
     </div>
   )
 }

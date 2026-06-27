@@ -54,9 +54,10 @@ interface IngredientTableProps {
   columns: ColumnDef<IngredientWithRelations, any>[]
   data: IngredientWithRelations[]
   categories: Category[]
+  userRole?: string
 }
 
-export function IngredientTable({ columns, data, categories }: IngredientTableProps) {
+export function IngredientTable({ columns, data, categories, userRole }: IngredientTableProps) {
   const router = useRouter()
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -94,9 +95,15 @@ export function IngredientTable({ columns, data, categories }: IngredientTablePr
     setIsAddEditOpen(true)
   }
 
+  // Lọc cột actions nếu không phải ADMIN
+  const filteredColumns = React.useMemo(() => {
+    if (userRole === 'ADMIN') return columns
+    return columns.filter((col: any) => col.id !== 'actions')
+  }, [columns, userRole])
+
   const table = useReactTable({
     data,
-    columns,
+    columns: filteredColumns,
     state: {
       sorting,
       columnVisibility,
@@ -208,6 +215,7 @@ export function IngredientTable({ columns, data, categories }: IngredientTablePr
         <IngredientGridView
           items={table.getFilteredRowModel().rows.map((r) => r.original)}
           onEdit={handleEdit}
+          userRole={userRole}
         />
       )}
 

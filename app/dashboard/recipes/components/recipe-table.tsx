@@ -50,9 +50,10 @@ interface RecipeTableProps {
   columns: ColumnDef<RecipeWithRelations, any>[]
   data: RecipeWithRelations[]
   ingredients: Ingredient[]
+  userRole?: string
 }
 
-export function RecipeTable({ columns, data, ingredients }: RecipeTableProps) {
+export function RecipeTable({ columns, data, ingredients, userRole }: RecipeTableProps) {
   const router = useRouter()
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
@@ -78,9 +79,14 @@ export function RecipeTable({ columns, data, ingredients }: RecipeTableProps) {
     setIsFormOpen(true)
   }
 
+  const filteredColumns = React.useMemo(() => {
+    if (userRole === 'ADMIN') return columns
+    return columns.filter((col: any) => col.id !== 'actions')
+  }, [columns, userRole])
+
   const table = useReactTable({
     data,
-    columns,
+    columns: filteredColumns,
     state: { sorting, columnVisibility, rowSelection, columnFilters },
     meta: { onEditRow: handleEdit as any },
     initialState: { pagination: { pageSize: 10 } },
@@ -181,7 +187,7 @@ export function RecipeTable({ columns, data, ingredients }: RecipeTableProps) {
         <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4'>
           {filteredRows.length > 0 ? (
             filteredRows.map((recipe) => (
-              <RecipeGridCard key={recipe.id} recipe={recipe} onEdit={handleEdit} />
+              <RecipeGridCard key={recipe.id} recipe={recipe} onEdit={handleEdit} userRole={userRole} />
             ))
           ) : (
             <div className='col-span-full py-12 text-center text-muted-foreground'>

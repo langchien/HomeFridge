@@ -10,11 +10,14 @@ import { RecipeFormDialog } from './recipe-form-dialog'
 
 interface FloatingActionButtonsProps {
   ingredients: Ingredient[]
+  userRole?: string
 }
 
-export function FloatingActionButtons({ ingredients }: FloatingActionButtonsProps) {
+export function FloatingActionButtons({ ingredients, userRole }: FloatingActionButtonsProps) {
   const router = useRouter()
   const [isAddOpen, setIsAddOpen] = useState(false)
+
+  if (userRole !== 'ADMIN') return null
 
   return (
     <>

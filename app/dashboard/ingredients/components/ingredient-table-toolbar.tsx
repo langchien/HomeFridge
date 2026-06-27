@@ -1,13 +1,23 @@
 'use client'
 
 import { type Table } from '@tanstack/react-table'
-import { FileDown, X } from 'lucide-react'
+import { FileDown, Trash2, X } from 'lucide-react'
+import { useState, useTransition } from 'react'
 import { toast } from 'sonner'
 import * as XLSX from 'xlsx'
 
 import { DataTableFacetedFilter } from '@/app/dashboard/user/components/data-table-faceted-filter'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { deleteIngredientsAction } from '@/app/actions/ingredient'
 import type { Category } from '@/generated/prisma/client'
 import { IngredientTableViewOptions } from './ingredient-table-view-options'
 
@@ -21,6 +31,30 @@ export function IngredientTableToolbar<TData>({
   categories,
 }: IngredientTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
+  const selectedRows = table.getFilteredSelectedRowModel().rows
+  const hasSelected = selectedRows.length > 0
+
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isPending, startTransition] = useTransition()
+
+  const handleBulkDelete = () => {
+    startTransition(async () => {
+      try {
+        const ids = selectedRows.map((row) => (row.original as any).id)
+        const result = await deleteIngredientsAction(ids)
+        if (result.error) {
+          toast.error(result.error)
+        } else {
+          toast.success(`Đã xóa thành công ${ids.length} nguyên liệu!`)
+          setIsDeleteDialogOpen(false)
+          table.toggleAllRowsSelected(false)
+        }
+      } catch (error) {
+        toast.error('Có lỗi xảy ra khi xóa nguyên liệu!')
+        console.error(error)
+      }
+    })
+  }
 
   const handleExportExcel = () => {
     try {
@@ -100,6 +134,17 @@ export function IngredientTableToolbar<TData>({
           )}
         </div>
         <div className='flex items-center justify-end gap-2'>
+          {hasSelected && (
+            <Button
+              variant='destructive'
+              size='sm'
+              onClick={() => setIsDeleteDialogOpen(true)}
+              className='flex h-8 items-center gap-1.5'
+            >
+              <Trash2 className='size-4' />
+              <span>Xóa ({selectedRows.length})</span>
+            </Button>
+          )}
           <Button
             variant='outline'
             size='sm'
@@ -112,6 +157,39 @@ export function IngredientTableToolbar<TData>({
           <IngredientTableViewOptions table={table} />
         </div>
       </div>
+
+      {/* Dialog xác nhận xóa nhiều */}
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className='flex items-center gap-2 text-lg font-bold text-destructive'>
+              <Trash2 className='size-5' />
+              <span>Xác nhận xóa nguyên liệu?</span>
+            </DialogTitle>
+            <DialogDescription className='pt-2 text-muted-foreground'>
+              Hành động này không thể hoàn tác. Bạn đang chuẩn bị xóa <strong>{selectedRows.length}</strong> nguyên liệu vĩnh viễn khỏi hệ thống.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className='mt-4 gap-2 sm:gap-0'>
+            <Button
+              variant='outline'
+              disabled={isPending}
+              onClick={() => setIsDeleteDialogOpen(false)}
+              className='h-9'
+            >
+              Hủy bỏ
+            </Button>
+            <Button
+              variant='destructive'
+              disabled={isPending}
+              onClick={handleBulkDelete}
+              className='h-9'
+            >
+              {isPending ? 'Đang xóa...' : 'Đồng ý xóa'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -199,3 +199,33 @@ export async function createCategoryAction(values: {
     return { error: 'Đã có lỗi hệ thống xảy ra khi tạo danh mục mới!' }
   }
 }
+
+/**
+ * Server Action: Xóa nhiều nguyên liệu (Chỉ dành cho ADMIN)
+ */
+export async function deleteIngredientsAction(ids: string[]): Promise<ActionResponse> {
+  try {
+    const currentUser = await getCurrentUser()
+    if (!currentUser || currentUser.role !== 'ADMIN') {
+      return { error: 'Chỉ quản trị viên mới có quyền thực hiện hành động này!' }
+    }
+
+    if (!ids || ids.length === 0) {
+      return { error: 'Không có nguyên liệu nào được chọn để xóa!' }
+    }
+
+    await prisma.ingredient.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    })
+
+    revalidatePath('/dashboard/ingredients')
+    return { success: true }
+  } catch (error) {
+    console.error('Lỗi khi xóa nhiều nguyên liệu:', error)
+    return { error: 'Đã có lỗi hệ thống xảy ra khi xóa các nguyên liệu!' }
+  }
+}

@@ -25,7 +25,17 @@ import { Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { toast } from 'sonner'
+import Link from 'next/link'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { MEAL_TIME_LABELS } from './add-menu-dialog'
+import { checkRecipeIngredientsAction } from '@/app/actions/menu'
 
 // ─── Status config ────────────────────────────────────────────
 
@@ -68,47 +78,93 @@ interface MenuDetailTableProps {
 
 export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProps) {
   const [loadingId, setLoadingId] = useState<string | null>(null)
+  
+  // State for DONE confirmation dialog
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    planId: string;
+    recipeTitle: string;
+    loading: boolean;
+    missingItems?: string[];
+  }>({
+    isOpen: false,
+    planId: '',
+    recipeTitle: '',
+    loading: false,
+  })
 
-  const handleStatusChange = async (id: string, status: MenuStatus) => {
-    // TODO: Tương lai - Tích hợp "Kế hoạch đi chợ"
-    // Khi người dùng chọn trạng thái 'DONE':
-    // 1. Dùng API kiểm tra (dry-run) xem nguyên liệu có đủ không.
-    // 2. Nếu THIẾU nguyên liệu, KHÔNG CẬP NHẬT TRẠNG THÁI NGAY. Hãy mở một Dialog Alert.
-    // 3. Dialog Alert sẽ cho người dùng 2 lựa chọn:
-    //    - Lựa chọn 1: "Chấp nhận hoàn thành & Xóa nguyên liệu về 0" (Tiếp tục gọi API trừ).
-    //    - Lựa chọn 2: "Từ chối hoàn thành & Thêm đồ còn thiếu vào Kế hoạch đi chợ".
+  const handleStatusChange = async (id: string, recipeId: string, recipeTitle: string, status: MenuStatus) => {
+    // Nếu trạng thái là DONE, hiển thị Dialog xác nhận trước khi thực hiện
+    if (status === 'DONE') {
+      setLoadingId(id)
+      try {
+        const checkResult = await checkRecipeIngredientsAction(recipeId)
+        if (checkResult.error) {
+          toast.error(checkResult.error)
+          return
+        }
+        setConfirmDialog({
+          isOpen: true,
+          planId: id,
+          recipeTitle,
+          loading: false,
+          missingItems: checkResult.missingItems,
+        })
+      } catch (error) {
+        toast.error('Lỗi khi kiểm tra nguyên liệu.')
+      } finally {
+        setLoadingId(null)
+      }
+      return
+    }
+
+    // Các trạng thái khác cập nhật trực tiếp
     setLoadingId(id)
     try {
       const result = await updateMenuStatusAction(id, status)
       if (result.error) {
         toast.error(result.error)
       } else {
-        if (status === 'DONE') {
-          if (result.deductWarning) {
-            // Vẫn thành công nhưng có nguyên liệu không đủ
-            toast.success('✅ Đã hoàn thành!')
-            toast.warning(`⚠️ ${result.deductWarning}`, { duration: 6000 })
-            if (result.deductedItems && result.deductedItems.length > 0) {
-              toast.info(`🛒 Đã trừ: ${result.deductedItems.join(', ')}`, { duration: 6000 })
-            }
-          } else {
-            if (result.deductedItems && result.deductedItems.length > 0) {
-              toast.success(`✅ Hoàn thành! Đã trừ: ${result.deductedItems.join(', ')}`, {
-                duration: 5000,
-              })
-            } else {
-              toast.success('✅ Hoàn thành! Món này không yêu cầu trừ nguyên liệu.')
-            }
-          }
-        } else {
-          toast.success('Đã cập nhật trạng thái!')
-        }
+        toast.success('Đã cập nhật trạng thái!')
         onDataChange()
       }
     } catch {
       toast.error('Lỗi khi cập nhật trạng thái.')
     } finally {
       setLoadingId(null)
+    }
+  }
+
+  const handleConfirmDone = async () => {
+    setConfirmDialog((prev) => ({ ...prev, loading: true }))
+    try {
+      const result = await updateMenuStatusAction(confirmDialog.planId, 'DONE')
+      if (result.error) {
+        toast.error(result.error)
+      } else {
+        if (result.deductWarning) {
+          // Vẫn thành công nhưng có nguyên liệu không đủ
+          toast.success('✅ Đã hoàn thành!')
+          toast.warning(`⚠️ ${result.deductWarning}`, { duration: 6000 })
+          if (result.deductedItems && result.deductedItems.length > 0) {
+            toast.info(`🛒 Đã trừ: ${result.deductedItems.join(', ')}`, { duration: 6000 })
+          }
+        } else {
+          if (result.deductedItems && result.deductedItems.length > 0) {
+            toast.success(`✅ Hoàn thành! Đã trừ: ${result.deductedItems.join(', ')}`, {
+              duration: 5000,
+            })
+          } else {
+            toast.success('✅ Hoàn thành! Món này không yêu cầu trừ nguyên liệu.')
+          }
+        }
+        onDataChange()
+        setConfirmDialog((prev) => ({ ...prev, isOpen: false }))
+      }
+    } catch {
+      toast.error('Lỗi khi cập nhật trạng thái.')
+    } finally {
+      setConfirmDialog((prev) => ({ ...prev, loading: false }))
     }
   }
 
@@ -139,7 +195,8 @@ export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProp
   }
 
   return (
-    <div className='overflow-hidden rounded-xl border bg-card shadow-sm'>
+    <>
+      <div className='overflow-hidden rounded-xl border bg-card shadow-sm'>
       <Table>
         <TableHeader>
           <TableRow className='bg-muted/30 hover:bg-muted/30'>
@@ -191,7 +248,12 @@ export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProp
                       </div>
                     )}
                     <div className='flex flex-col gap-0.5'>
-                      <span className='font-medium'>{plan.recipe.title}</span>
+                      <Link 
+                        href={`/dashboard/recipes/${plan.recipe.id}`}
+                        className='font-medium hover:underline hover:text-teal-600 transition-colors'
+                      >
+                        {plan.recipe.title}
+                      </Link>
                       <div className='flex items-center gap-2 text-xs text-muted-foreground'>
                         {plan.recipe.cookTime && <span>⏱ {plan.recipe.cookTime} phút</span>}
                         {plan.recipe.servings && <span>👥 {plan.recipe.servings} người</span>}
@@ -207,7 +269,7 @@ export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProp
                 <TableCell>
                   <Select
                     value={plan.status}
-                    onValueChange={(v) => handleStatusChange(plan.id, v as MenuStatus)}
+                    onValueChange={(v) => handleStatusChange(plan.id, plan.recipe.id, plan.recipe.title, v as MenuStatus)}
                     disabled={isLoading}
                   >
                     <SelectTrigger className='h-8 w-full border-none p-0 shadow-none focus:ring-0'>
@@ -248,6 +310,66 @@ export function MenuDetailTable({ menuPlans, onDataChange }: MenuDetailTableProp
           })}
         </TableBody>
       </Table>
-    </div>
+      </div>
+
+      <Dialog
+        open={confirmDialog.isOpen}
+        onOpenChange={(open) => !confirmDialog.loading && setConfirmDialog((prev) => ({ ...prev, isOpen: open }))}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Xác nhận hoàn thành món ăn</DialogTitle>
+            <DialogDescription>
+              Bạn sắp đánh dấu món <strong>{confirmDialog.recipeTitle}</strong> là Hoàn thành. Hệ thống sẽ tự động trừ các nguyên liệu của món ăn này trong Tủ lạnh.
+            </DialogDescription>
+          </DialogHeader>
+
+          {confirmDialog.missingItems && confirmDialog.missingItems.length > 0 ? (
+            <div className='rounded-md bg-amber-50 p-4 border border-amber-200 dark:bg-amber-950/50 dark:border-amber-900/50'>
+              <div className='flex'>
+                <div className='ml-3'>
+                  <h3 className='text-sm font-medium text-amber-800 dark:text-amber-200'>
+                    Lưu ý: Tủ lạnh đang thiếu một số nguyên liệu:
+                  </h3>
+                  <div className='mt-2 text-sm text-amber-700 dark:text-amber-300'>
+                    <ul className='list-disc pl-5 space-y-1'>
+                      {confirmDialog.missingItems.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <p className='mt-2 text-sm text-amber-700 dark:text-amber-300'>
+                    Hệ thống sẽ chỉ trừ những nguyên liệu còn đủ. Bạn có chắc chắn muốn tiếp tục?
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className='rounded-md bg-emerald-50 p-4 border border-emerald-200 dark:bg-emerald-950/50 dark:border-emerald-900/50'>
+              <p className='text-sm text-emerald-800 dark:text-emerald-200'>
+                ✅ Tủ lạnh hiện có đủ tất cả nguyên liệu cho món ăn này.
+              </p>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button
+              variant='outline'
+              onClick={() => setConfirmDialog((prev) => ({ ...prev, isOpen: false }))}
+              disabled={confirmDialog.loading}
+            >
+              Hủy bỏ
+            </Button>
+            <Button
+              onClick={handleConfirmDone}
+              disabled={confirmDialog.loading}
+              className='bg-teal-600 hover:bg-teal-700 text-white'
+            >
+              {confirmDialog.loading ? 'Đang xử lý...' : 'Xác nhận hoàn thành'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

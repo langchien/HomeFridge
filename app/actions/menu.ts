@@ -250,6 +250,65 @@ async function deductFridgeIngredients(
   }
 }
 
+/**
+ * Kiểm tra xem có đủ nguyên liệu trong tủ lạnh để làm món ăn này không (Dry run).
+ * Trả về danh sách cảnh báo nếu có nguyên liệu thiếu.
+ */
+export async function checkRecipeIngredientsAction(
+  recipeId: string,
+): Promise<{ error?: string; warning?: string; missingItems?: string[] }> {
+  const user = await getCurrentUser()
+  if (!user) return { error: 'Chưa đăng nhập.' }
+  if (user.role !== 'HOMEMAKER') return { error: 'Bạn không có quyền.' }
+
+  try {
+    const recipe = await prisma.recipe.findUnique({
+      where: { id: recipeId },
+      include: {
+        ingredients: {
+          include: { ingredient: { select: { id: true, name: true, unit: true } } },
+        },
+      },
+    })
+    if (!recipe) return { error: 'Không tìm thấy công thức.' }
+
+    const missingIngredients: string[] = []
+
+    for (const ri of recipe.ingredients) {
+      let needed = ri.quantity
+
+      const fridgeItems = await prisma.fridgeItem.findMany({
+        where: { ingredientId: ri.ingredientId },
+      })
+
+      if (fridgeItems.length === 0) {
+        missingIngredients.push(ri.ingredient.name)
+        continue
+      }
+
+      for (const item of fridgeItems) {
+        if (needed <= 0) break
+        needed -= item.quantity
+      }
+
+      if (needed > 0) {
+        missingIngredients.push(`${ri.ingredient.name} (thiếu ${needed}${ri.ingredient.unit})`)
+      }
+    }
+
+    return {
+      missingItems: missingIngredients,
+      warning:
+        missingIngredients.length > 0
+          ? `Một số nguyên liệu không đủ trong tủ lạnh: ${missingIngredients.join(', ')}`
+          : undefined,
+    }
+  } catch (error) {
+    console.error('checkRecipeIngredientsAction error:', error)
+    return { error: 'Lỗi khi kiểm tra nguyên liệu.' }
+  }
+}
+
 // ─── Auto Generate Menu ───────────────────────────────────────
 
 export type RecipeSuggestion = {

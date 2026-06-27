@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
+import Link from 'next/link'
 
 import { addMenuPlanAction } from '@/app/actions/menu'
 import { Button } from '@/components/ui/button'
@@ -270,6 +271,18 @@ export function AddMenuDialog({
                     </PopoverContent>
                   </Popover>
                   <FormMessage />
+                  {field.value && (
+                    <div className='mt-1.5 flex justify-end'>
+                      <Link 
+                        href={`/dashboard/recipes/${field.value}`}
+                        target='_blank'
+                        className='text-xs text-teal-600 hover:text-teal-700 hover:underline inline-flex items-center gap-1'
+                      >
+                        Xem chi tiết món ăn
+                        <UtensilsCrossed className='size-3' />
+                      </Link>
+                    </div>
+                  )}
                 </FormItem>
               )}
             />
